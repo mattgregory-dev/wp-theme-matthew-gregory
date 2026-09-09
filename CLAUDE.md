@@ -88,5 +88,6 @@ editing surface). See [docs/PIPELINE.md](docs/PIPELINE.md), Stage 4.
   [docs/WSL-TOOLING.md](docs/WSL-TOOLING.md).
 - When something behaves wrong on a right-looking file → [docs/GOTCHAS.md](docs/GOTCHAS.md).
 - The end-to-end project process → [docs/PIPELINE.md](docs/PIPELINE.md).
+- Turning a mockup into tokens → [docs/DESIGN-HANDOFF.md](docs/DESIGN-HANDOFF.md).
 - What is undecided, untested or deferred right now →
   [docs/OPEN-ITEMS.md](docs/OPEN-ITEMS.md). Add to it as things surface.

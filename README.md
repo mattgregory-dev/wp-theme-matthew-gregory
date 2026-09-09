@@ -61,6 +61,8 @@ to `wp-config.php` and run `npm run dev` (Vite on `:5175`).
   causes (caching, block validation, core block CSS, `wpautop`, image seeding).
 - [docs/PIPELINE.md](docs/PIPELINE.md) — the full project pipeline this theme is
   the Stage 0 standing asset for.
+- [docs/DESIGN-HANDOFF.md](docs/DESIGN-HANDOFF.md) — how a mockup becomes
+  theme tokens, and why the slugs stay put.
 - [docs/OPEN-ITEMS.md](docs/OPEN-ITEMS.md) — the running state of the build:
   undecided, untested, deferred, and settled.
 - [CLAUDE.md](CLAUDE.md) — the conventions index (namespaces, prefixes, token
