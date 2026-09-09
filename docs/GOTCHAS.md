@@ -163,3 +163,86 @@ self-heals the moment the file exists).
 `placeholder-vertical.webp` to the media library once per environment (via the
 admin, or `wp media import`). This is the one manual seeding step a fresh clone
 needs; see [BUILD.md](BUILD.md#first-run-setup).
+
+---
+
+## 7. "This block contains unexpected or invalid content"
+
+**Symptom:** a block in a template or pattern shows the error bar in the editor
+and offers "Attempt Recovery". The markup looks correct and renders fine on the
+front end.
+
+**Root cause:** block validation compares the **saved HTML** against what
+Gutenberg would generate right now from the block's attributes. Any mismatch
+fails, and the message never says which one. Hand-authored markup is the usual
+cause, because a support attribute carries a class the author did not write:
+
+- `"align":"full"` requires the `alignfull` class on the element.
+- a sticky position support requires `is-position-sticky`.
+- a color attribute requires `has-{slug}-color` **and** the pipe form
+  `var:preset|color|{slug}` inside the attribute itself. A leftover of one
+  without the other is the easiest version of this to miss.
+
+**Fix:** add the missing support class, or stop hand-writing — round-trip the
+markup through the editor's Code editor and paste back what it produces.
+
+**When diffing an "Attempt Recovery" result**, ignore the cosmetic churn
+(attribute reordering, whitespace) and hunt the ONE class or attribute that
+changed the rendered element. That is the whole diff that matters.
+
+---
+
+## 8. Do not trim core block CSS in an FSE theme
+
+**Symptom:** center-aligned markup renders left. The class is on the element,
+the editor shows it centered, and the served page contains no `text-align:center`
+at all.
+
+**Root cause:** two plausible-looking optimizations both cause it.
+
+- **Conditionally dequeuing `wp-block-library` on `has_blocks()`.**
+  `has_blocks()` inspects the queried post's `post_content`, but FSE pages render
+  through templates and patterns and usually have **empty** `post_content`. It
+  returns false on nearly every page, so core block CSS is dequeued site-wide and
+  classes like `.has-text-align-center` stop existing.
+- **`should_load_separate_core_block_assets` set to true.** Tried as the
+  "correct" version of that trim; it produced the identical left-align symptom
+  and was reverted.
+
+**Fix:** let WordPress load `wp-block-library` normally — it already loads block
+CSS efficiently. The saving is around 30KB and not worth the risk.
+`inc/bloat.php` keeps only the emoji and generator removals.
+
+---
+
+## 9. `wpautop` turns block tags inside an anchor into empty cells
+
+**Symptom:** a grid renders extra empty cells between its real items. Nothing in
+the source produced them.
+
+**Root cause:** content rendered through `the_content` — a shortcode inside the
+core Shortcode block, for instance — passes through `wpautop`, which wraps text
+in paragraphs. A **block-level** tag inside an inline `<a>` makes it emit an
+orphan closing paragraph tag, and the HTML parser materializes that as an empty
+paragraph element, which a grid parent then lays out as a cell.
+
+**Fix:** keep markup inside an anchor **inline only** — spans, not divs or
+headings. Style the spans as blocks in CSS if block layout is needed.
+
+---
+
+## 10. Verifying from the command line
+
+`curl` against the running site separates SERVER state (what WordPress
+generated: markup classes, `global-styles-inline-css`, preset variables) from
+BROWSER state (a stale cache). It is the fastest way to settle an "editor vs.
+front end" disagreement. Two things distort it:
+
+- **`wptexturize` curls straight quotes and apostrophes into entities** in
+  rendered HTML, so grepping for a literal `we'll` or a quoted phrase gives a
+  false negative. Verify with apostrophe-free phrases.
+- **OPcache revalidates every ~2 seconds** in the `wordpress:php8.2-apache`
+  image, so rapid successive edits to a PHP file can appear not to apply — the
+  front end serves the previous compile. `docker restart mgp-wordpress-1` forces
+  a flush. `theme.json`, pattern and markup changes are read fresh and never
+  need it.

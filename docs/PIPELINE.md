@@ -123,6 +123,10 @@ This stage is not a hidden cost of block-based work. It is the deliverable's def
 
 ## Git Discipline
 
+Message rules — prefixes, when a body is earned, the no-`Co-Authored-By` rule —
+live in [WORKFLOW.md](WORKFLOW.md#committing). This section is the *sequencing*:
+how commits are ordered within a stage.
+
 - Conventional Commits, spec types only: `feat`, `fix`, `refactor`, `chore`, `build`, `ci`, `perf`, `docs`
 - `feat:` = visitor-facing output is new or improved. `fix:` = broken output corrected. `refactor:` = identical output, internal restructure.
 - One idea per commit. `build:` before `feat:`. `feat:` paired with its `refactor:`. Deletions trail migrations. Feat before chore so the tree never lacks a capability.

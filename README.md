@@ -53,9 +53,15 @@ to `wp-config.php` and run `npm run dev` (Vite on `:5175`).
   contract, project structure, custom blocks, portable images, accessibility.
 - [docs/BUILD.md](docs/BUILD.md) — the two pipelines, commands, first-run setup,
   the SCSS layer, the block-grammar audit.
+- [docs/WORKFLOW.md](docs/WORKFLOW.md) — how work gets done: commands, where
+  page content lives, the comment policy and the commit policy.
+- [docs/WSL-TOOLING.md](docs/WSL-TOOLING.md) — the Windows → WSL → Docker
+  boundary, and the traps that look like broken environments instead of quoting.
 - [docs/GOTCHAS.md](docs/GOTCHAS.md) — the non-obvious traps and their root
-  causes (caching, editor sandboxes, rebuild-after-blocks, image seeding).
+  causes (caching, block validation, core block CSS, `wpautop`, image seeding).
 - [docs/PIPELINE.md](docs/PIPELINE.md) — the full project pipeline this theme is
   the Stage 0 standing asset for.
+- [docs/OPEN-ITEMS.md](docs/OPEN-ITEMS.md) — the running state of the build:
+  undecided, untested, deferred, and settled.
 - [CLAUDE.md](CLAUDE.md) — the conventions index (namespaces, prefixes, token
   rules, commit discipline) read at the start of any work in this repo.

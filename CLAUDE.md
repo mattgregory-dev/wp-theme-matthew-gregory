@@ -82,5 +82,11 @@ editing surface). See [docs/PIPELINE.md](docs/PIPELINE.md), Stage 4.
 
 - Conventions & mental model → this file, then [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 - How to build/lint/run → [docs/BUILD.md](docs/BUILD.md).
+- **How to work here — comment policy, commit policy, page content →
+  [docs/WORKFLOW.md](docs/WORKFLOW.md). Read before committing anything.**
+- A command that mangled itself crossing Windows → WSL →
+  [docs/WSL-TOOLING.md](docs/WSL-TOOLING.md).
 - When something behaves wrong on a right-looking file → [docs/GOTCHAS.md](docs/GOTCHAS.md).
 - The end-to-end project process → [docs/PIPELINE.md](docs/PIPELINE.md).
+- What is undecided, untested or deferred right now →
+  [docs/OPEN-ITEMS.md](docs/OPEN-ITEMS.md). Add to it as things surface.
