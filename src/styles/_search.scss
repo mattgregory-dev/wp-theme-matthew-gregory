@@ -1,0 +1,70 @@
+// ---------------------------------------------------------------------------
+// Search field — core/search. The design has no search UI to copy, so the field
+// is built from the same parts as the rest of the form vocabulary: a hairline
+// box on the light surface, and the theme's own button beside it.
+// ---------------------------------------------------------------------------
+
+.wp-block-search__input {
+  padding: 0.8em 1em;
+  border: 1px solid var(--wp--preset--color--surface-3);
+  border-radius: var(--wp--custom--radius);
+  background: var(--wp--preset--color--base);
+  color: var(--wp--preset--color--contrast);
+  font-family: inherit;
+
+  // 1rem is the floor: iOS zooms the viewport when a focused input's text is
+  // smaller than that, and the page never zooms back out.
+  font-size: var(--wp--preset--font-size--small);
+  line-height: 1.4;
+
+  &::placeholder {
+    color: var(--wp--preset--color--muted);
+  }
+
+  &:focus {
+    border-color: var(--wp--preset--color--brand);
+    outline: 2px solid var(--sb-focus-ring, var(--wp--preset--color--brand));
+    outline-offset: 2px;
+  }
+}
+
+.wp-block-search__button {
+  margin-left: 0.625rem;
+}
+
+// Inside the field, the button sits flush against the input's inner edge rather
+// than beside it, so the pair reads as one control.
+.wp-block-search.wp-block-search__button-inside {
+  .wp-block-search__inside-wrapper {
+    padding: 0.25rem;
+    border: 1px solid var(--wp--preset--color--surface-3);
+    border-radius: var(--wp--custom--radius);
+    background: var(--wp--preset--color--base);
+  }
+
+  .wp-block-search__input {
+    border: 0;
+    background: transparent;
+
+    &:focus {
+      outline: 0;
+    }
+  }
+
+  .wp-block-search__button {
+    margin-left: 0.25rem;
+  }
+}
+
+// On a dark band the hairline disappears and the field reads as a hole.
+.sb-band--ink {
+  .wp-block-search__input {
+    border-color: var(--wp--preset--color--dark-line);
+    background: var(--wp--preset--color--surface-dark-2);
+    color: var(--wp--preset--color--dark-text);
+
+    &::placeholder {
+      color: var(--wp--preset--color--dark-muted);
+    }
+  }
+}

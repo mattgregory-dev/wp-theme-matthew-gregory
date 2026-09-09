@@ -1,15 +1,41 @@
 <!-- wp:template-part {"slug":"header","tagName":"header"} /-->
 
-<!-- wp:group {"tagName":"main","style":{"spacing":{"padding":{"top":"var:preset|spacing|80","bottom":"var:preset|spacing|80"}}},"layout":{"type":"constrained"}} -->
-<main class="wp-block-group" style="padding-top:var(--wp--preset--spacing--80);padding-bottom:var(--wp--preset--spacing--80)"><!-- wp:heading {"level":1,"style":{"typography":{"fontFamily":"var:preset|font-family|heading"}}} -->
-<h1 class="wp-block-heading">Page not found</h1>
-<!-- /wp:heading -->
-
-<!-- wp:paragraph -->
-<p>The page you were looking for doesn't exist. Try a search instead.</p>
+<!-- wp:group {"tagName":"main","layout":{"type":"default"}} -->
+<main class="wp-block-group"><!-- wp:group {"tagName":"section","align":"full","className":"sb-band sb-band--tall","layout":{"type":"constrained"}} -->
+<section class="wp-block-group alignfull sb-band sb-band--tall"><!-- wp:group {"layout":{"type":"default"}} -->
+<div class="wp-block-group"><!-- wp:paragraph {"className":"is-style-eyebrow"} -->
+<p class="is-style-eyebrow">Error 404</p>
 <!-- /wp:paragraph -->
 
-<!-- wp:search {"label":"Search","buttonText":"Search"} /--></main>
+<!-- wp:heading {"level":1,"className":"sb-measure--title has-balanced-text"} -->
+<h1 class="wp-block-heading sb-measure--title has-balanced-text">That page isn't here.</h1>
+<!-- /wp:heading -->
+
+<!-- wp:paragraph {"className":"sb-subhead sb-measure"} -->
+<p class="sb-subhead sb-measure">The link may be old, or the address slightly off. Here are the two places worth going instead.</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:group {"className":"sb-actions","style":{"spacing":{"margin":{"top":"2.375rem"}}},"layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group sb-actions" style="margin-top:2.375rem"><!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button -->
+<div class="wp-block-button"><a class="wp-block-button__link wp-element-button" href="/">Back to home</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:paragraph -->
+<p><a class="sb-link-arrow" href="/work/">Or see the work</a></p>
+<!-- /wp:paragraph --></div>
+<!-- /wp:group -->
+
+<!-- wp:group {"className":"sb-measure--body","style":{"spacing":{"margin":{"top":"var:preset|spacing|70"}}},"layout":{"type":"default"}} -->
+<div class="wp-block-group sb-measure--body" style="margin-top:var(--wp--preset--spacing--70)"><!-- wp:paragraph {"className":"sb-mono-label"} -->
+<p class="sb-mono-label">Or search the site</p>
+<!-- /wp:paragraph -->
+
+<!-- wp:search {"label":"Search this site","showLabel":false,"placeholder":"What were you looking for?","buttonText":"Search","buttonPosition":"button-outside"} /--></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></section>
+<!-- /wp:group --></main>
 <!-- /wp:group -->
 
 <!-- wp:template-part {"slug":"footer","tagName":"footer"} /-->

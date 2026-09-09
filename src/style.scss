@@ -27,6 +27,12 @@
 // Eyebrow block style (is-style-eyebrow). See _eyebrow.scss.
 @use "./styles/eyebrow";
 
+// Search field (core/search) — hairline box, dark-band variant.
+@use "./styles/search";
+
+// Home hero — the split layout, actions row, and arrow link.
+@use "./styles/hero";
+
 // Site header: sticky bar, brand lockup, nav, and the mobile drawer.
 @use "./styles/header";
 
