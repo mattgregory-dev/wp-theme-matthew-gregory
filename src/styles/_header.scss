@@ -32,7 +32,12 @@
   align-items: center;
   gap: 1rem 1.5rem;
   min-height: 4.875rem;
-  max-width: var(--wp--style--global--content-size);
+
+  // The bar carries its own gutter, so its cap is the outer frame: the content
+  // measure plus both gutters. Capping at the content measure instead would
+  // pull the bar's contents 64px narrower than the bands below it, and the
+  // brand would no longer line up with the page's left edge.
+  max-width: calc(var(--wp--style--global--content-size) + (var(--wp--custom--gutter) * 2));
   margin-inline: auto;
   padding: 0.9375rem var(--wp--custom--gutter);
 }
