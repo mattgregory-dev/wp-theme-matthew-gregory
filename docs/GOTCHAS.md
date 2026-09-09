@@ -228,3 +228,58 @@ front end" disagreement. Two things distort it:
   front end serves the previous compile. `docker restart mgp-wordpress-1` forces
   a flush. `theme.json`, pattern and markup changes are read fresh and never
   need it.
+
+---
+
+## 10. Layout classes silently overrule your CSS
+
+**Symptom:** a rule that is plainly correct does nothing. The class is on the
+element, the declaration is in the compiled stylesheet, devtools shows it
+struck through or shows a WordPress rule winning. Three separate mechanisms
+produce this, all from the `layout` attribute on a `core/group`.
+
+### Flex children cannot take margins
+
+WordPress ships:
+
+```css
+.is-layout-flex > :is(*, div) { margin: 0; }
+```
+
+`:is()` takes the specificity of its **most specific** argument — `div` — so
+that rule scores (0,1,1) and beats a plain `.my-class { margin-left: auto }` at
+(0,1,0). The item simply refuses to move.
+
+**Fix:** write the rule as a child selector — `.parent > .my-class` — which
+scores (0,2,0). Every auto or explicit margin on a flex child needs this,
+including the `margin-left: auto` that pushes a nav to the right and any
+`margin-top` inside a drawer.
+
+### Constrained groups carry global padding
+
+A group with `"layout":{"type":"constrained"}` is stamped `has-global-padding`,
+which applies the root padding — the gutter, up to 2rem here — as left and
+right padding **inside** the group. On a full-width band that is the point. On
+a small lockup like a logo and its wordmark, it is 2rem of unexplained space
+that looks like a broken `gap`.
+
+**Fix:** use `"layout":{"type":"default"}` (flow). Constrained means "center
+children at content width"; a group that only stacks two lines of text never
+needed it.
+
+### Flow groups add a block-gap margin to every child
+
+`:root :where(.is-layout-flow) > * { margin-block-start: 1.5rem; }`. The
+`:where()` gives it zero specificity, so any real rule beats it — but only if
+you write one. A flow group whose children space themselves (a flex `gap`, an
+explicit margin under a title) gets **both**, and the rhythm comes out at
+roughly double.
+
+**Fix:** `margin-block: 0` on the children you space yourself.
+
+**The pattern behind all three:** the `layout` attribute is not cosmetic. It
+decides which stylesheet WordPress generates for that group, and the generated
+CSS is authored to win. Read the emitted classes on the element
+(`is-layout-flex`, `has-global-padding`, `is-layout-constrained`) before
+debugging your own stylesheet — the answer is usually in the block markup, not
+the SCSS.
