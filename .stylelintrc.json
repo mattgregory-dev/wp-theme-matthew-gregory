@@ -2,6 +2,9 @@
   "extends": ["stylelint-config-standard-scss"],
   "rules": {
     "no-descending-specificity": null,
+    "media-feature-range-notation": ["prefix", {
+      "message": "Use max-width/min-width, not range notation. Safari below 16.4 ignores an entire query it cannot parse, so `(width <= 760px)` would drop the mobile layout on those devices rather than degrade."
+    }],
     "no-empty-source": null,
     "scss/operator-no-newline-after": null,
     "scss/comment-no-empty": null,
