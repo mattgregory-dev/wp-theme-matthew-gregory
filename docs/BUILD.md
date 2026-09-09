@@ -1,15 +1,14 @@
 # Build & tooling
 
-Two independent build pipelines:
+One build pipeline: **Vite + SCSS** compiles the theme's front-end bundle
+(`src/` → `dist/`) — the escape-hatch stylesheet and JS behavior modules.
 
-- **Vite + SCSS** compiles the theme's front-end bundle (`src/` → `dist/`): the
-  escape-hatch stylesheet and JS behavior modules.
-- **`@wordpress/scripts`** compiles the custom blocks (`blocks/` → `build/`): the
-  JSX editor UI plus the `render.php`/`block.json` that WordPress registers.
+`dist/` is git-ignored, and a source change is not live until the build runs.
+Design lives in `theme.json` tokens and block markup, not utility classes.
 
-Both outputs are git-ignored, and a source change is not live until *its*
-pipeline runs. Design lives in `theme.json` tokens and block markup, not utility
-classes.
+There is no block build. This theme is native-first — core blocks and patterns,
+no bespoke block layer — so `@wordpress/scripts` and the `blocks/` → `build/`
+step are gone. See [ARCHITECTURE.md](ARCHITECTURE.md#sections-are-core-blocks).
 
 ## First-run setup
 
@@ -33,10 +32,8 @@ see [GOTCHAS.md](GOTCHAS.md#6-image-starters-render-empty-until-the-placeholders
 
 ```bash
 npm run dev          # Vite dev server on :5175 (HMR) for src/ assets
-npm run build        # full build: vite build + src/style.scss → dist/ + blocks → build/
+npm run build        # full build: vite build + src/style.scss → dist/
 npm run build:css    # compile src/style.scss → dist/assets/main.css only
-npm run build:blocks # compile the custom blocks only (blocks/ → build/)
-npm run start:blocks # watch-compile the custom blocks during development
 npm run preview      # preview the Vite build
 
 npm run lint         # eslint + stylelint + phpcs + block-grammar audit
@@ -61,27 +58,14 @@ enqueues the built files with a `filemtime()` cache-buster.
 
 `src/style.scss` is an entry file that `@use`s one partial per feature from
 `src/styles/`. The convention: **a partial rides with the feature it styles.**
-When a block, style variation, or pattern lands, its stylesheet lands in the same
-change and gets a matching `@use` line — `_faq.scss` arrives with the FAQ
-Accordion pattern, `blocks/_hero.scss` with the hero block, and so on. There is
-no monolithic stylesheet to keep in sync; the entry file's `@use` list *is* the
-manifest of what the escape-hatch layer covers.
+When a pattern or style variation lands, its stylesheet lands in the same change
+and gets a matching `@use` line. There is no monolithic stylesheet to keep in
+sync; the entry file's `@use` list *is* the manifest of what the escape-hatch
+layer covers.
 
 Keep every rule referencing `var(--wp--preset--*)` tokens — the SCSS layer styles
 behavior and context that `theme.json` can't reach, but it never redefines a
 design value. See [ARCHITECTURE.md](ARCHITECTURE.md#the-styling-model-read-this-first).
-
-## Custom blocks (`build:blocks`)
-
-The blocks in `blocks/` are compiled by `@wordpress/scripts` (webpack) into
-`build/`, and `inc/blocks.php` registers each block from that **built** copy.
-`npm run build` runs this as its final step; during block development,
-`npm run start:blocks` watch-compiles.
-
-Because WordPress loads the built copy, editing a file under `blocks/` — the JSX
-in `edit.js`/`index.js`, or the `render.php`/`block.json` that get copied verbatim
-into `build/` — has no effect until the block build runs. Rebuild after any
-change under `blocks/`.
 
 ## Block-grammar audit (`lint:blocks`)
 

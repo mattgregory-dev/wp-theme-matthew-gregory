@@ -27,22 +27,9 @@
 // List style variations (is-style-checklist). See _lists.scss.
 @use "./styles/lists";
 
-// Custom block styles (blocks/*). See src/styles/blocks/.
-@use "./styles/blocks/intro-section";
-@use "./styles/blocks/cta-band";
-@use "./styles/blocks/checklist-section";
-@use "./styles/blocks/spotlight";
-@use "./styles/blocks/bio";
-@use "./styles/blocks/hero";
-
 // Back-to-top button (fixed-position chrome). See src/styles/_scroll-top.scss.
 @use "./styles/scroll-top";
 
 // Small utility classes applied via block className. See _utilities.scss.
 @use "./styles/utilities";
 
-// Core-block pattern support (styling that patterns apply via className, where
-// theme.json / block markup can't reach). See the matching patterns/.
-@use "./styles/pricing"; // Pricing Cards
-@use "./styles/faq"; // FAQ Accordion
-@use "./styles/link-cards"; // Link Cards

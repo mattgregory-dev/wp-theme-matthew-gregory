@@ -128,25 +128,7 @@ installs *and* editor-consistent.
 
 ---
 
-## 5. Editing `blocks/` does nothing until you rebuild
-
-**Symptom:** a change to a custom block's `edit.js`, `render.php`, or `block.json`
-has no effect — the editor and front end keep showing the old behavior.
-
-**Root cause:** WordPress registers each block from `build/<name>`, not
-`blocks/<name>` (`inc/blocks.php`). `@wordpress/scripts` compiles the JSX and
-**copies** `render.php`/`block.json` into `build/`. Until that build runs, the
-registered copy is stale — so source edits are invisible.
-
-**Fix:** `npm run build:blocks` (or `npm run start:blocks` to watch) after any
-edit under `blocks/`. Note the two independent pipelines: `src/` → `dist/` (Vite)
-and `blocks/` → `build/` (wp-scripts); both outputs are git-ignored, and a source
-change is not live until *its* pipeline runs. The full `npm run build` runs Vite,
-the SCSS compile, and the block build in sequence.
-
----
-
-## 6. Image starters render empty until the placeholders are seeded
+## 5. Image starters render empty until the placeholders are seeded
 
 **Symptom:** the image-bearing starters (Spotlight, Bio, Hero, Link Cards) insert
 with no image on a fresh clone, even though `assets/images/` clearly contains the
@@ -166,7 +148,7 @@ needs; see [BUILD.md](BUILD.md#first-run-setup).
 
 ---
 
-## 7. "This block contains unexpected or invalid content"
+## 6. "This block contains unexpected or invalid content"
 
 **Symptom:** a block in a template or pattern shows the error bar in the editor
 and offers "Attempt Recovery". The markup looks correct and renders fine on the
@@ -192,7 +174,7 @@ changed the rendered element. That is the whole diff that matters.
 
 ---
 
-## 8. Do not trim core block CSS in an FSE theme
+## 7. Do not trim core block CSS in an FSE theme
 
 **Symptom:** center-aligned markup renders left. The class is on the element,
 the editor shows it centered, and the served page contains no `text-align:center`
@@ -215,7 +197,7 @@ CSS efficiently. The saving is around 30KB and not worth the risk.
 
 ---
 
-## 9. `wpautop` turns block tags inside an anchor into empty cells
+## 8. `wpautop` turns block tags inside an anchor into empty cells
 
 **Symptom:** a grid renders extra empty cells between its real items. Nothing in
 the source produced them.
@@ -231,7 +213,7 @@ headings. Style the spans as blocks in CSS if block layout is needed.
 
 ---
 
-## 10. Verifying from the command line
+## 9. Verifying from the command line
 
 `curl` against the running site separates SERVER state (what WordPress
 generated: markup classes, `global-styles-inline-css`, preset variables) from

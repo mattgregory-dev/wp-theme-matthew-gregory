@@ -36,16 +36,12 @@ to `wp-config.php` and run `npm run dev` (Vite on `:5175`).
 
 ## What's inside
 
-- **Six custom blocks** (`blocks/`) — hero, spotlight, bio, intro-section,
-  cta-band, checklist-section. Dynamic blocks: structure in git, content in the
-  database.
-- **Starter patterns** (`patterns/`) — section starters and core-block starters
-  (Day Cards, Steps Cards, Link Cards, Pricing Cards, FAQ Accordion, Legal Page
-  Starter) under one "Starter Blocks" category.
-- **Tokenized `theme.json`** — role-based color palette, fluid type scale,
-  spacing rhythm, shadows, element and block defaults.
-- **Two build pipelines** — Vite (`src/` → `dist/`) and `@wordpress/scripts`
-  (`blocks/` → `build/`), plus phpcs, eslint, stylelint, and a block-grammar audit.
+- **Native-first sections** — core blocks composed into patterns, with the look
+  carried by tokens and a thin SCSS layer. No custom block layer.
+- **Tokenized `theme.json`** — role-based color palette, type scale, spacing
+  rhythm, shadows, element and block defaults, and self-hosted variable fonts.
+- **One build pipeline** — Vite (`src/` → `dist/`), plus phpcs, eslint,
+  stylelint, and a block-grammar audit.
 
 ## Documentation
 

@@ -1,10 +1,17 @@
 # Architecture
 
-How Starter Blocks is put together, and the reasoning behind the layering. This
-is a **Full Site Editing starter theme** — a catalog of proven custom blocks and
-starter patterns on a tokenized `theme.json`, meant to be cloned and seeded per
-project (see [PIPELINE.md](PIPELINE.md), Stage 0). The decisions below are the
-conventions a cloned project inherits and should keep.
+How this theme is put together, and the reasoning behind the layering. It is a
+**Full Site Editing theme built native-first**: core blocks and patterns on a
+tokenized `theme.json`, cloned from starter-blocks (see
+[PIPELINE.md](PIPELINE.md), Stage 0) and reseeded for this design.
+
+**There is no custom block layer.** The starter's six section blocks were
+removed: their value is authoring guardrails for a client, and this site's only
+author is its developer. What they cost — markup written twice (`render.php` and
+`edit.js`), a webpack build between every edit, and block-validation failures —
+is real on any size of site. Core blocks plus patterns express the same
+sections. If something ever genuinely needs a block, the starter's are the
+reference implementation.
 
 ## The styling model (read this first)
 
@@ -17,10 +24,9 @@ can't express it.
    (per-block-type defaults). This is ~90% of the design and the single source
    of truth; it emits `--wp--preset--*` custom properties consumed everywhere
    else.
-2. **Block markup / patterns / custom blocks** — per-instance layout and styling,
-   set as block attributes. These serialize to inline styles, which is canonical
-   FSE (the editor writes the same markup) — not a code smell. See `patterns/`
-   and the custom section blocks in `blocks/`.
+2. **Block markup and patterns** — per-instance layout and styling, set as
+   block attributes. These serialize to inline styles, which is canonical FSE
+   (the editor writes the same markup) — not a code smell. See `patterns/`.
 3. **Block style variations** (`register_block_style`) — reusable custom looks
    applied via an `is-style-*` class (e.g. `is-style-checklist`,
    `is-style-secondary`). Registered in `inc/block-styles.php`.
@@ -133,26 +139,21 @@ starter-blocks/
 ├── templates/           # Block templates: index, home, archive, single, page,
 │                        #   search, 404
 ├── parts/               # header, footer, sidebar (template parts)
-├── patterns/            # Section starters + core-block starters (one
-│                        #   "Starter Blocks" category)
-├── blocks/              # Custom block source (edit.js/index.js/render.php/
-│                        #   block.json); each compiled by @wordpress/scripts → build/
-├── build/               # Compiled blocks (git-ignored; what WordPress registers)
+├── patterns/            # Section patterns (one "Starter Blocks" category)
 ├── inc/                 # Self-contained PHP modules (sb_*-prefixed)
 ├── src/                 # Front-end source (compiled by Vite → dist/)
 │   ├── main.js          #   JS entry — imports behavior modules from scripts/
 │   ├── style.scss       #   SCSS entry (escape-hatch layer) — imports styles/
 │   ├── scripts/         #   JS behavior modules (e.g. scroll-top.js)
-│   └── styles/          #   SCSS partials (_buttons, _lists, _faq, blocks/, …)
+│   └── styles/          #   SCSS partials (_buttons, _lists, _layout, …)
 ├── scripts/             # Node build tooling (block-audit.js) — not shipped
 ├── dist/                # Compiled theme CSS/JS (git-ignored; build output)
 └── assets/images/       # Placeholder images (seed to the media library per env)
 ```
 
 Pages are delivered as **content in the database, rendered through a shared
-template.** A page's sections are authored in the editor — from the custom blocks
-in `blocks/` and the starter patterns in `patterns/` — and stored in
-`post_content`. `templates/page.html` renders that content inside the
+template.** A page's sections are authored in the editor — from core blocks and
+the patterns in `patterns/` — and stored in `post_content`. `templates/page.html` renders that content inside the
 header/footer chrome via `wp:post-content`. The starters in `patterns/` are
 reusable *starting points* an author inserts and edits, **not** page definitions
 composed by templates. The blog index (`home.html` / `archive.html`) is the
@@ -191,34 +192,18 @@ The pull is gated on `--sb-main-pad-end`, which is defined **only** on
 content pages that opt in and is inert everywhere else — no band pulls into a
 footer on a template that didn't ask for it.
 
-## Custom blocks
+## Sections are core blocks
 
-Six section-level blocks live in `blocks/` — `hero`, `spotlight`, `bio`,
-`intro-section`, `cta-band`, and `checklist-section`. They exist so a section's
-*structure* stays in git while its *content* lives in the database: each is a
-**dynamic block** where `edit.js` provides the editor UI, `render.php` emits the
-front-end markup from block attributes, and inner blocks hold the freeform body
-(paragraphs, buttons, lists).
+A section is a `core/group` carrying an `sb-band` class, holding core blocks —
+headings, paragraphs, buttons, images, columns — with its look owned by
+`theme.json` tokens and one SCSS partial. Repeated sections become **patterns**:
+starting points an author inserts and edits, not definitions a template
+composes.
 
-- **Source → build.** `@wordpress/scripts` compiles `blocks/<name>/` (block.json,
-  edit.js, index.js, render.php) into `build/<name>/`. WordPress registers each
-  block from `build/` in `inc/blocks.php`, **not** from the source — so an edit
-  under `blocks/` (including `render.php`, which is *copied* into `build/`) has no
-  effect until the block build runs. See [BUILD.md](BUILD.md#custom-blocks-buildblocks)
-  and [GOTCHAS.md](GOTCHAS.md#5-editing-blocks-does-nothing-until-you-rebuild).
-- **Attributes in the DB, markup in git.** Typed fields (eyebrow, heading, image
-  ID, overlay color, …) serialize into the block comment; `render.php` reads them
-  and never trusts raw input in an attribute context — e.g. the hero overlay
-  color is validated against a hex/rgb pattern before it reaches a `style`.
-- **Empty attributes render nothing.** A field left blank emits no markup, so a
-  block degrades cleanly rather than printing empty wrappers.
-- **Editor parity.** `edit.js` mirrors `render.php`'s classes and markup, so the
-  canvas — with the compiled bundle loaded via `add_editor_style` — previews the
-  same as the front end. Per-block styling lives in `src/styles/blocks/`.
-
-When to add a *seventh* block vs. a new pattern is a deliberate call — see the
-block-creation bar in [PIPELINE.md](PIPELINE.md) (Stage 4): propagation, logic,
-or controls justify a block; breakable structure alone is a pattern.
+The bar for reaching past that is high, and it is not "this section repeats".
+See the block-creation bar in [PIPELINE.md](PIPELINE.md) (Stage 4): propagation,
+logic, or bespoke controls justify a block; breakable structure alone is a
+pattern. Nothing in this design has cleared it.
 
 ## Images: portable, deploy-safe references
 

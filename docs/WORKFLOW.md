@@ -34,18 +34,17 @@ at a time.
 | Command | Does |
 |---|---|
 | `npm run dev` | Vite dev server with HMR — needs `CUSTOM_WP_VITE_DEV` true in `wp-config.php` |
-| `npm run build` | Everything: `vite build`, `build:css`, `build:blocks` |
+| `npm run build` | Everything: `vite build`, `build:css` |
 | `npm run build:css` | `src/style.scss` → `dist/assets/main.css`, autoprefixed and minified |
-| `npm run build:blocks` | `blocks/` → `build/` via `@wordpress/scripts` |
 | `npm run lint` | eslint + stylelint + phpcs + block-grammar audit |
 | `npm run lint:css:fix` | Stylelint, auto-fixing what it can |
 | `docker compose run --rm -T wpcli wp …` | WP-CLI, from the **project root** |
 
-`dist/` and `build/` are both git-ignored. A fresh clone renders unstyled until
-`npm run build` has run once.
+`dist/` is git-ignored. A fresh clone renders unstyled until `npm run build` has
+run once.
 
-**Editing `blocks/` does nothing until you rebuild.** WordPress loads `build/`,
-never `blocks/`. Use `npm run start:blocks` to watch during block work.
+**This theme has no custom blocks.** Sections are core blocks in patterns —
+see [ARCHITECTURE.md](ARCHITECTURE.md#sections-are-core-blocks).
 
 ## Page content lives in the database
 

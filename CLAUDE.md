@@ -48,9 +48,8 @@ values, keep roles.
 
 ## Build & styling
 
-- **Two pipelines, both git-ignored outputs:** Vite (`src/` → `dist/`) and
-  `@wordpress/scripts` (`blocks/` → `build/`). WordPress registers blocks from
-  `build/`, so **editing `blocks/` does nothing until `npm run build:blocks`.**
+- **One pipeline, git-ignored output:** Vite (`src/` → `dist/`). This theme is
+  **native-first** — core blocks and patterns, no custom block layer.
 - **Styling priority:** `theme.json` → block markup/attributes → block style
   variations (`is-style-*`) → `src/style.scss` (escape hatch only: pseudo-
   elements, `:has()`, keyframes, JS-state classes). The SCSS layer always
