@@ -22,8 +22,12 @@ problems rather than quoting problems, is catalogued in
 [WSL-TOOLING.md](WSL-TOOLING.md).
 
 Site: http://localhost:8080. phpMyAdmin: http://localhost:8081. Admin
-`admin` / `admin`. The stack shares ports with the other local WordPress
-projects, so only one runs at a time.
+credentials are in the project-root `AGENTS.md`, outside this repo. WP-CLI needs
+none of them — it bootstraps without a login, and `sb-push.php` resolves its
+administrator **by role**, not by name.
+
+The stack shares ports with the other local WordPress projects, so only one runs
+at a time.
 
 ## Commands
 
