@@ -21,12 +21,12 @@
 .wp-block-button.is-style-secondary {
   .wp-block-button__link {
     background-color: var(--wp--preset--color--base);
-    color: var(--wp--preset--color--contrast-2);
+    color: var(--wp--preset--color--brand);
 
     &:hover,
     &:focus,
     &:active {
-      background-color: var(--wp--preset--color--contrast-2);
+      background-color: var(--wp--preset--color--brand);
       color: var(--wp--preset--color--base);
     }
   }
