@@ -42,6 +42,27 @@
     <exclude name="WordPress.PHP.YodaConditions"/>
   </rule>
 
+  <!--
+    scripts/ holds WP-CLI tooling run via `wp eval-file`, never loaded by
+    WordPress. Its `echo` is a terminal message, not page output, so the escaping
+    and i18n sniffs don't apply — escaping a status line would corrupt it, and a
+    CLI tool has no translations.
+  -->
+  <rule ref="WordPress.Security.EscapeOutput">
+    <exclude-pattern>*/scripts/*</exclude-pattern>
+  </rule>
+  <rule ref="WordPress.WP.I18n">
+    <exclude-pattern>*/scripts/*</exclude-pattern>
+  </rule>
+  <!--
+    Same reason for the filesystem sniff: WP_Filesystem is not bootstrapped in a
+    `wp eval-file` context, and these scripts read and write local working files,
+    never a remote resource.
+  -->
+  <rule ref="WordPress.WP.AlternativeFunctions">
+    <exclude-pattern>*/scripts/*</exclude-pattern>
+  </rule>
+
   <!-- Tell the i18n sniff which text-domain is valid for this theme. -->
   <rule ref="WordPress.WP.I18n">
     <properties>
