@@ -235,7 +235,7 @@ front end" disagreement. Two things distort it:
 
 **Symptom:** a rule that is plainly correct does nothing. The class is on the
 element, the declaration is in the compiled stylesheet, devtools shows it
-struck through or shows a WordPress rule winning. Three separate mechanisms
+struck through or shows a WordPress rule winning. Five separate mechanisms
 produce this, all from the `layout` attribute on a `core/group`.
 
 ### Flex children cannot take margins
@@ -277,9 +277,43 @@ roughly double.
 
 **Fix:** `margin-block: 0` on the children you space yourself.
 
-**The pattern behind all three:** the `layout` attribute is not cosmetic. It
+### A flex group cannot be hidden by class alone
+
+```css
+body .is-layout-flex { display: flex; }
+```
+
+Element plus class is (0,1,1), which beats `.my-drawer { display: none }` at
+(0,1,0). The drawer stays open from page load with its open-state styling
+applied, so it reads as a JavaScript failure rather than a CSS one — and
+*opening* works, because the `.is-open` rule usually has a parent scope
+already.
+
+**Fix:** scope the hide the same way — `.site-header .site-header__menu`.
+
+### Constrained children with a max-width center themselves
+
+```css
+.is-layout-constrained > :where(…) {
+  max-width: var(--wp--style--global--content-size);
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+```
+
+Anything narrower than the content width gets centered by those auto margins,
+so a measure-capped heading drifts to the middle of a left-aligned section
+while a full-width sibling beside it stays put. That mismatch is what makes it
+look arbitrary. The `!important` means specificity cannot save you.
+
+**Fix:** put the section's contents in a **flow-layout wrapper** inside the
+constrained group. The wrapper absorbs the centering (it is full width, so it
+is a no-op) and its children lay out left with their measures intact. This is
+the standard shape for every left-aligned band.
+
+**The pattern behind all five:** the `layout` attribute is not cosmetic. It
 decides which stylesheet WordPress generates for that group, and the generated
-CSS is authored to win. Read the emitted classes on the element
-(`is-layout-flex`, `has-global-padding`, `is-layout-constrained`) before
-debugging your own stylesheet — the answer is usually in the block markup, not
-the SCSS.
+CSS is authored to win — with `!important` where auto margins are involved.
+Read the emitted classes on the element (`is-layout-flex`,
+`has-global-padding`, `is-layout-constrained`) before debugging your own
+stylesheet — the answer is usually in the block markup, not the SCSS.
