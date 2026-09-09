@@ -132,6 +132,37 @@ throwaway container can do it — it runs as root and sees the same bind mount:
     docker run --rm -v /home/dev/projects/mg:/target alpine \
       sh -c 'rm -rf /target/stray-path'
 
+## Trap: WordPress asks for FTP credentials to install anything
+
+**Symptom** — updating core, or installing a plugin or theme, pops the
+"Connection Information" FTP form instead of just working.
+
+**Cause** — not permissions, which is what it looks like.
+`get_filesystem_method()` compares the owner of the **running script**
+(`getmyuid()`, uid 1000 under the bind mount) against a file PHP has just
+created (uid 33, `www-data`). Under the ownership model above those always
+differ, so WordPress decides it cannot write safely and falls back to FTP —
+even though the tree is group-writable and `fopen()` succeeds.
+
+**Fix** — `define( 'FS_METHOD', 'direct' );` in `wp-config.php`. It is correct
+here precisely because the group *is* writable; the check is what's wrong, not
+the permissions.
+
+To see which method WordPress actually picks, ask it in a **web** request — a
+one-off PHP file in the webroot that requires `wp-load.php` and
+`wp-admin/includes/file.php`, then echoes `get_filesystem_method()`. WP-CLI
+answers `direct` regardless, because `getmyuid()` reads a different script.
+
+### The permission repair strips exec bits, and the toolchain then fails
+
+Running the `chmod 664` sweep above sets every file non-executable, including
+`vendor/bin/phpcs` and everything under `node_modules/**/bin/`. The symptom is
+`sh: 1: vendor/bin/phpcs: Permission denied` from a lint run that worked
+minutes earlier. Always follow the repair with:
+
+    find . -type f -path '*/bin/*' -exec chmod 775 {} +
+    grep -rIl '^#!' vendor node_modules scripts | xargs -r chmod 775
+
 ## Trap: a stale bind mount creates a *directory* where a file belongs
 
 **Symptom** — `cat: php/custom_defaults.ini: Is a directory`, and PHP ignoring
