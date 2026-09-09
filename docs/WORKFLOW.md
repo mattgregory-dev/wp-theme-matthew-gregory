@@ -221,19 +221,27 @@ browser, before anything enters history.
 |---|---|
 | `feat:` | Visitor-facing output is new or improved |
 | `fix:` | Broken output corrected |
-| `docs:` | Documentation only |
-| `style:` | Code formatting only (whitespace, indentation) — not appearance |
 | `refactor:` | Internal restructure, identical output |
 | `perf:` | Performance improvement |
-| `test:` | Adding or fixing tests |
 | `build:` | Build system or dependencies |
 | `ci:` | CI config, lint pipeline |
+| `docs:` | Documentation only |
 | `chore:` | Maintenance that fits nothing above |
-| `revert:` | Undoing a previous commit |
 
-The spec defines only `feat` and `fix`; the rest is the Angular set that
-everything reads. **Do not invent a twelfth.** A doc example is read as an
-instruction, so a wrong one propagates further than a wrong sentence.
+Eight, matching [PIPELINE.md](PIPELINE.md#git-discipline). **Do not invent a
+ninth.** A doc example is read as an instruction, so a wrong one propagates
+further than a wrong sentence.
+
+The Angular set that most projects copy has three more, and each is left out on
+purpose:
+
+- **`style:`** means *code formatting* — whitespace, indentation, semicolons —
+  and nothing about appearance. On a theme that reading is a trap: every
+  instinct files a color change under `style:`, and a mislabeled commit does not
+  error, it just makes the history lie. Appearance is `feat:` or `fix:` by
+  what it did to the output; a formatting-only sweep is `chore:`.
+- **`test:`** has nothing to label. There are no tests.
+- **`revert:`** is redundant — `git revert` writes its own subject line.
 
 Sequencing within a stage is covered in [PIPELINE.md](PIPELINE.md#git-discipline)
 — `build:` before `feat:`, deletions trailing migrations, and so on.
