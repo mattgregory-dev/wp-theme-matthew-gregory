@@ -36,6 +36,17 @@ function sb_register_block_styles() {
 		)
 	);
 
+	// Light button — for dark bands, where the brand-filled default has too
+	// little contrast against the band behind it. Styled in
+	// src/styles/_buttons.scss.
+	register_block_style(
+		'core/button',
+		array(
+			'name'  => 'light',
+			'label' => __( 'Light', 'mg-blocks' ),
+		)
+	);
+
 	// Eyebrow — the uppercase mono kicker above a section heading, with a short
 	// rule leading into it. Styled in src/styles/_eyebrow.scss.
 	register_block_style(

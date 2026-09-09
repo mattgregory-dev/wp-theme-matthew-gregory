@@ -1,0 +1,106 @@
+// ---------------------------------------------------------------------------
+// Hero — the asymmetric split at the top of the home page: copy left, portrait
+// right, on the ink band. Built from a core/columns block; this file supplies
+// what the block's own controls cannot.
+// ---------------------------------------------------------------------------
+
+.sb-hero {
+  // Columns stack at 782px by default. This layout runs out of room earlier —
+  // the portrait squeezes the headline before the block would reflow — so the
+  // stack is taken over here and the block's own breakpoint is neutralised.
+  @media (max-width: 860px) {
+    &.wp-block-columns:not(.is-not-stacked-on-mobile) {
+      flex-wrap: wrap;
+    }
+
+    .wp-block-column {
+      flex-basis: 100% !important;
+    }
+
+    // Portrait first when stacked: a face above the headline is the faster
+    // introduction on a phone, where the copy would otherwise fill the screen
+    // before anything identifies whose site this is.
+    .sb-hero__media {
+      order: -1;
+    }
+  }
+}
+
+.sb-hero__media {
+  display: flex;
+  justify-content: flex-end;
+
+  img {
+    // Both are load-bearing. The cap alone overrides WordPress's
+    // `max-width: 100%` with a LARGER value, so a wide image spills out of a
+    // narrow column; `width: 100%` is what keeps it inside one.
+    width: 100%;
+    max-width: 26.25rem;
+    border: 1px solid var(--wp--preset--color--dark-line);
+    border-radius: var(--wp--custom--radius-card);
+
+    // Deeper and softer than the shared shadow presets, which are tuned for a
+    // light canvas and vanish against the ink band.
+    box-shadow: 0 30px 60px -30px rgb(0 0 0 / 60%);
+  }
+
+  @media (max-width: 860px) {
+    justify-content: flex-start;
+
+    img {
+      max-width: 18.75rem;
+    }
+  }
+}
+
+// Actions row ---------------------------------------------------------------
+
+// The button and the text link sit on one line with the link's baseline aligned
+// to the button's center, so the pair reads as one row of choices rather than
+// two competing elements.
+.sb-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1.375rem;
+}
+
+// A text link with a trailing arrow, for the secondary action beside a button.
+// The arrow is a pseudo-element so the link text stays clean for screen readers
+// and translation.
+.sb-link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4375rem;
+  padding-bottom: 3px;
+  border-bottom: 1px solid var(--wp--preset--color--brand-light);
+  font-size: 0.9688rem;
+  font-weight: 600;
+  line-height: 1;
+  text-decoration: none;
+
+  // Only the gap and the rule animate. Moving the arrow itself would drag the
+  // link's hit area with it.
+  transition:
+    gap var(--wp--custom--speed) var(--wp--custom--ease),
+    border-color var(--wp--custom--speed) var(--wp--custom--ease);
+
+  &::after {
+    content: "→";
+  }
+
+  &:hover,
+  &:focus-visible {
+    gap: 0.6875rem;
+    border-bottom-color: var(--wp--preset--color--brand);
+  }
+}
+
+.sb-band--ink .sb-link-arrow {
+  border-bottom-color: color-mix(in srgb, var(--wp--preset--color--base) 40%, transparent);
+
+  &:hover,
+  &:focus-visible {
+    border-bottom-color: var(--wp--preset--color--base);
+  }
+}

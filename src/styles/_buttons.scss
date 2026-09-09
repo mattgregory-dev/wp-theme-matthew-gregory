@@ -40,6 +40,23 @@
   }
 }
 
+// For dark bands. The brand fill is close enough to the ink gradient behind it
+// that a filled button reads as a smudge; a light surface is the only version
+// with real contrast there.
+.wp-block-button.is-style-light .wp-block-button__link {
+  border-color: var(--wp--preset--color--base);
+  background-color: var(--wp--preset--color--base);
+  color: var(--wp--preset--color--contrast);
+
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: var(--wp--preset--color--surface-1);
+    background-color: var(--wp--preset--color--surface-1);
+    color: var(--wp--preset--color--brand);
+  }
+}
+
 // Size modifier, applied via the block's Additional CSS class. Padding and size
 // only — it stacks on any style variation rather than replacing one.
 .wp-block-button.btn--sm .wp-block-button__link {
