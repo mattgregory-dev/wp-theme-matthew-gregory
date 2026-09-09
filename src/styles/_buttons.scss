@@ -1,33 +1,48 @@
 // ---------------------------------------------------------------------------
 // Button variations.
 // The DEFAULT (primary) button lives in theme.json → styles.elements.button:
-// a dark fill with light text, a 2px border, 5px radius, and an invert on hover.
-// Registered in inc/block-styles.php.
-// Here we only define the `is-style-secondary` variation, the resting inverse
-// of the primary (light fill / dark text), and flip it back to the primary look
-// on hover. Border + radius are inherited from the theme.json default, so we
-// never restate them — only the fill/text swap. Tokens come from theme.json so
-// nothing drifts.
+// a brand fill with light text, hairline border, 5px radius, deepening on
+// hover. Variations are registered in inc/block-styles.php.
+//
+// `is-style-secondary` is the quieter button: a light surface with a neutral
+// hairline that resolves to brand on hover. It carries the weight in dense
+// places (header actions, secondary CTAs) where a second filled button would
+// compete with the primary one.
 // ---------------------------------------------------------------------------
 
-// Smooth the fill/text swap on hover for every button (default + variations).
-// prefers-reduced-motion neutralises this globally in _accessibility.scss.
 .wp-block-button__link {
   transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
+    background-color var(--wp--custom--speed) var(--wp--custom--ease),
+    border-color var(--wp--custom--speed) var(--wp--custom--ease),
+    color var(--wp--custom--speed) var(--wp--custom--ease),
+    box-shadow var(--wp--custom--speed) var(--wp--custom--ease),
+    transform var(--wp--custom--speed) var(--wp--custom--ease);
 }
 
-.wp-block-button.is-style-secondary {
-  .wp-block-button__link {
+// The lift is the whole hover signal on the primary button, whose fill barely
+// changes. Reduced motion neutralises the transition globally in
+// _accessibility.scss; the color shift still lands, so the state stays legible.
+.wp-block-button__link:hover {
+  transform: translateY(-1px);
+}
+
+.wp-block-button.is-style-secondary .wp-block-button__link {
+  border-color: var(--wp--preset--color--surface-3);
+  background-color: var(--wp--preset--color--base);
+  color: var(--wp--preset--color--contrast);
+
+  &:hover,
+  &:focus,
+  &:active {
+    border-color: var(--wp--preset--color--brand);
     background-color: var(--wp--preset--color--base);
     color: var(--wp--preset--color--brand);
-
-    &:hover,
-    &:focus,
-    &:active {
-      background-color: var(--wp--preset--color--brand);
-      color: var(--wp--preset--color--base);
-    }
   }
+}
+
+// Size modifier, applied via the block's Additional CSS class. Padding and size
+// only — it stacks on any style variation rather than replacing one.
+.wp-block-button.btn--sm .wp-block-button__link {
+  padding: 0.625rem 1rem;
+  font-size: 0.8438rem;
 }

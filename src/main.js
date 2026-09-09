@@ -14,5 +14,8 @@ if (import.meta.env.DEV) {
 // ideally via the WordPress Interactivity API. JS behavior modules live in
 // src/scripts/ (mirrors src/styles/ for SCSS), imported here as features land.
 
+// Mobile nav toggle (drawer below 760px; markup in parts/header.html).
+import "./scripts/nav-toggle.js";
+
 // Back-to-top button (fixed-position chrome; markup in inc/scroll-top.php).
 import "./scripts/scroll-top.js";

@@ -21,6 +21,12 @@
 // Page main spacing + trailing full-width band flush-to-footer. See _layout.scss.
 @use "./styles/layout";
 
+// Site header: sticky bar, brand lockup, nav, and the mobile drawer.
+@use "./styles/header";
+
+// Site footer: dark band with brand, link columns, and the bottom line.
+@use "./styles/footer";
+
 // Button style variations (is-style-secondary). See _buttons.scss.
 @use "./styles/buttons";
 

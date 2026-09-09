@@ -1,0 +1,310 @@
+// ---------------------------------------------------------------------------
+// Site header — sticky bar: brand lockup left, nav and actions right, with a
+// toggle-driven drawer below 760px. Markup: parts/header.html. Behavior:
+// src/scripts/nav-toggle.js (toggles .is-open on .site-header).
+// ---------------------------------------------------------------------------
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  border-top: 3px solid var(--wp--preset--color--brand);
+  border-bottom: 1px solid var(--wp--preset--color--border);
+
+  // Translucent so content scrolling underneath reads as motion, with a blur
+  // to keep the nav legible over it. The solid declaration is the fallback:
+  // without backdrop-filter support the bar must be opaque or text collides
+  // with whatever passes behind.
+  background: var(--wp--preset--color--base);
+  background: color-mix(in srgb, var(--wp--preset--color--base) 86%, transparent);
+  backdrop-filter: saturate(1.4) blur(8px);
+}
+
+// The home page opens on a dark hero that provides its own hard edge, so the
+// bar's rule would read as a double line directly above it.
+.home .site-header {
+  border-bottom-color: transparent;
+}
+
+.site-header__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+  min-height: 4.875rem;
+  max-width: var(--wp--style--global--content-size);
+  margin-inline: auto;
+  padding: 0.9375rem var(--wp--custom--gutter);
+}
+
+// Brand ---------------------------------------------------------------------
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+}
+
+// The mark is a single-color silhouette, so it is painted as a mask rather than
+// an image: the box takes a token background and the file only supplies the
+// shape. That is what lets the same asset read navy in the header and white on
+// the footer's dark band without shipping a second file.
+.brand__mark {
+  display: block;
+  flex: 0 0 auto;
+  width: 1.8125rem;
+  height: 2.5rem;
+  background: var(--wp--preset--color--brand);
+  mask: url("../../assets/images/mg-logo.webp") center / contain no-repeat;
+}
+
+.brand__name {
+  margin: 0;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+
+  a {
+    color: var(--wp--preset--color--contrast);
+    text-decoration: none;
+  }
+}
+
+.brand__role {
+  margin: 0;
+  font-size: 0.7813rem;
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--wp--preset--color--muted);
+}
+
+// Navigation ----------------------------------------------------------------
+
+.site-header__menu {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 1rem 1.5rem;
+}
+
+// Every auto/explicit margin on a flex child in this file is written as a CHILD
+// selector, and must stay that way. WordPress ships
+// `.is-layout-flex > :is(*, div) { margin: 0 }`, and `:is()` takes the
+// specificity of its most specific argument — `div` — so that rule scores
+// (0,1,1) and silently beats a plain `.class { margin-left: auto }`. The symptom
+// is a flex item that refuses to move: here the menu sat against the brand
+// instead of the container's right edge.
+.site-header__inner > .site-header__menu,
+.site-header__inner > .nav-toggle {
+  margin-left: auto;
+}
+
+.site-nav {
+  .wp-block-navigation__container {
+    gap: 1.75rem;
+  }
+
+  a {
+    display: inline-block;
+    padding-bottom: 0.25rem;
+    border-bottom: 2px solid transparent;
+    color: var(--wp--preset--color--muted);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    line-height: 1;
+    text-decoration: none;
+    transition: color var(--wp--custom--speed);
+
+    &:hover {
+      color: var(--wp--preset--color--contrast);
+      border-bottom-color: var(--wp--preset--color--border);
+    }
+  }
+
+  .current-menu-item a {
+    color: var(--wp--preset--color--contrast);
+    border-bottom-color: var(--wp--preset--color--brand);
+  }
+}
+
+// Toggle --------------------------------------------------------------------
+
+.nav-toggle {
+  display: none;
+  align-items: center;
+  gap: 0.5625rem;
+  min-height: 2.75rem;
+  padding: 0.625rem 0.875rem;
+  border: 1px solid var(--wp--preset--color--surface-3);
+  border-radius: var(--wp--custom--radius);
+  background: var(--wp--preset--color--base);
+  color: var(--wp--preset--color--contrast);
+  font-family: inherit;
+  font-size: 0.8438rem;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+}
+
+// Two bars that rotate into an X. Drawn with pseudo-elements so the button
+// needs no icon markup and the animation has something to move.
+.nav-toggle__icon {
+  position: relative;
+  display: block;
+  width: 1rem;
+  height: 1rem;
+
+  &::before,
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 1rem;
+    height: 2px;
+    background: currentcolor;
+    transition:
+      transform var(--wp--custom--speed),
+      top var(--wp--custom--speed);
+  }
+
+  &::before {
+    top: 0.25rem;
+  }
+
+  &::after {
+    top: 0.625rem;
+  }
+}
+
+.nav-toggle[aria-expanded="true"] {
+  border-color: var(--wp--preset--color--brand);
+  color: var(--wp--preset--color--brand);
+
+  .nav-toggle__icon::before {
+    top: 0.4375rem;
+    transform: rotate(45deg);
+  }
+
+  .nav-toggle__icon::after {
+    top: 0.4375rem;
+    transform: rotate(-45deg);
+  }
+}
+
+.nav-toggle__label--close,
+.drawer-only {
+  display: none;
+}
+
+// Drawer --------------------------------------------------------------------
+
+@media (max-width: 760px) {
+  .site-header__inner {
+    gap: 0.75rem;
+    min-height: 0;
+    padding: 0.875rem 1.25rem;
+  }
+
+  .brand {
+    gap: 0.75rem;
+  }
+
+  .brand__mark {
+    width: 1.4375rem;
+    height: 2rem;
+  }
+
+  .brand__name {
+    font-size: 1rem;
+  }
+
+  .nav-toggle {
+    display: inline-flex;
+  }
+
+  .nav-toggle[aria-expanded="true"] {
+    .nav-toggle__label--open {
+      display: none;
+    }
+
+    .nav-toggle__label--close {
+      display: inline;
+    }
+  }
+
+  // Absolutely positioned so opening the menu overlays the page rather than
+  // pushing it down — the content underneath keeps its scroll position.
+  .site-header__menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.5rem 1.25rem 1.5rem;
+    background: var(--wp--preset--color--base);
+    border-bottom: 1px solid var(--wp--preset--color--border);
+    box-shadow: var(--wp--preset--shadow--soft);
+  }
+
+  .site-header.is-open .site-header__menu {
+    display: flex;
+  }
+
+  .site-nav {
+    .wp-block-navigation__container {
+      flex-direction: column;
+      gap: 0;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 3.25rem;
+      padding: 0 0.25rem;
+      border-bottom: 1px solid var(--wp--preset--color--border);
+      color: var(--wp--preset--color--contrast);
+      font-size: 1.1875rem;
+    }
+
+    .current-menu-item a {
+      font-weight: 600;
+      border-bottom-color: var(--wp--preset--color--border);
+
+      // A short rule on the trailing edge marks the current page, since the
+      // underline that does that job on desktop is spoken for here.
+      &::after {
+        content: "";
+        display: block;
+        width: 1.625rem;
+        height: 2px;
+        background: var(--wp--preset--color--brand);
+      }
+    }
+  }
+
+  .site-header__menu > .header-actions {
+    display: flex;
+    flex-direction: column;
+    margin-top: 1.25rem;
+  }
+
+  .header-actions > .drawer-only {
+    display: block;
+    margin-top: 1.125rem;
+    text-align: center;
+  }
+}
+
+// Below this the toggle has room for the icon but not the word beside it.
+@media (max-width: 380px) {
+  .nav-toggle__label--open,
+  .nav-toggle[aria-expanded="true"] .nav-toggle__label--close {
+    display: none;
+  }
+}

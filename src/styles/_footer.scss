@@ -1,0 +1,119 @@
+// ---------------------------------------------------------------------------
+// Site footer — dark band: brand column, two link columns, and a rule-separated
+// bottom line. Markup: parts/footer.html.
+// ---------------------------------------------------------------------------
+
+.site-footer {
+  padding-block: 4.25rem 2.5rem;
+  border-top: 3px solid var(--wp--preset--color--brand);
+  background: var(--wp--preset--color--surface-dark);
+  color: var(--wp--preset--color--dark-text);
+}
+
+.site-footer__grid {
+  gap: 2.5rem 3rem;
+  align-items: start;
+}
+
+// The columns are flow-layout groups, so WordPress gives each child a
+// block-gap top margin. These columns space themselves — a flex gap in the
+// brand column, an explicit margin under each column title — and the two would
+// otherwise stack into roughly double the intended rhythm.
+.footer-brand > *,
+.footer-col > * {
+  margin-block: 0;
+}
+
+// Brand column --------------------------------------------------------------
+
+.footer-brand {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .brand {
+    gap: 0.75rem;
+  }
+
+  // The mask takes a light fill here; same asset, same rule, opposite band.
+  .brand__mark {
+    width: 1.625rem;
+    height: 2.25rem;
+    background: var(--wp--preset--color--base);
+  }
+
+  .brand__name a {
+    color: var(--wp--preset--color--base);
+  }
+
+  p {
+    max-width: 34ch;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    color: var(--wp--preset--color--dark-muted);
+  }
+
+  strong {
+    color: var(--wp--preset--color--dark-text);
+  }
+}
+
+// Link columns --------------------------------------------------------------
+
+.footer-col__title {
+  margin-bottom: 1rem;
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: 0.7188rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--brand-light);
+}
+
+.footer-col {
+  ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 1rem;
+  }
+
+  a {
+    color: var(--wp--preset--color--dark-text);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--wp--preset--color--base);
+      text-decoration: underline;
+      text-decoration-color: var(--wp--preset--color--brand-light);
+    }
+  }
+
+  .wp-block-navigation__container {
+    gap: 0.625rem;
+  }
+}
+
+// Bottom line ---------------------------------------------------------------
+
+.site-footer__bottom {
+  gap: 1rem;
+  margin-top: 3.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--wp--preset--color--dark-line);
+  font-size: 0.875rem;
+  color: var(--wp--preset--color--dark-muted);
+
+  p {
+    margin: 0;
+  }
+
+  // Clears the fixed back-to-top button, which sits over this corner.
+  > :last-child {
+    padding-right: 4rem;
+  }
+}

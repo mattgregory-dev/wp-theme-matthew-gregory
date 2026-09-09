@@ -1,7 +1,37 @@
-<!-- wp:group {"tagName":"header","className":"site-header","style":{"spacing":{"padding":{"top":"var:preset|spacing|40","bottom":"var:preset|spacing|40"}}},"layout":{"type":"constrained"}} -->
-<header class="wp-block-group site-header" style="padding-top:var(--wp--preset--spacing--40);padding-bottom:var(--wp--preset--spacing--40)"><!-- wp:group {"layout":{"type":"flex","justifyContent":"space-between","flexWrap":"wrap"}} -->
-<div class="wp-block-group"><!-- wp:site-title {"level":0} /-->
+<!-- wp:group {"tagName":"header","className":"site-header","layout":{"type":"default"}} -->
+<header class="wp-block-group site-header"><!-- wp:group {"className":"site-header__inner","layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group site-header__inner"><!-- wp:group {"className":"brand","layout":{"type":"flex","flexWrap":"nowrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group brand"><!-- wp:html -->
+<span class="brand__mark" aria-hidden="true"></span>
+<!-- /wp:html -->
 
-<!-- wp:navigation {"overlayMenu":"mobile","layout":{"type":"flex","justifyContent":"right"}} /--></div>
+<!-- wp:group {"className":"brand__text","layout":{"type":"default"}} -->
+<div class="wp-block-group brand__text"><!-- wp:site-title {"level":0,"className":"brand__name"} /-->
+
+<!-- wp:site-tagline {"className":"brand__role"} /--></div>
+<!-- /wp:group --></div>
+<!-- /wp:group -->
+
+<!-- wp:html -->
+<button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-menu">
+	<span class="nav-toggle__icon" aria-hidden="true"></span>
+	<span class="nav-toggle__label--open">Menu</span>
+	<span class="nav-toggle__label--close">Close</span>
+</button>
+<!-- /wp:html -->
+
+<!-- wp:group {"className":"site-header__menu","layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group site-header__menu" id="site-menu"><!-- wp:navigation {"className":"site-nav","overlayMenu":"never","layout":{"type":"flex","justifyContent":"right","flexWrap":"wrap"}} /-->
+
+<!-- wp:group {"className":"header-actions","layout":{"type":"flex","flexWrap":"wrap","verticalAlignment":"center"}} -->
+<div class="wp-block-group header-actions"><!-- wp:buttons -->
+<div class="wp-block-buttons"><!-- wp:button {"className":"is-style-secondary btn--sm"} -->
+<div class="wp-block-button is-style-secondary btn--sm"><a class="wp-block-button__link wp-element-button" href="#">Resume (PDF)</a></div>
+<!-- /wp:button --></div>
+<!-- /wp:buttons -->
+
+<!-- wp:site-tagline {"className":"mono-label drawer-only"} /--></div>
+<!-- /wp:group --></div>
+<!-- /wp:group --></div>
 <!-- /wp:group --></header>
 <!-- /wp:group -->
