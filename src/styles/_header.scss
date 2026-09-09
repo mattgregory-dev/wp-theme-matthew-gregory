@@ -240,7 +240,12 @@
 
   // Absolutely positioned so opening the menu overlays the page rather than
   // pushing it down — the content underneath keeps its scroll position.
-  .site-header__menu {
+  //
+  // Scoped under .site-header so the hide outranks WordPress's
+  // `body .is-layout-flex { display: flex }` (0,1,1). A bare
+  // `.site-header__menu { display: none }` loses that fight, and the symptom is
+  // a drawer that is open before anything has been clicked.
+  .site-header .site-header__menu {
     display: none;
     position: absolute;
     top: 100%;
