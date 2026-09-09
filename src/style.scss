@@ -21,6 +21,12 @@
 // Page main spacing + trailing full-width band flush-to-footer. See _layout.scss.
 @use "./styles/layout";
 
+// Bands — full-width section rhythm, separation, and dark-band context.
+@use "./styles/bands";
+
+// Eyebrow block style (is-style-eyebrow). See _eyebrow.scss.
+@use "./styles/eyebrow";
+
 // Site header: sticky bar, brand lockup, nav, and the mobile drawer.
 @use "./styles/header";
 

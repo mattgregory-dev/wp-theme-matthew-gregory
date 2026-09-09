@@ -45,8 +45,12 @@
 // Consistent, clearly visible keyboard focus ring on interactive elements.
 // :focus-visible only fires for keyboard / assistive tech, so mouse users are
 // unaffected. :where() keeps specificity at 0 so blocks can still override.
+//
+// The color reads from --sb-focus-ring, which a dark section redefines on
+// itself (see _bands.scss): a navy ring is invisible on a navy band, and a ring
+// nobody can see is the one accessibility feature it is worst to lose.
 :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
-  outline: 2px solid var(--wp--preset--color--link);
+  outline: 2px solid var(--sb-focus-ring, var(--wp--preset--color--link));
   outline-offset: 2px;
 }
 

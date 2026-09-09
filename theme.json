@@ -131,6 +131,13 @@
 					"name": "Dark Line",
 					"color": "#2a3742"
 				}
+			],
+			"gradients": [
+				{
+					"slug": "ink",
+					"name": "Ink",
+					"gradient": "radial-gradient(120% 140% at 15% 0%, var(--wp--preset--color--brand-bright) 0%, var(--wp--preset--color--brand) 42%, var(--wp--preset--color--brand-deep) 100%)"
+				}
 			]
 		},
 		"shadow": {

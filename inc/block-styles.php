@@ -35,5 +35,15 @@ function sb_register_block_styles() {
 			'label' => __( 'Checklist', 'mg-blocks' ),
 		)
 	);
+
+	// Eyebrow — the uppercase mono kicker above a section heading, with a short
+	// rule leading into it. Styled in src/styles/_eyebrow.scss.
+	register_block_style(
+		'core/paragraph',
+		array(
+			'name'  => 'eyebrow',
+			'label' => __( 'Eyebrow', 'mg-blocks' ),
+		)
+	);
 }
 add_action( 'init', 'sb_register_block_styles' );

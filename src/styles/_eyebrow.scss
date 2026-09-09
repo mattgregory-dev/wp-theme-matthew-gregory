@@ -1,0 +1,50 @@
+// ---------------------------------------------------------------------------
+// Eyebrow — the small uppercase kicker above a section heading, applied as a
+// block style on core/paragraph (`is-style-eyebrow`, registered in
+// inc/block-styles.php). A block style rather than a font-family token: the
+// face is already `mono`, and what makes an eyebrow an eyebrow is the whole
+// treatment — tracking, case, color, and the rule beside it.
+// ---------------------------------------------------------------------------
+
+.is-style-eyebrow {
+  display: flex;
+  align-items: baseline;
+  gap: 0.75rem;
+  margin: 0;
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--xx-small);
+  font-weight: 600;
+  line-height: 1.55;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--brand);
+
+  // A short rule leading into the text. Nudged up by a third of the cap height
+  // so it sits on the optical center of the uppercase letters rather than the
+  // baseline, which is where `align-items: baseline` would otherwise put it.
+  &::before {
+    content: "";
+    display: block;
+    flex: none;
+    width: 1.875rem;
+    height: 2px;
+    background: currentcolor;
+    transform: translateY(-0.32em);
+  }
+}
+
+// Without the rule — for eyebrows that sit inside a card or a tight column,
+// where the lead-in reads as clutter.
+.is-style-eyebrow.sb-eyebrow--plain {
+  display: block;
+
+  &::before {
+    display: none;
+  }
+}
+
+// The heading after an eyebrow sits closer than the default block gap: the two
+// are one unit, and the standard rhythm reads as a break between them.
+.is-style-eyebrow + .wp-block-heading {
+  margin-block-start: 1rem;
+}

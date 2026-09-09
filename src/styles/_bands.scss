@@ -1,0 +1,102 @@
+// ---------------------------------------------------------------------------
+// Bands — the full-width horizontal sections a page is built from. A band is a
+// `core/group` with align:full carrying `sb-band`, so its background is a block
+// attribute (a color preset or the `ink` gradient) and its inner width comes
+// from the group's constrained layout. Only what an attribute cannot express
+// lives here: the vertical rhythm, the hairline between neighbors, and the
+// text colors a dark band imposes on its contents.
+// ---------------------------------------------------------------------------
+
+.sb-band {
+  padding-block: var(--wp--custom--pad--band);
+}
+
+// Rhythm variants. These are classes rather than padding attributes because the
+// NAME is the point — "this is a CTA's breathing room" survives a retune, where
+// a pasted clamp() is an unexplained number in the markup.
+.sb-band--tall {
+  padding-block: var(--wp--custom--pad--tall);
+}
+
+.sb-band--hero {
+  padding-block: var(--wp--custom--pad--hero-top) var(--wp--custom--pad--hero-bottom);
+}
+
+.sb-band--banner {
+  padding-block: var(--wp--custom--pad--banner-top) var(--wp--custom--pad--banner-bottom);
+}
+
+.sb-band--tight {
+  padding-block: var(--wp--custom--pad--tight);
+}
+
+.sb-band--cta {
+  padding-block: var(--wp--custom--pad--cta);
+}
+
+.sb-band--cta-tight {
+  padding-block: var(--wp--custom--pad--cta-tight);
+}
+
+// Separation --------------------------------------------------------------
+
+// Consecutive bands on the page canvas need a hairline or they read as one
+// undifferentiated block. A sibling relationship has no block attribute, which
+// is why this is the layer it lives in.
+.sb-band + .sb-band {
+  border-top: 1px solid var(--wp--preset--color--border);
+}
+
+// A band that carries its own background already separates itself — its edge is
+// the change in color. Keyed off the classes WordPress generates from the
+// background attribute, so the rule follows whatever an author picks in the
+// inspector rather than a parallel set of modifier classes.
+.sb-band.has-surface-2-background-color + .sb-band,
+.sb-band + .sb-band.has-surface-2-background-color,
+.sb-band.has-base-background-color + .sb-band,
+.sb-band + .sb-band.has-base-background-color,
+.sb-band--ink + .sb-band,
+.sb-band--hero,
+.sb-band--banner {
+  border-top: 0;
+}
+
+// Dark bands ----------------------------------------------------------------
+
+// The `ink` gradient carries light text, and its contents have to follow: muted
+// greys and the brand blue both fail against it. Scoped by class rather than by
+// the gradient's generated class so a dark band built any other way can opt in.
+.sb-band--ink {
+  border-top: 0;
+  color: var(--wp--preset--color--dark-text);
+
+  // A focus ring in brand navy is invisible here; flip it to white. Consumed by
+  // the ring definitions in _accessibility.scss.
+  --sb-focus-ring: var(--wp--preset--color--base);
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--wp--preset--color--base);
+  }
+
+  a:not(.wp-element-button) {
+    color: var(--wp--preset--color--base);
+  }
+
+  .sb-eyebrow,
+  .sb-accent {
+    color: var(--wp--preset--color--brand-light);
+  }
+
+  .sb-subhead {
+    color: var(--wp--preset--color--dark-text);
+  }
+
+  .sb-muted {
+    color: var(--wp--preset--color--dark-muted);
+  }
+}

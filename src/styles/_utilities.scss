@@ -2,9 +2,69 @@
 // Small utility classes applied via a block's className.
 // ---------------------------------------------------------------------------
 
-// Even out line lengths for short headings/ledes (intro-section balance
-// toggles). Browsers ignore text-wrap: balance past ~6 lines, degrading to
-// normal wrapping — fine for headings and subtitles.
+// Even out line lengths for short headings and subheads. Browsers ignore
+// text-wrap: balance past ~6 lines, degrading to normal wrapping — fine for
+// headings and subtitles.
 .has-balanced-text {
   text-wrap: balance;
+}
+
+// Measure caps -------------------------------------------------------------
+
+// Line-length limits, in `ch` so they track the type rather than the layout: a
+// measure stays readable when the font scale is retuned, which a px max-width
+// would not. The values are tokens so a block and its stylesheet cannot drift.
+// Applied to the text block itself, never to its container — capping the
+// container would also constrain images and buttons beside it.
+.sb-measure {
+  max-width: var(--wp--custom--measure--default);
+}
+
+.sb-measure--title {
+  max-width: var(--wp--custom--measure--title);
+}
+
+.sb-measure--section {
+  max-width: var(--wp--custom--measure--section);
+}
+
+.sb-measure--body {
+  max-width: var(--wp--custom--measure--body);
+}
+
+.sb-measure--cta {
+  max-width: var(--wp--custom--measure--cta);
+}
+
+// Text roles ---------------------------------------------------------------
+
+// The paragraph directly under a page or section heading, set a step up from
+// body copy. Not a font-size preset because the role also carries color and
+// leading, and because a dark band restyles it as a unit (see _bands.scss).
+.sb-subhead {
+  font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
+  line-height: 1.5;
+  color: var(--wp--preset--color--muted);
+}
+
+// Secondary prose — framing copy, captions under a stat, anything deliberately
+// quieter than the paragraph it follows.
+.sb-muted {
+  color: var(--wp--preset--color--muted);
+}
+
+// A single word or phrase lifted into the brand color inside a heading.
+.sb-accent {
+  color: var(--wp--preset--color--brand);
+}
+
+// The mono micro-label: a timestamp, a step number, a field name.
+.sb-mono-label {
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: var(--wp--preset--font-size--xx-small);
+  font-weight: 400;
+  line-height: 1.6;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--warm-gray);
 }
