@@ -99,6 +99,9 @@
     color: var(--wp--preset--color--dark-text);
     text-decoration: none;
 
+    // Set at rest, so the hover underline cannot be added without it.
+    text-underline-offset: 3px;
+
     &:hover {
       color: var(--wp--preset--color--base);
       text-decoration: underline;
