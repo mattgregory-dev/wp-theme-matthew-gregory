@@ -61,7 +61,7 @@
 
 // Dark bands ----------------------------------------------------------------
 
-// Muted grey and brand navy both fail against the ink gradient. Scoped by class
+// Muted gray and brand navy both fail against the ink gradient. Scoped by class
 // rather than the gradient's generated class, so any dark band can opt in.
 .sb-band--ink {
   border-top: 0;

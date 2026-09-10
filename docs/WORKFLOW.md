@@ -18,7 +18,7 @@ Wrap the command in **single** quotes — a double-quoted one has its `$` and
 backticks expanded by the outer shell before WSL sees it, which produces wrong
 results rather than errors. Never pass a heredoc across the boundary at all.
 Every way this breaks, and there are several that look like environment
-problems rather than quoting problems, is catalogued in
+problems rather than quoting problems, is cataloged in
 [WSL-TOOLING.md](WSL-TOOLING.md).
 
 Site: http://localhost:8080. phpMyAdmin: http://localhost:8081. Admin

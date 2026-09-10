@@ -11,10 +11,9 @@
   border-top: 3px solid var(--wp--preset--color--brand);
   border-bottom: 1px solid var(--wp--preset--color--border);
 
-  // Translucent so content scrolling underneath reads as motion, with a blur
-  // to keep the nav legible over it. The solid declaration is the fallback:
-  // without backdrop-filter support the bar must be opaque or text collides
-  // with whatever passes behind.
+  // The solid declaration is the fallback, and must stay first: without
+  // backdrop-filter the bar has to be opaque or text collides with whatever
+  // scrolls behind it.
   background: var(--wp--preset--color--base);
   background: color-mix(in srgb, var(--wp--preset--color--base) 86%, transparent);
   backdrop-filter: saturate(1.4) blur(8px);
@@ -33,10 +32,9 @@
   gap: 1rem 1.5rem;
   min-height: 4.875rem;
 
-  // The bar carries its own gutter, so its cap is the outer frame: the content
-  // measure plus both gutters. Capping at the content measure instead would
-  // pull the bar's contents 64px narrower than the bands below it, and the
-  // brand would no longer line up with the page's left edge.
+  // The bar carries its own gutter, so its cap is the outer frame. Capping at
+  // the content measure instead pulls it 64px narrower than the bands below,
+  // and the brand stops lining up with them.
   max-width: calc(var(--wp--style--global--content-size) + (var(--wp--custom--gutter) * 2));
   margin-inline: auto;
   padding: 0.9375rem var(--wp--custom--gutter);
@@ -45,15 +43,36 @@
 // Brand ---------------------------------------------------------------------
 
 .brand {
+  position: relative;
   display: flex;
   align-items: center;
   gap: 0.875rem;
+  cursor: pointer;
 }
 
-// The mark is a single-color silhouette, so it is painted as a mask rather than
-// an image: the box takes a token background and the file only supplies the
-// shape. That is what lets the same asset read navy in the header and white on
-// the footer's dark band without shipping a second file.
+// The whole lockup routes home. The Site Title block already owns a real anchor
+// and one cannot nest inside another, so its link is stretched over the group —
+// which also keeps the name and tagline as WordPress options, not markup.
+.brand__name a::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+}
+
+// A ring on the anchor would outline the title text, not the lockup that is
+// actually clickable.
+.brand:has(a:focus-visible) {
+  outline: 2px solid var(--sb-focus-ring, var(--wp--preset--color--link));
+  outline-offset: 4px;
+}
+
+.brand__name a:focus-visible {
+  outline: 0;
+}
+
+// Painted as a mask, not an image: the box takes a token background and the
+// file supplies only the shape, so one asset reads navy here and white on the
+// footer's dark band.
 .brand__mark {
   display: block;
   flex: 0 0 auto;
@@ -93,43 +112,52 @@
   gap: 1rem 1.5rem;
 }
 
-// Every auto/explicit margin on a flex child in this file is written as a CHILD
-// selector, and must stay that way. WordPress ships
-// `.is-layout-flex > :is(*, div) { margin: 0 }`, and `:is()` takes the
-// specificity of its most specific argument — `div` — so that rule scores
-// (0,1,1) and silently beats a plain `.class { margin-left: auto }`. The symptom
-// is a flex item that refuses to move: here the menu sat against the brand
-// instead of the container's right edge.
+// Written as a CHILD selector, and must stay that way. Core ships
+// `.is-layout-flex > :is(*, div) { margin: 0 }` at (0,1,1) — `:is()` takes its
+// most specific argument — which beats a plain `.class { margin-left: auto }`.
+// The symptom is a flex item that refuses to move.
 .site-header__inner > .site-header__menu,
 .site-header__inner > .nav-toggle {
   margin-left: auto;
 }
 
 .site-nav {
+  // Core forces `color: inherit` on the link at (0,3,0). Rather than
+  // out-specify it, feed it: the color lives on the ancestor, so hover and
+  // current-page states move one declaration on the list item.
+  color: var(--wp--preset--color--muted);
+
   .wp-block-navigation__container {
     gap: 1.75rem;
   }
 
-  a {
+  // Matches the score of core's `.wp-block-navigation .…__content` (0,2,0);
+  // our bundle loads after the block stylesheet, so the tie falls our way.
+  .wp-block-navigation-item__content {
     display: inline-block;
     padding-bottom: 0.25rem;
     border-bottom: 2px solid transparent;
-    color: var(--wp--preset--color--muted);
     font-size: 0.9375rem;
     font-weight: 500;
     line-height: 1;
     text-decoration: none;
     transition: color var(--wp--custom--speed);
+  }
 
-    &:hover {
-      color: var(--wp--preset--color--contrast);
+  .wp-block-navigation-item:hover {
+    color: var(--wp--preset--color--contrast);
+
+    .wp-block-navigation-item__content {
       border-bottom-color: var(--wp--preset--color--border);
     }
   }
 
-  .current-menu-item a {
+  .current-menu-item {
     color: var(--wp--preset--color--contrast);
-    border-bottom-color: var(--wp--preset--color--brand);
+
+    .wp-block-navigation-item__content {
+      border-bottom-color: var(--wp--preset--color--brand);
+    }
   }
 }
 
@@ -238,13 +266,11 @@
     }
   }
 
-  // Absolutely positioned so opening the menu overlays the page rather than
-  // pushing it down — the content underneath keeps its scroll position.
+  // Absolute, so opening the menu overlays the page instead of pushing it down.
   //
-  // Scoped under .site-header so the hide outranks WordPress's
-  // `body .is-layout-flex { display: flex }` (0,1,1). A bare
-  // `.site-header__menu { display: none }` loses that fight, and the symptom is
-  // a drawer that is open before anything has been clicked.
+  // Scoped under .site-header so the hide outranks core's
+  // `body .is-layout-flex { display: flex }` (0,1,1). Unscoped, the drawer is
+  // open before anything has been clicked.
   .site-header .site-header__menu {
     display: none;
     position: absolute;
@@ -266,23 +292,40 @@
   }
 
   .site-nav {
+    // Justified right on desktop; here each row spans the full width.
+    width: 100%;
+    justify-content: normal;
+    color: var(--wp--preset--color--contrast);
+
+    // The list is a flex ITEM and sizes to content. Core's
+    // `__container:only-child { flex-grow: 1 }` covers that today; this holds
+    // if the nav ever gains a second child.
     .wp-block-navigation__container {
+      width: 100%;
       flex-direction: column;
+      align-items: stretch;
       gap: 0;
     }
 
-    a {
+    .wp-block-navigation-item {
+      width: 100%;
+    }
+
+    // Core makes the list ITEM a flex container, so the anchor shrink-wraps to
+    // its label however wide the row is. `flex: 1` fills it — without that the
+    // divider and current-page rule collapse to the width of the text.
+    .wp-block-navigation-item__content {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: space-between;
       min-height: 3.25rem;
       padding: 0 0.25rem;
       border-bottom: 1px solid var(--wp--preset--color--border);
-      color: var(--wp--preset--color--contrast);
       font-size: 1.1875rem;
     }
 
-    .current-menu-item a {
+    .current-menu-item .wp-block-navigation-item__content {
       font-weight: 600;
       border-bottom-color: var(--wp--preset--color--border);
 
@@ -301,12 +344,27 @@
   .site-header__menu > .header-actions {
     display: flex;
     flex-direction: column;
+    align-items: stretch;
     margin-top: 1.25rem;
   }
 
+  // A drawer action is a full-width row, so wrapper and button both stretch.
+  .header-actions .wp-block-buttons,
+  .header-actions .wp-block-button {
+    width: 100%;
+  }
+
+  .header-actions .wp-block-button__link {
+    display: block;
+    padding: 1rem 1.5rem;
+    font-size: 0.9688rem;
+    text-align: center;
+  }
+
+  // No top margin — .header-actions is a flex layout, so core's block gap
+  // already separates this from the button above.
   .header-actions > .drawer-only {
     display: block;
-    margin-top: 1.125rem;
     text-align: center;
   }
 }

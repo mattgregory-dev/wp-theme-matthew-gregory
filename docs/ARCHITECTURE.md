@@ -256,7 +256,7 @@ than hand-rolled markup.
   block themes; the theme styles it to the palette and guarantees it reveals on
   focus (`src/styles/_accessibility.scss`).
 - **Landmarks** — templates render real `<header>`, `<main>`, `<footer>`
-  elements (block `tagName`), and the Navigation block outputs a labelled
+  elements (block `tagName`), and the Navigation block outputs a labeled
   `<nav>`.
 - **Visible focus** — a consistent `:focus-visible` outline on all interactive
   elements; mouse users are unaffected.
