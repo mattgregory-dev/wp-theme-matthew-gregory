@@ -4,6 +4,11 @@
 // ---------------------------------------------------------------------------
 
 .site-footer {
+  // The footer is dark without being a band, so it has to redefine the focus
+  // ring the way .sb-band--ink does. Left alone it inherits the brand ring,
+  // which all but disappears against this background.
+  --sb-focus-ring: var(--wp--preset--color--base);
+
   padding-block: 4.25rem 2.5rem;
   border-top: 3px solid var(--wp--preset--color--brand);
   background: var(--wp--preset--color--surface-dark);
