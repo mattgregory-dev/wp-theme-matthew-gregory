@@ -34,6 +34,11 @@
   }
 }
 
+// A wider key column, for keys that are words rather than labels.
+.sb-specs--wide li {
+  grid-template-columns: 8.125rem minmax(0, 1fr);
+}
+
 // The one row worth reading first — the outcome.
 .sb-specs__strong {
   font-weight: 600;

@@ -11,6 +11,7 @@
 .sb-claim-grid,
 .sb-cards,
 .sb-quotes,
-.sb-spotlight {
+.sb-spotlight,
+.sb-steps {
   grid-template-columns: repeat(auto-fit, minmax(min(var(--sb-grid-min), 100%), 1fr));
 }

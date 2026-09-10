@@ -71,3 +71,15 @@
     margin: 0;
   }
 }
+
+// A portrait mat holds a person rather than a screenshot, so it is capped well
+// short of its column and sits against the copy beside it.
+.sb-mat--portrait {
+  justify-self: end;
+  max-width: 440px;
+
+  img {
+    aspect-ratio: 4 / 5;
+    object-fit: cover;
+  }
+}

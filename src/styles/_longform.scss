@@ -1,0 +1,30 @@
+// ---------------------------------------------------------------------------
+// Longform — a narrow reading column of prose, broken up by eyebrow sub-heads.
+// Markup: a flow group of headings and paragraphs, centered in its band.
+// ---------------------------------------------------------------------------
+
+.sb-longform {
+  // Sized as a column rather than with a `ch` cap: it holds headings and
+  // paragraphs at different sizes, so the width has to suit the block and not
+  // one of them. Core's constrained layout centers it with its own auto
+  // margins.
+  max-width: var(--wp--custom--wrap-narrow);
+
+  > * {
+    margin-block: 0;
+  }
+
+  p + p {
+    margin-block-start: 1.625rem;
+  }
+
+  // The sub-head opens a new passage, so it gets clearly more room above it
+  // than the paragraphs give each other, and sits tight to the copy it opens.
+  .wp-block-heading:not(:first-child) {
+    margin-block-start: 2.75rem;
+  }
+
+  .wp-block-heading + p {
+    margin-block-start: 0.875rem;
+  }
+}
