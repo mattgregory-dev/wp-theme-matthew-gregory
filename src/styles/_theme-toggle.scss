@@ -75,6 +75,11 @@
   .theme-toggle--compact {
     display: inline-flex;
     order: 4;
+  }
+
+  // A CHILD selector, for the reason spelled out in _header.scss: core outranks
+  // a bare class here, and the auto margin is simply ignored.
+  .site-header__inner > .theme-toggle--compact {
     margin-left: auto;
   }
 
