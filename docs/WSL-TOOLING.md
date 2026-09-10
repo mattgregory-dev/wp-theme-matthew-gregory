@@ -107,6 +107,40 @@ detail.
 the UNC path is fine, and is the right way to edit them; it is only executing
 the node toolchain that fails.
 
+## Trap: git run from Windows wants to rewrite every line ending
+
+**Symptom** — a commit made from the Windows side prints one of these per file:
+
+```
+warning: in the working copy of 'src/style.scss',
+         LF will be replaced by CRLF the next time Git touches it
+```
+
+Nothing is wrong with the commit itself. The files on disk are LF, and LF is
+what went into the object database.
+
+**Cause** — two gits with different configuration see the same working tree.
+The Windows install has the default `core.autocrlf=true`; the git inside WSL
+has it unset, which means `false`. The warning is the Windows one announcing
+what it would do on a **checkout**, not what it just did on a commit.
+
+**Why it matters beyond the noise** — the conversion is real the other way. A
+`git checkout`, `stash pop` or branch switch run Windows-side writes CRLF into
+the working tree. WSL-side git does not convert on the way back in, so the next
+commit from WSL records the CRLF, and a whole file shows as changed with no
+change in it.
+
+**Fix** — run git from inside WSL, like the rest of the toolchain:
+
+```
+wsl bash -c 'cd /home/dev/projects/mg/wp/wp-content/themes/mg-blocks && git commit -m "…"'
+```
+
+Reading and editing over the UNC path is still fine — it is only git *writing*
+the working tree that converts. To settle it for every clone regardless of which
+git runs, a `.gitattributes` with `* text=auto eol=lf` pins the working tree to
+LF and makes `core.autocrlf` irrelevant.
+
 ## Trap: Docker writes the `wp/` tree as `www-data` and locks you out
 
 **Symptom** — `mkdir: cannot create directory '…/themes/new-theme':
