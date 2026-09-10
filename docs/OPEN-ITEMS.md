@@ -48,8 +48,13 @@ and the file to add to the moment something is discovered rather than done.
 - **The site on a real phone.** Layouts have only been checked in a resized
   desktop window, which is not the same as iOS Safari with browser chrome
   eating viewport height.
-- **Reduced motion.** `_accessibility.scss` neutralizes transitions globally,
-  but no component has been checked with the preference on.
+- **Reduced motion.** `_accessibility.scss` neutralizes transitions globally and
+  the reveal system skips itself entirely, but no component has been checked
+  with the preference on.
+- **The reveal failsafe has never fired.** Block `dist/main.js` in devtools: the
+  page should sit hidden for two seconds, then render. It is the only thing
+  between a build that did not ship and a blank site, so it is worth seeing
+  work once.
 - **A contact form submission end to end.** The form renders and is styled, but
   nothing has been sent through it, so delivery, the stored entry, and the
   success state are all unverified.
@@ -64,8 +69,9 @@ and the file to add to the moment something is discovered rather than done.
 2. **Real screenshots for the two long-run cases.** Hoel's and Iboga Quest use
    the horizontal placeholder (attachments 34, 35), as does the third home page
    work card (30).
-3. **Scroll reveal.** The mockup staggers sections in on scroll
-   (`data-reveal`). None of it is ported.
+3. **A motion pass on the remaining templates.** `index`, `archive`, `single`
+   and `search` have no reveal classes, so a blog would arrive without the
+   motion the rest of the site has.
 
 ## 4. Content gaps
 
@@ -138,6 +144,15 @@ All promoted already — kept here as an index of where each one landed:
 Newest first. Not a changelog — only decisions whose *resolution* is worth
 stating.
 
+- **Motion is on what you scan, off what you read.** Cards, panels and numbered
+  rows reveal; long prose and reference lists render immediately. The About
+  passage, the Stack capability grid and the privacy policy lost their reveals
+  after review — a section that is empty until you scroll to it reads as broken,
+  and animating body copy delays reading for nothing.
+- **The reveal's hidden state comes from the head, not the bundle.** Both halves
+  of it: `inc/reveal.php` sets the gate class before the first paint, and the
+  stylesheet selects a group's children itself. Anything a module adds arrives
+  after the page has painted, which is a flash.
 - **A plugin form, styled as ours.** Forminator's markup is the plugin's, so
   `_contact.scss` is written against its class names, scoped to `.sb-form` for
   both containment and specificity. The theme bundle loads after the plugin's

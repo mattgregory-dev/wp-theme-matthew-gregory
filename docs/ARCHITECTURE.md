@@ -233,6 +233,7 @@ new sections are these parts rearranged.
 | `sb-actions` / `sb-link-arrow` | A button row, and the text link beside it |
 | `sb-cap` + `--title` `--section` `--body` `--cta` | Line-length caps, in `ch` |
 | `sb-subhead` `sb-prose` `sb-framing` `sb-closing` `sb-muted` `sb-accent` `sb-mono-label` | Text roles |
+| `sb-reveal-group` + `--slow` / `sb-reveal` + `--rise` `--left` `--fade` `--eyebrow` | Scroll reveal — see below |
 | `is-style-eyebrow` (+ `sb-eyebrow--plain`) `is-style-secondary` `is-style-light` `is-style-checklist` | Registered block styles. The eyebrow is registered on both paragraph and heading |
 
 Three rules the vocabulary depends on:
@@ -249,6 +250,40 @@ Three rules the vocabulary depends on:
   where both columns are on screen and the mismatch is harmless. This is what
   `sb-spotlight--media-right` does, and it looks correct either way — the bug is
   only reachable with a keyboard.
+
+## Scroll reveal
+
+Sections fade in as they are scrolled to. Three files: `inc/reveal.php` (the
+gate class), `src/styles/_reveal.scss` (the states), `src/scripts/reveal.js`
+(the observer and the per-child delays).
+
+Applying it is a class on the block:
+
+- **`sb-reveal-group`** on a container runs its direct children in sequence,
+  90ms apart, or 140ms with `sb-reveal-group--slow`.
+- **`sb-reveal`** on anything standalone. Variants: `--rise` (more travel),
+  `--left`, `--fade` (opacity only), `--eyebrow` (label fades up, then its rule
+  draws out from the left).
+
+Four rules decide where it goes, and each was learned the expensive way:
+
+- **Motion is for what you scan, not what you read.** Cards, panels and numbered
+  rows reveal. Long prose and reference lists do not — a passage that is not
+  there yet is worse than one that does not animate.
+- **Never reveal the opening band.** It is on screen at load, so the reveal
+  either animates the `h1` or leaves the section looking empty.
+- **A variant needs a direct child.** Deeper down, nothing adds `is-in`, so the
+  variant's start state sticks and an eyebrow's rule stays at `scaleX(0)`
+  permanently. Remove a group and you must remove its children's variants too.
+- **The hidden state must come from the served CSS**, never from a class added
+  at runtime. Anything JavaScript adds lands after the first paint, and the
+  section appears, vanishes, then fades back. This is why the stylesheet selects
+  group children through `:where()` — no specificity, so variants still win —
+  and why the gate class is printed in the head rather than bundled.
+
+`prefers-reduced-motion` and a missing `IntersectionObserver` both skip the
+system entirely. Because the gate hides content, it also arms a two-second
+failsafe that strips itself if the bundle never initializes.
 
 ## Images: portable, deploy-safe references
 
