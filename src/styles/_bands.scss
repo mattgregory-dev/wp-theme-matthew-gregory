@@ -74,17 +74,18 @@
     color: var(--wp--preset--color--base);
   }
 
+  // The gradient runs from brand-bright at the top left to brand-deep at the
+  // bottom right, so every color here has to clear 4.5:1 against the BRIGHT
+  // end, which is where the eyebrow and heading sit. brand-light manages only
+  // 3.72:1 there, and the quiet grays are worse: dark-muted lands at 2.25:1.
   .is-style-eyebrow,
   .sb-accent {
-    color: var(--wp--preset--color--brand-light);
+    color: var(--wp--preset--color--brand-pale);
   }
 
-  .sb-subhead {
-    color: var(--wp--preset--color--dark-text);
-  }
-
+  .sb-subhead,
   .sb-muted,
   .sb-mono-label {
-    color: var(--wp--preset--color--dark-muted);
+    color: var(--wp--preset--color--dark-text);
   }
 }

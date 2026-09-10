@@ -97,6 +97,11 @@
 					"color": "#a9c0d5"
 				},
 				{
+					"slug": "brand-pale",
+					"name": "Brand Pale",
+					"color": "#c9d9e6"
+				},
+				{
 					"slug": "brand-wash",
 					"name": "Brand Wash",
 					"color": "#eaf0f6"
