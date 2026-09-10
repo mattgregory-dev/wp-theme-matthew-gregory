@@ -25,53 +25,110 @@ and the file to add to the moment something is discovered rather than done.
 
 ## 1. Decisions not yet made
 
-Choices that are still open, and that block work downstream. Say what the choice
-is and what it is holding up — not a recommendation, which belongs in the
-conversation that settles it.
+- **Resume PDF.** The header button and the footer link both point at `#`.
+  Needs a real file before launch.
+- **Repo name and remote.** The theme is `mg-blocks`; the GitHub repo has no
+  remote yet and could reasonably be `matthew-gregory-blocks`.
+- **Blog.** Templates are band-ready but there are no posts and no nav entry.
+  Turning it on means deciding whether the blog list sections keep their inline
+  `padding-bottom` or become proper bands.
 
 ## 2. Untested
 
-Built, plausible, and never actually exercised. The point of a separate section
-is that "written" and "verified" get conflated silently, and this is the list
-that stops a launch on an assumption.
+- **Every template except `page` and `404`.** `index`, `home`, `archive`,
+  `single` and `search` were converted to the band system without a post to
+  render them.
+- **The site on a real phone.** Layouts have only been checked in a resized
+  desktop window, which is not the same as iOS Safari with browser chrome
+  eating viewport height.
+- **Reduced motion.** `_accessibility.scss` neutralizes transitions globally,
+  but no component has been checked with the preference on.
 
 ## 3. Deferred work, in rough priority order
 
-Known work that is real but not now. Ordered, so the next session starts by
-reading rather than deciding.
+1. **About, Stack, Contact, Privacy pages.** Created and empty. Privacy needs a
+   narrow prose treatment — the page template caps content at 1076px, which is
+   too wide to read legal copy in.
+2. **Lightbox for the work screenshots.** The mats currently link to the live
+   sites in a new tab, which is arguably better for a portfolio. Full-size
+   screenshots are already archived as attachments 37 and 38, waiting for it.
+3. **Real screenshots for the two long-run cases.** Hoel's and Iboga Quest use
+   the horizontal placeholder (attachments 34, 35), as does the third home page
+   work card (30).
+4. **Scroll reveal.** The mockup staggers sections in on scroll
+   (`data-reveal`). None of it is ported.
 
 ## 4. Content gaps
 
-Where the site currently renders a placeholder, and what real content it is
-waiting on. Each entry names the page and the block, so it is checkable rather
-than remembered.
+- **Home → Recent work, third card.** Placeholder image; needs a Hoel's
+  storefront screenshot.
+- **Work → Two engagements.** Both cases use placeholders.
+- **Header / footer → Resume (PDF).** No file behind the link.
 
 ## 5. Conventions established
 
-Decisions made in passing that are not yet written into a doc. This section is a
-staging area on purpose — anything sitting here for long should be promoted into
-`docs/` and reduced to a pointer.
+All promoted already — kept here as an index of where each one landed:
+
+- Token and class naming, and what a good design handoff looks like →
+  [DESIGN-HANDOFF.md](DESIGN-HANDOFF.md)
+- Six ways core's layout CSS overrules ours → [GOTCHAS.md](GOTCHAS.md), #10
+- Comment and commit policy → [WORKFLOW.md](WORKFLOW.md)
+- Page content through sb-pull/sb-push → [WORKFLOW.md](WORKFLOW.md)
 
 ## 6. Things that will bite
 
-Known hazards that are not bugs: a fragile coupling, an ordering requirement, a
-value that must stay in sync with something else. The test is whether someone
-could reasonably break it without realizing.
+- **Every grid group must be listed in `_grids.scss`.** A grid that sets
+  `--sb-grid-min` but is missing from that selector list silently gains a
+  trailing empty column. This has already cost two round trips.
+- **A group declared `flow` in markup but styled as grid/flex in CSS needs its
+  children's margins zeroed.** Core still applies the flow block gap, which
+  offsets every child but the first.
+- **`columnCount` grids never reflow.** Unlike `minimumColumnWidth`, they emit a
+  fixed `repeat(n, …)`, so the mobile stack has to be written by hand.
+- **Class names in page content are not checked by anything.** A typo in a
+  `className` is a selector that matches nothing, silent in every tool. See the
+  audit in section 7.
 
 ## 7. Facts worth not rediscovering
 
-Answers that cost time to establish and would otherwise be re-derived — a
-setting's real effect, a limit that turned out to be different from the docs, a
-thing that looks broken and is not. The highest-value section in this file.
+- **Two checks worth running on any page build**, both cheap:
+  `node scripts/block-audit.js` covers templates, parts and patterns but NOT
+  page content, so run `scripts/check-blocks.php`-style stack parsing over the
+  working file before pushing; and diff the `sb-*` classes in the rendered HTML
+  against those defined in `src/styles/` to catch a class that matches nothing.
+- **`container-type: inline-size` implies `contain: style`,** which scopes CSS
+  counters. Increment on the grid item, never on a pseudo-element inside it.
+- **The `wpcli` container only mounts `wp/`.** `wp media import` cannot see
+  `temp/`; stage the file through `wp/.work/` first.
+- **Our bundle loads after core's block stylesheets,** so a selector that ties
+  on specificity wins. That is why matching core's selector shape works instead
+  of escalating.
+- **Where core forces `color: inherit`** (the navigation link), set the color on
+  an ancestor rather than out-specifying it.
 
 ## 8. What exists now
 
-A short inventory of the build's current state: templates, parts, patterns,
-custom blocks, pages. It answers "what have we got" without opening the tree, and
-it is what makes the deferred list legible.
+- **Pages:** Home and Work built. About, Stack, Contact, Privacy created and
+  empty.
+- **Templates:** `page`, `404` (designed), plus `index`, `home`, `archive`,
+  `single`, `search` on the band system.
+- **Parts:** header (with mobile drawer), footer.
+- **Custom blocks:** none, by design. Sections are core blocks.
+- **Patterns:** none yet. Repeated sections become patterns when a second page
+  needs them.
+- **Component vocabulary:** see [ARCHITECTURE.md](ARCHITECTURE.md#the-component-vocabulary).
 
 ## 9. Completed
 
-Finished work, newest first, with the one thing worth remembering about each.
-Not a changelog — `git log` is the changelog. This is for entries that were open
-questions long enough that their *resolution* is worth stating.
+Newest first. Not a changelog — only decisions whose *resolution* is worth
+stating.
+
+- **Native-first, no custom blocks.** The starter's six section blocks were
+  removed: their value is authoring guardrails for a client, and this site's
+  only author is its developer.
+- **Bands own vertical rhythm.** FJ's flush-to-footer machinery was deleted
+  rather than ported; main claims no space for a band to cancel.
+- **`contentSize` is 1076px, not 1140.** 1140 is the outer frame; the content
+  measure is that minus both gutters.
+- **Tokens keep starter-blocks' role names.** The mockup adapts to the contract,
+  not the reverse.

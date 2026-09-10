@@ -205,6 +205,37 @@ See the block-creation bar in [PIPELINE.md](PIPELINE.md) (Stage 4): propagation,
 logic, or bespoke controls justify a block; breakable structure alone is a
 pattern. Nothing in this design has cleared it.
 
+## The component vocabulary
+
+Every class a page composes against. Check this before adding a component — most
+new sections are these parts rearranged.
+
+| Class | What it is |
+|---|---|
+| `sb-band` + `--tall` `--hero` `--banner` `--tight` `--cta` `--cta-tight` `--ink` | Full-width section, its vertical rhythm, and the dark variant |
+| `sb-section-head` + `--center` | Eyebrow / heading / framing copy that opens a band |
+| `sb-claim-grid` / `sb-claim` | Numbered panels with an accent cap |
+| `sb-cards` / `sb-card` / `__body` `__cat` `__title` | Image-over-body cards, whole card clickable |
+| `sb-spotlight` + `--media-right` / `__copy` / `sb-mat` | Case copy beside a framed screenshot |
+| `sb-specs` + `--soft` / `__strong` | Key/value rows under a case |
+| `sb-case-grid` / `sb-case` | The subgrid pair for long-run engagements |
+| `sb-stats` / `sb-stat` / `__num` `__label` | Headline figures |
+| `sb-pattern` / `__item` `__num` `__setup` `__result` | The ramp-up row with escalation arrows |
+| `sb-quotes` / `sb-quote` + `--lead` / `__by` `__name` `__role` | Testimonial panels |
+| `sb-pullquote` | A quiet attributed aside inside a case |
+| `sb-actions` / `sb-link-arrow` | A button row, and the text link beside it |
+| `sb-cap` + `--title` `--section` `--body` `--cta` | Line-length caps, in `ch` |
+| `sb-subhead` `sb-prose` `sb-framing` `sb-closing` `sb-muted` `sb-accent` `sb-mono-label` | Text roles |
+| `is-style-eyebrow` `is-style-secondary` `is-style-light` `is-style-checklist` | Registered block styles |
+
+Two rules the vocabulary depends on:
+
+- **Every grid group that sets `--sb-grid-min` must appear in the selector list
+  in `_grids.scss`,** or it gains a trailing empty column.
+- **A group declared `flow` in markup but styled as a grid or flex in CSS needs
+  its children's margins zeroed** — core still applies the flow block gap. See
+  [GOTCHAS.md](GOTCHAS.md), #10.
+
 ## Images: portable, deploy-safe references
 
 Attachment IDs are assigned per WordPress install, so the same file has a
