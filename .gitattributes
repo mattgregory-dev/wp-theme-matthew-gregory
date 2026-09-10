@@ -1,0 +1,5 @@
+# The tree is worked on from both WSL and Windows, whose gits disagree about
+# core.autocrlf. Pinning the working tree to LF makes that setting irrelevant,
+# so a checkout run from Windows cannot rewrite every line ending and leave a
+# file showing as changed with no change in it.
+* text=auto eol=lf
