@@ -217,7 +217,7 @@ new sections are these parts rearranged.
 | `sb-hero` / `__media` | The home page's split hero: copy beside the portrait |
 | `sb-claim-grid` / `sb-claim` | Numbered panels with an accent cap |
 | `sb-cards` / `sb-card` / `__body` `__cat` `__title` | Image-over-body cards, whole card clickable |
-| `sb-spotlight` + `--media-right` / `__copy` / `sb-mat` + `--portrait` | Case copy beside a framed screenshot, or a portrait |
+| `sb-spotlight` + `--media-right` / `__copy` / `sb-mat` + `--portrait` | Case copy beside a framed screenshot, or a portrait. **`--media-right` takes the mat FIRST in the markup** — see the rule below |
 | `sb-specs` + `--soft` `--wide` `--lead` / `__strong` | Key/value rows. `--lead` opens a section, `--soft` supports one |
 | `sb-case-grid` / `sb-case` | The subgrid pair for long-run engagements |
 | `sb-stats` / `sb-stat` / `__num` `__label` | Headline figures |
@@ -235,13 +235,20 @@ new sections are these parts rearranged.
 | `sb-subhead` `sb-prose` `sb-framing` `sb-closing` `sb-muted` `sb-accent` `sb-mono-label` | Text roles |
 | `is-style-eyebrow` (+ `sb-eyebrow--plain`) `is-style-secondary` `is-style-light` `is-style-checklist` | Registered block styles. The eyebrow is registered on both paragraph and heading |
 
-Two rules the vocabulary depends on:
+Three rules the vocabulary depends on:
 
 - **Every grid group that sets `--sb-grid-min` must appear in the selector list
   in `_grids.scss`,** or it gains a trailing empty column.
 - **A group declared `flow` in markup but styled as a grid or flex in CSS needs
   its children's margins zeroed** — core still applies the flow block gap. See
   [GOTCHAS.md](GOTCHAS.md), #10.
+- **Whatever leads the STACKED layout is written first in the markup.** `order`
+  moves the box and leaves the tab sequence where it was, so a screenshot
+  reordered into the lead on mobile still hands focus to the copy first. Source
+  order is the mobile order; `order` then does the side-by-side arrangement,
+  where both columns are on screen and the mismatch is harmless. This is what
+  `sb-spotlight--media-right` does, and it looks correct either way — the bug is
+  only reachable with a keyboard.
 
 ## Images: portable, deploy-safe references
 
