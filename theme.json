@@ -627,7 +627,7 @@
 			"core/pullquote": {
 				"typography": {
 					"fontSize": "var(--wp--preset--font-size--x-large)",
-					"fontWeight": "600"
+					"fontWeight": "400"
 				}
 			},
 			"core/code": {
