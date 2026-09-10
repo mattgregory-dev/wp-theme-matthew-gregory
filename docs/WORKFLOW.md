@@ -213,6 +213,50 @@ unstaged, and report what is ready. This applies to `git add`, `--amend`,
 rebases and branch rewrites too. Changes are reviewed, and usually tested in the
 browser, before anything enters history.
 
+### The commit identity, before anything else
+
+**Commits must be authored with the GitHub noreply address, never a personal
+one.** An author email is baked into every commit and travels with it: it goes
+public the moment the repo does, it is in every clone and fork after that, and
+changing it later means rewriting history that other people may already have.
+This repo is headed for a public remote, so it has to be right from the start
+rather than fixed at the end.
+
+The address has a fixed shape, and **the numeric ID is not optional**:
+
+```
+<id>+<username>@users.noreply.github.com
+```
+
+The ID is per-account. Read it off **GitHub → Settings → Emails**, under *Keep
+my email addresses private*, which prints the exact address to use. The form
+without the ID also exists and is the one that bites: it looks right, but GitHub
+will not link those commits to the account, and a push can be rejected outright
+when *Block command line pushes that expose my email* is on.
+
+Check before committing — one command, and it names the file the value came
+from:
+
+```
+git config --show-origin --get-all user.email
+```
+
+**Both gits have to be set.** This tree is reachable from WSL and from Windows,
+each with its own `~/.gitconfig`, and whichever one runs `git commit` supplies
+the identity. Setting only the one you usually use leaves the other silently
+authoring commits under whatever it has — see
+[WSL-TOOLING.md](WSL-TOOLING.md#trap-git-run-from-windows-wants-to-rewrite-every-line-ending)
+for the other half of that split-configuration problem.
+
+Verify what actually landed, rather than what is configured:
+
+```
+git log --format='%h %ae' | sort -k2 | uniq -c -f1
+```
+
+Fix a wrong one **while the repo is still local**, where a rebase costs nothing.
+Once it is pushed, that option is gone.
+
 ### Commit messages
 
 - **Do not add a `Co-Authored-By` trailer.** Omit it entirely.
