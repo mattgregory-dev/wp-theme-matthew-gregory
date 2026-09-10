@@ -49,12 +49,22 @@
     border-color var(--wp--custom--speed) var(--wp--custom--ease),
     box-shadow var(--wp--custom--speed) var(--wp--custom--ease);
 
-  // A framed screenshot gives no sign it is clickable, so the frame answers
-  // the pointer and the keyboard. Without it the link goes unnoticed.
-  &:has(a:hover),
-  &:has(a:focus-visible) {
+  // A framed screenshot gives no sign it is clickable, so the frame answers the
+  // pointer. Hover only — on focus the ring below is the indicator.
+  &:has(a:hover) {
     border-color: var(--wp--preset--color--brand);
     box-shadow: 0 14px 30px -18px color-mix(in srgb, var(--wp--preset--color--brand) 45%, transparent);
+  }
+
+  // Drawn on the frame, not the anchor. On the anchor the ring sits inside the
+  // mat's padding, and the frame's border reads as a second ring beyond it.
+  &:has(a:focus-visible) {
+    outline: 2px solid var(--sb-focus-ring, var(--wp--preset--color--link));
+    outline-offset: 3px;
+  }
+
+  a:focus-visible {
+    outline: 0;
   }
 
   // The link is an inline box, so it generates a line box and leaves descender
