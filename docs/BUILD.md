@@ -22,7 +22,66 @@ npm run build        # produce dist/ and build/ (both git-ignored)
 
 Then, in WordPress: **activate the theme**. Everything else a clone needs lives
 in the database rather than the repo — the pages, the menu, the site icon, and
-the logo attachments the header and footer reference by ID.
+the logo attachments the header and footer reference by ID. See
+[Deploying to another server](#deploying-to-another-server).
+
+## Deploying to another server
+
+**The theme is not the site.** Activating it on a fresh install gives you
+correct styling and nothing to look at: every page, the menu, the site icon and
+all the media live in the database. Two ways across, and the first is far
+safer.
+
+### Move the database and uploads
+
+```bash
+# from the source, at the project root
+docker compose run --rm -T wpcli wp db export - > mg.sql
+tar -czf uploads.tar.gz -C wp/wp-content uploads
+
+# on the target
+wp db import mg.sql
+wp search-replace 'http://localhost:8080' 'https://example.com' --all-tables
+```
+
+`search-replace` and not a find/replace in the SQL file: serialized values carry
+their own byte lengths, and a text edit corrupts them silently. Extract the
+uploads into `wp-content/` so filenames — and therefore attachment IDs — survive.
+
+### Or rebuild by hand
+
+Slower, and it needs the checklist below, because each item is a thing that is
+correct here and absent there.
+
+- [ ] **Pages** — Home, Work, About, Stack, Contact, and the privacy policy on
+      WordPress's own page 3. Author them through `sb-pull`/`sb-push`, never a
+      raw `wp post update` — see [WORKFLOW.md](WORKFLOW.md#page-content-lives-in-the-database).
+- [ ] **Front page** — set Settings → Reading to the static Home page.
+- [ ] **Menu** — a `wp_navigation` post; the header and footer render whatever
+      it holds. The parts ship a bare Navigation block on purpose.
+- [ ] **Site icon** — Settings → General; it is an option, not a theme file.
+- [ ] **Logos** — upload both artworks, then **re-pick each image block** in the
+      editor. `parts/header.html` and `parts/footer.html` carry attachment IDs
+      that are correct on THIS install and will not be on another. The `src` is
+      root-relative, so the images render either way; it is the block's ID that
+      goes stale.
+- [ ] **Forminator** — install, rebuild the contact form, set its design to
+      **None** (`_contact.scss` styles the plugin's markup and assumes it), and
+      put the new form ID into the Contact page's shortcode.
+- [ ] **SMTP** — WordPress cannot send mail from a bare server. Nothing about
+      the form is verified until a real submission arrives.
+- [ ] **Permalinks** — flush once (`wp rewrite flush`), or pages 404.
+
+### Smoke tests
+
+Cheap, and each one covers something that has broken at least once here:
+
+- [ ] Submit the contact form and confirm the mail arrives AND the entry stores
+- [ ] Both color schemes, including a reload in dark (the no-flash gate)
+- [ ] The in-page anchors on Work, which the sticky header offsets
+- [ ] The mobile drawer, at 375px and at the 760px boundary
+- [ ] Tab from the address bar: skip link, then the header controls
+- [ ] `curl -I` a page and confirm it is not being cached mid-deploy
 
 ## Commands
 

@@ -58,6 +58,9 @@ and the file to add to the moment something is discovered rather than done.
 - **Dark on every page but Home.** The scheme is token-driven so most of it
   follows, but the corrections that do not — the ink bands, the form, the case
   cards, the mats — have only been checked on one page.
+- **The site anywhere but this machine.** Nothing has been deployed. The
+  checklist for it is in [BUILD.md](BUILD.md#deploying-to-another-server), and
+  every item on it is a thing that is correct here and absent there.
 - **The toggle on a real phone**, where it sits beside the menu button rather
   than in the drawer.
 - **A contact form submission end to end.** The form renders and is styled, but
@@ -74,14 +77,12 @@ and the file to add to the moment something is discovered rather than done.
 2. **Real screenshots for the two long-run cases.** Hoel's and Iboga Quest use
    the horizontal placeholder (attachments 34, 35), as does the third home page
    work card (30).
-3. **The logo in dark.** The header shows the dark artwork on the dark bar. Both
-   logos are `core/image` blocks with fixed attachment IDs, so markup cannot
-   swap them per scheme — it has to be CSS, or two images with one hidden.
-4. **The header at narrow widths.** The toggle added a third control to the bar;
-   the compression down to the drawer breakpoint has not been re-checked since.
-5. **A motion pass on the remaining templates.** `index`, `archive`, `single`
+3. **A motion pass on the remaining templates.** `index`, `archive`, `single`
    and `search` have no reveal classes, so a blog would arrive without the
    motion the rest of the site has.
+4. **Per-project write-ups.** The work page summarizes each engagement in a
+   spotlight. A case study each would need a template, a URL scheme, and a
+   decision about whether they are pages or a custom post type.
 
 ## 4. Content gaps
 
@@ -162,6 +163,12 @@ All promoted already — kept here as an index of where each one landed:
 Newest first. Not a changelog — only decisions whose *resolution* is worth
 stating.
 
+- **The logo swaps with the scheme by shipping both artworks**, one hidden. The
+  letters and the star are different colors, so a mask or a filter would flatten
+  the mark to one color.
+- **The header compresses in four steps** rather than one breakpoint: the city
+  drops, the bar gap closes, the menu label goes, the padding tightens. All of
+  it is in `_header.scss`, ordered by width.
 - **Dark is a re-hue, not an inversion**, driven by a toggle that defaults to
   the system preference. The mechanism and its one real trap are in
   [ARCHITECTURE.md](ARCHITECTURE.md#color-schemes).
