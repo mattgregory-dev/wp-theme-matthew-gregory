@@ -112,6 +112,17 @@
     margin: 0;
   }
 
+  a {
+    color: inherit;
+    text-decoration-color: var(--wp--preset--color--dark-line);
+    text-underline-offset: 3px;
+
+    &:hover {
+      color: var(--wp--preset--color--dark-text);
+      text-decoration-color: var(--wp--preset--color--brand-light);
+    }
+  }
+
   // Clears the fixed back-to-top button, which sits over this corner.
   > :last-child {
     padding-right: 4rem;
