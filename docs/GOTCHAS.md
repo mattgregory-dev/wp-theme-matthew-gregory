@@ -235,7 +235,7 @@ front end" disagreement. Two things distort it:
 
 **Symptom:** a rule that is plainly correct does nothing. The class is on the
 element, the declaration is in the compiled stylesheet, devtools shows it
-struck through or shows a WordPress rule winning. Five separate mechanisms
+struck through or shows a WordPress rule winning. Six separate mechanisms
 produce this, all from the `layout` attribute on a `core/group`.
 
 ### Flex children cannot take margins
@@ -302,16 +302,34 @@ already.
 ```
 
 Anything narrower than the content width gets centered by those auto margins,
-so a measure-capped heading drifts to the middle of a left-aligned section
+so a capped heading drifts to the middle of a left-aligned section
 while a full-width sibling beside it stays put. That mismatch is what makes it
 look arbitrary. The `!important` means specificity cannot save you.
 
 **Fix:** put the section's contents in a **flow-layout wrapper** inside the
 constrained group. The wrapper absorbs the centering (it is full width, so it
-is a no-op) and its children lay out left with their measures intact. This is
+is a no-op) and its children lay out left with their caps intact. This is
 the standard shape for every left-aligned band.
 
-**The pattern behind all five:** the `layout` attribute is not cosmetic. It
+### Grid groups scope CSS counters and keep empty columns
+
+A grid-layout group emits two things worth knowing:
+
+```css
+grid-template-columns: repeat(auto-fill, minmax(min(260px, 100%), 1fr));
+container-type: inline-size;
+```
+
+**`auto-fill` keeps empty tracks.** Three panels in a wide band lay out as four
+columns with a hole on the end. `auto-fit` collapses them, and WordPress never
+emits it — override `grid-template-columns` (see `_grids.scss`).
+
+**`container-type: inline-size` implies `contain: style`, which scopes CSS
+counters.** A `counter-increment` on a pseudo-element deep inside that subtree
+stops accumulating, so every item reads `01`. Increment on the grid ITEM
+instead, and let the pseudo-element only print the value.
+
+**The pattern behind all six:** the `layout` attribute is not cosmetic. It
 decides which stylesheet WordPress generates for that group, and the generated
 CSS is authored to win — with `!important` where auto margins are involved.
 Read the emitted classes on the element (`is-layout-flex`,
