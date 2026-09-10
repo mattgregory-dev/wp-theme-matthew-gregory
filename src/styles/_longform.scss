@@ -14,17 +14,19 @@
     margin-block: 0;
   }
 
-  p + p {
+  // Spaced by what follows what, rather than paragraph to paragraph, so a list
+  // or any other block dropped into the passage keeps the same rhythm.
+  > * + * {
     margin-block-start: 1.625rem;
   }
 
   // The sub-head opens a new passage, so it gets clearly more room above it
-  // than the paragraphs give each other, and sits tight to the copy it opens.
+  // than the passage gives itself, and sits tight to the copy it opens.
   .wp-block-heading:not(:first-child) {
     margin-block-start: 2.75rem;
   }
 
-  .wp-block-heading + p {
+  .wp-block-heading + * {
     margin-block-start: 0.875rem;
   }
 }
