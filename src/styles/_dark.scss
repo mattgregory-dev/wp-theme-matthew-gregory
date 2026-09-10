@@ -75,6 +75,12 @@
     color: var(--wp--preset--color--warm-gray);
   }
 
+  // brand-light is near-white here, which turns a quiet list marker into the
+  // brightest thing in the column. The markers stay on the brand.
+  .sb-feature-group li::before {
+    background: var(--wp--preset--color--brand);
+  }
+
   // A dark ground has nothing to darken, so lift is a glow rather than a
   // shadow: the card reads as catching light instead of casting.
   .sb-claim:hover,

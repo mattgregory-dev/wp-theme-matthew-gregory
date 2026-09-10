@@ -49,10 +49,10 @@
     &::before {
       content: "";
       display: block;
-      margin-block-start: 0.5625rem;
+      margin-block-start: 0.6875rem;
       width: 9px;
       height: 2px;
-      background: var(--wp--preset--color--brand);
+      background: var(--wp--preset--color--brand-light);
     }
   }
 }
