@@ -125,16 +125,18 @@ html:has(.admin-bar) {
   outline: 0;
 }
 
-// Painted as a mask, not an image: the box takes a token background and the
-// file supplies only the shape, so one asset reads navy here and white on the
-// footer's dark band.
-.brand__mark {
-  display: block;
-  flex: 0 0 auto;
+// A core/image block, so the logo is swappable from the editor. The footer
+// carries its own white version for its dark band — see _footer.scss.
+.brand__logo {
+  flex: none;
   width: 1.8125rem;
-  height: 2.5rem;
-  background: var(--wp--preset--color--brand);
-  mask: url("../../assets/images/mg-logo.webp") center / contain no-repeat;
+  margin: 0;
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
 }
 
 .brand__name {
@@ -303,9 +305,8 @@ html:has(.admin-bar) {
     gap: 0.75rem;
   }
 
-  .brand__mark {
+  .brand__logo {
     width: 1.4375rem;
-    height: 2rem;
   }
 
   .brand__name {

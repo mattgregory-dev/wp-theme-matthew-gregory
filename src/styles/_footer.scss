@@ -40,11 +40,19 @@
     gap: 0.75rem;
   }
 
-  // The mask takes a light fill here; same asset, same rule, opposite band.
-  .brand__mark {
+  // A core/image block rather than the header's CSS-painted mark, so the logo
+  // stays swappable from the editor. Its own white artwork, because the
+  // header's goes dark against this band.
+  .brand__logo {
+    flex: none;
     width: 1.625rem;
-    height: 2.25rem;
-    background: var(--wp--preset--color--base);
+    margin: 0;
+
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
   }
 
   .brand__name a {
