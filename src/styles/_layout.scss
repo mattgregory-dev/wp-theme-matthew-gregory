@@ -1,15 +1,13 @@
 // ---------------------------------------------------------------------------
-// Layout — the seams between the top-level regions.
+// Layout — the seams between regions.
 // ---------------------------------------------------------------------------
 
-// WordPress spaces header, main and footer apart with the root block gap
-// (`:where(.wp-site-blocks) > *`). The chrome is meant to meet the content: a
-// gap under a sticky header shows the page sliding through it, and a gap above
-// the footer leaves its top rule floating instead of closing the page.
-//
-// Nothing replaces the gap, because vertical rhythm belongs to the bands inside
-// main — every page is composed of them, and each owns its padding. That is
-// what keeps main from claiming space a band then has to cancel.
-.wp-site-blocks > * {
-  margin-block-start: 0;
+// Core gives every layout child a block-gap top margin: header, main and footer
+// at the root, and each band inside the constrained post-content wrapper.
+// Nothing replaces it — vertical rhythm belongs to the bands, which own their
+// padding. Drop these and a 1.5rem seam reopens under the header, above the
+// footer, and between every section.
+.wp-site-blocks > *,
+.sb-band {
+  margin-block: 0;
 }
