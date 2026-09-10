@@ -20,26 +20,34 @@
 }
 
 // Reveal the skip link (and any focused sr-only control) on keyboard focus.
+//
+// The skip-link selector is overqualified on purpose. WordPress prints its own
+// `.skip-link.screen-reader-text:focus` rule inline in the FOOTER, so matching
+// its two classes only ties — and the tie goes to whatever loads last, which is
+// core. The element selector is what wins.
 .screen-reader-text:focus,
-.skip-link:focus {
+a.skip-link.screen-reader-text:focus {
   position: fixed;
-  top: 0.5rem;
-  left: 0.5rem;
+  top: 1.25rem;
+  left: 1.25rem;
   z-index: 100000;
   width: auto;
   height: auto;
-  padding: 0.75rem 1.25rem;
+  padding: 0.6875rem 1rem;
   clip: auto;
   clip-path: none;
   white-space: normal;
-  background: var(--wp--preset--color--contrast);
+  border-radius: var(--wp--custom--radius);
+  background: var(--wp--preset--color--brand);
   color: var(--wp--preset--color--base);
-  border-radius: 0 0 0.375rem 0.375rem;
+  box-shadow: 0 8px 22px -10px color-mix(in srgb, var(--wp--preset--color--brand-deep) 60%, transparent);
   font-family: var(--wp--preset--font-family--body);
-  font-size: var(--wp--preset--font-size--small);
+  font-size: 0.875rem;
+  font-weight: 600;
+  line-height: 1;
   text-decoration: none;
-  outline: 2px solid var(--wp--preset--color--link);
-  outline-offset: 2px;
+  outline: 2px solid var(--wp--preset--color--brand);
+  outline-offset: 3px;
 }
 
 // Consistent, clearly visible keyboard focus ring on interactive elements.
