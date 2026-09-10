@@ -26,11 +26,15 @@
   margin-block-start: 2rem;
 }
 
-// Stacked, the screenshot leads: it identifies the project faster than the
-// first paragraph does.
-@media (max-width: 774px) {
+// The screenshot is written FIRST in the markup for these, because stacked it
+// leads: it identifies the project faster than the first paragraph does. Since
+// that is the source order, the keyboard reaches it first too, which `order`
+// alone could never deliver — it moves the box and leaves the tab sequence
+// where it was. Side by side, the screenshot belongs on the right, and that is
+// the case `order` is for.
+@media (min-width: 775px) {
   .sb-spotlight--media-right .sb-mat {
-    order: -1;
+    order: 1;
   }
 }
 
