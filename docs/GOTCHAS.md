@@ -112,43 +112,7 @@ theme.json and its layout (sizing/`display`) in the SCSS layer.
 
 ---
 
-## 4. Editor-valid vs. dynamic image markup
-
-`core/image` blocks validate their saved HTML against the block's expected
-output. Rendering an image with `wp_get_attachment_image()` (which injects
-`width`/`height`/`class="attachment-full size-full"`/`srcset`/`decoding`)
-triggers *"unexpected or invalid content"*, because that's not what the block
-expects.
-
-The [portable image helper](ARCHITECTURE.md#images-portable-deploy-safe-references)
-sidesteps this by emitting **canonical** block markup — `src` + `alt` +
-`wp-image-<id>` class, with the resolved ID written into the block comment too —
-and letting WordPress core add `srcset`/`sizes` at render. Portable across
-installs *and* editor-consistent.
-
----
-
-## 5. Image starters render empty until the placeholders are seeded
-
-**Symptom:** the image-bearing starters (Spotlight, Bio, Hero, Link Cards) insert
-with no image on a fresh clone, even though `assets/images/` clearly contains the
-placeholder files.
-
-**Root cause:** the starters resolve images **by filename** at render time
-(`sb_image_block( 'placeholder-horizontal.webp', … )`), which looks up an
-attachment ID in the current install's media library. The files shipping in
-`assets/images/` are theme assets, **not** media-library attachments — so until
-they're uploaded, the lookup returns 0 and the block renders empty (by design; it
-self-heals the moment the file exists).
-
-**Fix:** upload `assets/images/placeholder-horizontal.webp` and
-`placeholder-vertical.webp` to the media library once per environment (via the
-admin, or `wp media import`). This is the one manual seeding step a fresh clone
-needs; see [BUILD.md](BUILD.md#first-run-setup).
-
----
-
-## 6. "This block contains unexpected or invalid content"
+## 4. "This block contains unexpected or invalid content"
 
 **Symptom:** a block in a template or pattern shows the error bar in the editor
 and offers "Attempt Recovery". The markup looks correct and renders fine on the
@@ -174,7 +138,7 @@ changed the rendered element. That is the whole diff that matters.
 
 ---
 
-## 7. Do not trim core block CSS in an FSE theme
+## 5. Do not trim core block CSS in an FSE theme
 
 **Symptom:** center-aligned markup renders left. The class is on the element,
 the editor shows it centered, and the served page contains no `text-align:center`
@@ -197,7 +161,7 @@ CSS efficiently. The saving is around 30KB and not worth the risk.
 
 ---
 
-## 8. `wpautop` turns block tags inside an anchor into empty cells
+## 6. `wpautop` turns block tags inside an anchor into empty cells
 
 **Symptom:** a grid renders extra empty cells between its real items. Nothing in
 the source produced them.
@@ -213,7 +177,7 @@ headings. Style the spans as blocks in CSS if block layout is needed.
 
 ---
 
-## 9. Verifying from the command line
+## 7. Verifying from the command line
 
 `curl` against the running site separates SERVER state (what WordPress
 generated: markup classes, `global-styles-inline-css`, preset variables) from
@@ -231,7 +195,7 @@ front end" disagreement. Two things distort it:
 
 ---
 
-## 10. Layout classes silently overrule your CSS
+## 8. Layout classes silently overrule your CSS
 
 **Symptom:** a rule that is plainly correct does nothing. The class is on the
 element, the declaration is in the compiled stylesheet, devtools shows it

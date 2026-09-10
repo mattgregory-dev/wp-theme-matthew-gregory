@@ -22,12 +22,7 @@ npm run build        # produce dist/ and build/ (both git-ignored)
 Then, in WordPress:
 
 1. **Activate** the theme.
-2. **Seed the placeholder images** — upload `assets/images/placeholder-horizontal.webp`
-   and `placeholder-vertical.webp` to the media library (or
-   `wp media import assets/images/placeholder-*.webp`). The image-bearing starters
-   resolve images by filename at render, so until the files exist as attachments
-   they render empty.
-3. **Reseed the tokens** in `theme.json` for the project — colors, fonts, type
+2. **Reseed the tokens** in `theme.json` for the project — colors, fonts, type
    scale, spacing — before writing markup. Slugs are roles; you change the
    values, not the slugs.
 

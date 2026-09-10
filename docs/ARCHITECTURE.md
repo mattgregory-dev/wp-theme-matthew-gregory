@@ -148,7 +148,7 @@ starter-blocks/
 │   └── styles/          #   SCSS partials (_buttons, _lists, _layout, …)
 ├── scripts/             # Node build tooling (block-audit.js) — not shipped
 ├── dist/                # Compiled theme CSS/JS (git-ignored; build output)
-└── assets/images/       # Placeholder images (seed to the media library per env)
+└── assets/fonts/        # Self-hosted woff2, registered in theme.json
 ```
 
 Pages are delivered as **content in the database, rendered through a shared
@@ -232,7 +232,7 @@ new sections are these parts rearranged.
 | `sb-callout` | A tinted row: one line of copy and the link answering it |
 | `sb-actions` / `sb-link-arrow` | A button row, and the text link beside it |
 | `sb-cap` + `--title` `--section` `--body` `--cta` | Line-length caps, in `ch` |
-| `sb-subhead` `sb-prose` `sb-framing` `sb-closing` `sb-muted` `sb-accent` `sb-mono-label` | Text roles |
+| `sb-subhead` `sb-prose` `sb-framing` `sb-closing` `sb-muted` `sb-highlight` `sb-mono-label` | Text roles |
 | `sb-reveal-group` + `--slow` / `sb-reveal` + `--rise` `--left` `--fade` `--eyebrow` | Scroll reveal — see below |
 | `is-style-eyebrow` (+ `sb-eyebrow--plain`) `is-style-secondary` `is-style-light` `is-style-checklist` | Registered block styles. The eyebrow is registered on both paragraph and heading |
 
@@ -242,7 +242,7 @@ Three rules the vocabulary depends on:
   in `_grids.scss`,** or it gains a trailing empty column.
 - **A group declared `flow` in markup but styled as a grid or flex in CSS needs
   its children's margins zeroed** — core still applies the flow block gap. See
-  [GOTCHAS.md](GOTCHAS.md), #10.
+  [GOTCHAS.md](GOTCHAS.md), #8.
 - **Whatever leads the STACKED layout is written first in the markup.** `order`
   moves the box and leaves the tab sequence where it was, so a screenshot
   reordered into the lead on mobile still hands focus to the copy first. Source
@@ -285,32 +285,17 @@ Four rules decide where it goes, and each was learned the expensive way:
 system entirely. Because the gate hides content, it also arms a two-second
 failsafe that strips itself if the bundle never initializes.
 
-## Images: portable, deploy-safe references
+## Images live in the media library
 
-Attachment IDs are assigned per WordPress install, so the same file has a
-different ID on dev vs. production. Hardcoding IDs in patterns therefore breaks
-the moment the theme is deployed to a site where that file uploaded under a
-different ID.
+Every image on the site is an attachment, referenced by a `core/image` block —
+in page content, and in the two template parts that hold the logo. The theme
+ships no image files of its own.
 
-Instead, patterns reference images **by filename** and resolve the local ID at
-render time via two helpers in `inc/images.php`:
-
-- `sb_attachment_id_by_filename( $filename )` — resolves the current install's
-  attachment ID from the base filename (cached per request).
-- `sb_image_block( $filename, $alt, $link_url = '' )` — renders the full
-  `core/image` block, writing the resolved ID into the block comment, the
-  `src`, and the `wp-image-<id>` class **together**, so the markup stays
-  internally consistent and portable — and because a real ID is emitted,
-  WordPress still adds responsive `srcset`/`sizes`.
-
-```php
-<?php echo sb_image_block( 'placeholder-horizontal.webp', 'Descriptive alt text' ); ?>
-```
-
-If the file isn't in that install's media library, the image renders empty
-rather than pointing at a dead ID — it self-heals the moment the file is
-uploaded. The shipped placeholders must be seeded once per environment; see
-[GOTCHAS.md](GOTCHAS.md#6-image-starters-render-empty-until-the-placeholders-are-seeded).
+**Attachment IDs are assigned per install**, so the IDs written into
+`parts/header.html` and `parts/footer.html` are correct here and will not be on
+another site. The `src` on each is root-relative, so the logo still renders
+after a deploy, but the block has to be re-picked in the editor once for the ID
+to match. It is a launch step, like setting the site icon and the menu.
 
 ## Fonts
 

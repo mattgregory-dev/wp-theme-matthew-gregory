@@ -20,13 +20,9 @@ composer install     # PHP dev tooling (phpcs + WordPress Coding Standards)
 npm run build        # produce dist/ and build/ (both git-ignored)
 ```
 
-Then, in WordPress: **activate the theme**, and **seed the placeholder images**
-— upload `assets/images/placeholder-horizontal.webp` and
-`placeholder-vertical.webp` to the media library (admin upload, or
-`wp media import assets/images/placeholder-*.webp`). The image-bearing starters
-resolve their images by filename at render, so until the files exist as
-attachments they render empty. This is the one manual seeding step a clone needs;
-see [GOTCHAS.md](GOTCHAS.md#6-image-starters-render-empty-until-the-placeholders-are-seeded).
+Then, in WordPress: **activate the theme**. Everything else a clone needs lives
+in the database rather than the repo — the pages, the menu, the site icon, and
+the logo attachments the header and footer reference by ID.
 
 ## Commands
 

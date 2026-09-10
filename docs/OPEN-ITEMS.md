@@ -89,7 +89,7 @@ All promoted already — kept here as an index of where each one landed:
 
 - Token and class naming, and what a good design handoff looks like →
   [DESIGN-HANDOFF.md](DESIGN-HANDOFF.md)
-- Six ways core's layout CSS overrules ours → [GOTCHAS.md](GOTCHAS.md), #10
+- Six ways core's layout CSS overrules ours → [GOTCHAS.md](GOTCHAS.md), #8
 - Comment and commit policy → [WORKFLOW.md](WORKFLOW.md)
 - Page content through sb-pull/sb-push → [WORKFLOW.md](WORKFLOW.md)
 
