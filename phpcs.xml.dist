@@ -72,20 +72,6 @@
     </properties>
   </rule>
 
-  <!--
-    sb_image_block() builds canonical core/image markup with every value run
-    through esc_url()/esc_attr() internally, so its return is already safe to
-    echo. Declare it auto-escaped so `echo sb_image_block( … )` in patterns
-    doesn't trip the output-escaping sniff.
-  -->
-  <rule ref="WordPress.Security.EscapeOutput">
-    <properties>
-      <property name="customAutoEscapedFunctions" type="array">
-        <element value="sb_image_block"/>
-      </property>
-    </properties>
-  </rule>
-
   <!-- Declare the prefix used by theme global functions. -->
   <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
     <properties>

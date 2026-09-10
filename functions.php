@@ -17,7 +17,6 @@ require_once $theme_inc . '/theme-setup.php';
 require_once $theme_inc . '/block-styles.php';
 require_once $theme_inc . '/shortcodes.php';
 require_once $theme_inc . '/enqueue.php';
-require_once $theme_inc . '/images.php';
 require_once $theme_inc . '/attachments.php';
 require_once $theme_inc . '/scroll-top.php';
 require_once $theme_inc . '/reveal.php';
