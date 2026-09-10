@@ -214,19 +214,26 @@ new sections are these parts rearranged.
 |---|---|
 | `sb-band` + `--tall` `--hero` `--banner` `--tight` `--cta` `--cta-tight` `--ink` | Full-width section, its vertical rhythm, and the dark variant |
 | `sb-section-head` + `--center` | Eyebrow / heading / framing copy that opens a band |
+| `sb-hero` / `__media` | The home page's split hero: copy beside the portrait |
 | `sb-claim-grid` / `sb-claim` | Numbered panels with an accent cap |
 | `sb-cards` / `sb-card` / `__body` `__cat` `__title` | Image-over-body cards, whole card clickable |
-| `sb-spotlight` + `--media-right` / `__copy` / `sb-mat` | Case copy beside a framed screenshot |
-| `sb-specs` + `--soft` / `__strong` | Key/value rows under a case |
+| `sb-spotlight` + `--media-right` / `__copy` / `sb-mat` + `--portrait` | Case copy beside a framed screenshot, or a portrait |
+| `sb-specs` + `--soft` `--wide` `--lead` / `__strong` | Key/value rows. `--lead` opens a section, `--soft` supports one |
 | `sb-case-grid` / `sb-case` | The subgrid pair for long-run engagements |
 | `sb-stats` / `sb-stat` / `__num` `__label` | Headline figures |
 | `sb-pattern` / `__item` `__num` `__setup` `__result` | The ramp-up row with escalation arrows |
 | `sb-quotes` / `sb-quote` + `--lead` / `__by` `__name` `__role` | Testimonial panels |
 | `sb-pullquote` | A quiet attributed aside inside a case |
+| `sb-longform` | A narrow reading column, broken up by eyebrow sub-heads |
+| `sb-steps` / `sb-step` / `__num` | Ordered stages, each under its own rule |
+| `sb-feature-list` / `sb-feature-group` | Capability groups: a ruled mono title over a dashed list |
+| `sb-contact-split` | The details list beside the form card |
+| `sb-form` / `__intro` | The form card. Its insides are Forminator's markup |
+| `sb-callout` | A tinted row: one line of copy and the link answering it |
 | `sb-actions` / `sb-link-arrow` | A button row, and the text link beside it |
 | `sb-cap` + `--title` `--section` `--body` `--cta` | Line-length caps, in `ch` |
 | `sb-subhead` `sb-prose` `sb-framing` `sb-closing` `sb-muted` `sb-accent` `sb-mono-label` | Text roles |
-| `is-style-eyebrow` `is-style-secondary` `is-style-light` `is-style-checklist` | Registered block styles |
+| `is-style-eyebrow` (+ `sb-eyebrow--plain`) `is-style-secondary` `is-style-light` `is-style-checklist` | Registered block styles. The eyebrow is registered on both paragraph and heading |
 
 Two rules the vocabulary depends on:
 

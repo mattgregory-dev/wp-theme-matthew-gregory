@@ -32,6 +32,13 @@ and the file to add to the moment something is discovered rather than done.
 - **Blog.** Templates are band-ready but there are no posts and no nav entry.
   Turning it on means deciding whether the blog list sections keep their inline
   `padding-bottom` or become proper bands.
+- **Microsoft Clarity, in or out.** The privacy policy currently hedges it as
+  "may be used", which is honest while undecided and the weakest line on the
+  page. Clarity records session replay, so whichever way it goes the policy
+  should say so plainly.
+- **Which email service.** The policy describes a signup conditionally and names
+  no provider. Naming one is the norm, and the sentence stays provisional until
+  it does.
 
 ## 2. Untested
 
@@ -43,19 +50,21 @@ and the file to add to the moment something is discovered rather than done.
   eating viewport height.
 - **Reduced motion.** `_accessibility.scss` neutralizes transitions globally,
   but no component has been checked with the preference on.
+- **A contact form submission end to end.** The form renders and is styled, but
+  nothing has been sent through it, so delivery, the stored entry, and the
+  success state are all unverified.
+- **The analytics the privacy policy describes.** Nothing is installed yet, so
+  that page currently states an intention. Move its date when the tags go in.
 
 ## 3. Deferred work, in rough priority order
 
-1. **About, Stack, Contact, Privacy pages.** Created and empty. Privacy needs a
-   narrow prose treatment — the page template caps content at 1076px, which is
-   too wide to read legal copy in.
-2. **Lightbox for the work screenshots.** The mats currently link to the live
+1. **Lightbox for the work screenshots.** The mats currently link to the live
    sites in a new tab, which is arguably better for a portfolio. Full-size
    screenshots are already archived as attachments 37 and 38, waiting for it.
-3. **Real screenshots for the two long-run cases.** Hoel's and Iboga Quest use
+2. **Real screenshots for the two long-run cases.** Hoel's and Iboga Quest use
    the horizontal placeholder (attachments 34, 35), as does the third home page
    work card (30).
-4. **Scroll reveal.** The mockup staggers sections in on scroll
+3. **Scroll reveal.** The mockup staggers sections in on scroll
    (`data-reveal`). None of it is ported.
 
 ## 4. Content gaps
@@ -63,7 +72,10 @@ and the file to add to the moment something is discovered rather than done.
 - **Home → Recent work, third card.** Placeholder image; needs a Hoel's
   storefront screenshot.
 - **Work → Two engagements.** Both cases use placeholders.
-- **Header / footer → Resume (PDF).** No file behind the link.
+- **Header / footer → Resume (PDF).** No file behind the link, and the contact
+  page callout offers it a third time.
+- **Forminator retention.** The privacy policy promises submissions are deleted
+  once a conversation plainly is not useful. Nothing enforces that yet.
 
 ## 5. Conventions established
 
@@ -108,12 +120,15 @@ All promoted already — kept here as an index of where each one landed:
 
 ## 8. What exists now
 
-- **Pages:** Home and Work built. About, Stack, Contact, Privacy created and
-  empty.
+- **Pages:** all built — Home, Work, About, Stack, Contact, and the privacy
+  policy on WordPress's own page 3, which keeps its designation as the site's
+  privacy page.
 - **Templates:** `page`, `404` (designed), plus `index`, `home`, `archive`,
   `single`, `search` on the band system.
 - **Parts:** header (with mobile drawer), footer.
 - **Custom blocks:** none, by design. Sections are core blocks.
+- **Plugins:** Forminator, for the contact form only. Its markup is styled from
+  `_contact.scss`, which depends on that form's design staying set to "None".
 - **Patterns:** none yet. Repeated sections become patterns when a second page
   needs them.
 - **Component vocabulary:** see [ARCHITECTURE.md](ARCHITECTURE.md#the-component-vocabulary).
@@ -123,6 +138,13 @@ All promoted already — kept here as an index of where each one landed:
 Newest first. Not a changelog — only decisions whose *resolution* is worth
 stating.
 
+- **A plugin form, styled as ours.** Forminator's markup is the plugin's, so
+  `_contact.scss` is written against its class names, scoped to `.sb-form` for
+  both containment and specificity. The theme bundle loads after the plugin's
+  stylesheets, so ties go to us.
+- **The privacy policy is written, not generated.** WordPress's boilerplate
+  covers comments, accounts, media EXIF and embeds, none of which this site has;
+  keeping it would have meant paragraphs about things that do not exist.
 - **Native-first, no custom blocks.** The starter's six section blocks were
   removed: their value is authoring guardrails for a client, and this site's
   only author is its developer.
