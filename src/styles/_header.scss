@@ -85,6 +85,16 @@ html:has(.admin-bar) {
   padding: 0.9375rem var(--wp--custom--gutter);
 }
 
+// The gutter token has already reached its 2rem ceiling by the time the bar
+// goes horizontal, so it gives back nothing exactly where the row is tightest.
+// This buys width back at the narrow end and returns to the gutter's 2rem at
+// the frame width, where the brand lines up with the bands again.
+@media (min-width: 761px) {
+  .site-header__inner {
+    padding-inline: clamp(1rem, 2.8vw, 2rem);
+  }
+}
+
 // Brand ---------------------------------------------------------------------
 
 .brand {
@@ -172,8 +182,13 @@ html:has(.admin-bar) {
   // current-page states move one declaration on the list item.
   color: var(--wp--preset--color--muted);
 
+  // Five items plus the brand and the button have to share one line between
+  // the drawer breakpoint and the full frame. The gap reaches 1.75rem at the
+  // frame width and tightens below it, which keeps the row on one line instead
+  // of wrapping the last item under the brand. The drawer resets this to 0, so
+  // the clamp only ever describes the horizontal bar.
   .wp-block-navigation__container {
-    gap: 1.75rem;
+    gap: clamp(1rem, 2.45vw, 1.75rem);
   }
 
   // Matches the score of core's `.wp-block-navigation .…__content` (0,2,0);
