@@ -56,5 +56,15 @@ function sb_register_block_styles() {
 			'label' => __( 'Eyebrow', 'mg-blocks' ),
 		)
 	);
+
+	// The same look on a heading, for sub-heads that break up a long passage:
+	// they belong in the document outline, so they cannot be paragraphs.
+	register_block_style(
+		'core/heading',
+		array(
+			'name'  => 'eyebrow',
+			'label' => __( 'Eyebrow', 'mg-blocks' ),
+		)
+	);
 }
 add_action( 'init', 'sb_register_block_styles' );
