@@ -34,6 +34,12 @@
   .wp-block-heading {
     max-width: var(--wp--custom--cap--section);
   }
+
+  // A cap class on the heading is a deliberate choice, so it has to outrank the
+  // default above — which a utility class on its own does not.
+  .wp-block-heading.sb-cap--title {
+    max-width: var(--wp--custom--cap--title);
+  }
 }
 
 // Framing copy: a sentence of context under the heading, wider than the heading
