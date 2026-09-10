@@ -70,15 +70,6 @@
   // A navy focus ring is invisible here. Consumed in _accessibility.scss.
   --sb-focus-ring: var(--wp--preset--color--base);
 
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    color: var(--wp--preset--color--base);
-  }
-
   a:not(.wp-element-button) {
     color: var(--wp--preset--color--base);
   }
@@ -92,7 +83,8 @@
     color: var(--wp--preset--color--dark-text);
   }
 
-  .sb-muted {
+  .sb-muted,
+  .sb-mono-label {
     color: var(--wp--preset--color--dark-muted);
   }
 }

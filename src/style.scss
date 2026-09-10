@@ -27,6 +27,24 @@
 // Eyebrow block style (is-style-eyebrow). See _eyebrow.scss.
 @use "./styles/eyebrow";
 
+// Section head — eyebrow / heading / framing copy that opens a band.
+@use "./styles/section-head";
+
+// Grid groups — shared corrections for core/group grid layouts.
+@use "./styles/grids";
+
+// Claim grid — numbered panels with an accent cap.
+@use "./styles/claim";
+
+// Work cards — image over body, in a responsive grid.
+@use "./styles/cards";
+
+// Pattern proof — the ramp-up row with escalation arrows.
+@use "./styles/pattern";
+
+// Testimonials — quote panels, the first one tinted to lead.
+@use "./styles/quotes";
+
 // Search field (core/search) — hairline box, dark-band variant.
 @use "./styles/search";
 

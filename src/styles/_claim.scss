@@ -1,0 +1,87 @@
+// ---------------------------------------------------------------------------
+// Claim grid — numbered panels that sit edge to edge, each capped by a short
+// accent rule. Markup: a grid-layout group of flow groups.
+// ---------------------------------------------------------------------------
+
+.sb-claim-grid {
+  --sb-grid-min: 260px;
+
+  counter-reset: claim;
+
+  // A hairline gap, so the panels read as one surface divided rather than three
+  // separate cards. It widens once they stack (below).
+  gap: 4px;
+}
+
+.sb-claim {
+  // Incremented on the panel, not on the pseudo-element that prints it. A grid
+  // group carries `container-type: inline-size`, which implies `contain: style`
+  // and scopes counters — increment deeper in that subtree and every panel
+  // reads 01.
+  counter-increment: claim;
+  position: relative;
+  padding: 1.875rem 1.75rem 2.125rem;
+  border: 1px solid var(--wp--preset--color--border-soft);
+  background: var(--wp--preset--color--base);
+  transition:
+    transform var(--wp--custom--speed) var(--wp--custom--ease),
+    box-shadow var(--wp--custom--speed) var(--wp--custom--ease);
+
+  // The accent rule sits ON the top border, inset from both edges, so it reads
+  // as a cap rather than a full-width divider.
+  &::before {
+    content: "";
+    position: absolute;
+    top: -1px;
+    left: 1.75rem;
+    right: 1.75rem;
+    height: 3px;
+    background: var(--wp--preset--color--brand);
+  }
+
+  &:hover {
+    z-index: 1;
+    transform: translateY(-3px);
+    box-shadow: 0 14px 30px -18px color-mix(in srgb, var(--wp--preset--color--brand) 40%, transparent);
+  }
+
+  > * {
+    margin-block: 0;
+  }
+
+  .wp-block-heading {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    font-size: var(--wp--preset--font-size--x-large);
+    font-weight: 600;
+    line-height: 1.25;
+    letter-spacing: 0;
+
+    // Zero-padded ordinal, generated rather than typed so inserting a panel
+    // renumbers the rest.
+    &::before {
+      content: counter(claim, decimal-leading-zero);
+      font-family: var(--wp--preset--font-family--mono);
+      font-size: 0.75rem;
+      font-weight: 500;
+      line-height: 1;
+      letter-spacing: 0.04em;
+      color: var(--wp--preset--color--brand);
+    }
+  }
+
+  p {
+    margin-block-start: 0.875rem;
+    font-size: var(--wp--preset--font-size--small);
+    line-height: 1.62;
+    color: var(--wp--preset--color--muted);
+  }
+}
+
+// Stacked, the hairline gap reads as a mistake rather than a seam.
+@media (max-width: 866px) {
+  .sb-claim-grid {
+    gap: 1.25rem;
+  }
+}

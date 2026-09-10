@@ -1,0 +1,13 @@
+// ---------------------------------------------------------------------------
+// Grid groups — shared corrections for `core/group` with a grid layout.
+// ---------------------------------------------------------------------------
+
+// WordPress emits `repeat(auto-fill, …)` for a group's minimumColumnWidth.
+// auto-fill KEEPS empty tracks, so three cards in a wide band lay out as four
+// columns with a hole on the end; auto-fit collapses them. The minimum is read
+// from --sb-grid-min so each grid still declares its own breakpoint width.
+.sb-claim-grid,
+.sb-cards,
+.sb-quotes {
+  grid-template-columns: repeat(auto-fit, minmax(min(var(--sb-grid-min), 100%), 1fr));
+}

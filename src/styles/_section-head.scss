@@ -1,0 +1,57 @@
+// ---------------------------------------------------------------------------
+// Section head — the eyebrow / heading / framing-copy group that opens a band.
+// Left-aligned by default; centering is opt-in.
+// ---------------------------------------------------------------------------
+
+.sb-section-head {
+  max-width: 40ch;
+  margin-bottom: 3rem;
+
+  // The head owns its own rhythm rather than inheriting core's block gap, so
+  // the eyebrow sits tight to the heading it introduces while the copy below
+  // gets room to read as a separate thought.
+  > * {
+    margin-block: 0;
+  }
+
+  .wp-block-heading {
+    margin-block-start: 1rem;
+  }
+
+  .sb-subhead {
+    margin-block-start: 1.375rem;
+  }
+}
+
+.sb-section-head--center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: none;
+  margin-bottom: 3.25rem;
+  text-align: center;
+
+  .wp-block-heading {
+    max-width: var(--wp--custom--cap--section);
+  }
+}
+
+// Framing copy: a sentence of context under the heading, wider than the heading
+// cap because it is read as prose rather than scanned.
+.sb-framing {
+  max-width: var(--wp--custom--cap--body);
+  margin-block-start: 1.25rem;
+  font-size: 1.1875rem;
+  line-height: 1.55;
+  color: var(--wp--preset--color--muted);
+}
+
+// A closing line under a section — a single sentence that lands the point.
+.sb-closing {
+  max-width: 30ch;
+  margin-block-start: 2.5rem;
+  font-size: clamp(1.1875rem, 1.7vw, 1.4375rem);
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: -0.01em;
+}

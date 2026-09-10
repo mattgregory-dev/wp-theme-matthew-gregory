@@ -1,0 +1,144 @@
+// ---------------------------------------------------------------------------
+// Pattern proof — three ramp-up examples in a row, divided by hairlines, with
+// an accent rule across the top and arrows marking the escalation between them.
+// Markup: a grid-layout group of flow groups.
+// ---------------------------------------------------------------------------
+
+.sb-pattern {
+  position: relative;
+  gap: 0;
+
+  // Pulled out to the panel padding so the rule and the copy share an edge,
+  // and the row reads as one divided surface rather than three columns.
+  margin-inline: -1.875rem;
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 1.875rem;
+    right: 1.875rem;
+    height: 2px;
+    background: var(--wp--preset--color--brand);
+  }
+}
+
+.sb-pattern__item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 1.875rem 1.875rem 2rem;
+  border-right: 1px solid var(--wp--preset--color--border-tint);
+
+  &:last-child {
+    border-right: 0;
+  }
+
+  > * {
+    margin-block: 0;
+  }
+
+  // The arrow straddles the divider, on the band's own background so the
+  // hairline appears to break for it.
+  &:not(:last-child)::after {
+    content: "→";
+    position: absolute;
+    top: 2.125rem;
+    right: -0.6875rem;
+    z-index: 2;
+    padding-block: 2px;
+    background: var(--wp--preset--color--surface-2);
+    font-size: 1.125rem;
+    line-height: 1;
+    color: var(--wp--preset--color--brand);
+  }
+
+  .wp-block-heading {
+    margin-block: 0.75rem 0.875rem;
+    font-size: 1.4375rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+  }
+}
+
+.sb-pattern__num {
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: 0.04em;
+  color: var(--wp--preset--color--brand);
+}
+
+.sb-pattern__setup {
+  font-size: var(--wp--preset--font-size--small);
+  line-height: 1.6;
+  color: var(--wp--preset--color--muted);
+}
+
+// The payoff line, pinned to the foot so it lands on one line across the row
+// however long the setup above it runs.
+.sb-pattern__result {
+  position: relative;
+  margin-block-start: auto;
+  padding-block-start: 1.375rem;
+  font-size: 1.1875rem;
+  font-weight: 700;
+  line-height: 1.36;
+  letter-spacing: -0.01em;
+  color: var(--wp--preset--color--brand);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0.6875rem;
+    left: 0;
+    width: 2.125rem;
+    height: 2px;
+    background: var(--wp--preset--color--brand);
+  }
+}
+
+@media (max-width: 620px) {
+  .sb-pattern {
+    // A grid group with columnCount emits a fixed `repeat(3, …)` and never
+    // reflows, unlike the minimumColumnWidth form. The count is deliberate here
+    // — three ramps read as a sequence — so the stack is taken over instead.
+    grid-template-columns: minmax(0, 1fr);
+    margin-inline: 0;
+
+    &::before {
+      left: 0;
+      right: 0;
+    }
+  }
+
+  .sb-pattern__item {
+    padding: 1.625rem 0;
+    border-right: 0;
+    border-bottom: 1px solid var(--wp--preset--color--border-tint);
+
+    &:first-child {
+      padding-block-start: 1.5rem;
+    }
+
+    &:last-child {
+      padding-block-end: 0.25rem;
+      border-bottom: 0;
+    }
+
+    // Stacked, the escalation reads top to bottom.
+    &:not(:last-child)::after {
+      content: "↓";
+      inset: auto auto -0.8125rem 50%;
+      padding-inline: 5px;
+      transform: translateX(-50%);
+      font-size: 1.0625rem;
+    }
+  }
+
+  .sb-pattern__result {
+    margin-block-start: 1rem;
+  }
+}

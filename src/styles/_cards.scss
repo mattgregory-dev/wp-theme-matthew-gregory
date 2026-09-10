@@ -1,0 +1,110 @@
+// ---------------------------------------------------------------------------
+// Work cards — image over a body block, in a responsive grid. Markup: a
+// grid-layout group of flow groups, each holding a core/image and a body group.
+// ---------------------------------------------------------------------------
+
+.sb-cards {
+  --sb-grid-min: 290px;
+
+  gap: 1.625rem;
+}
+
+.sb-card {
+  // Anchors the stretched title link below to the card rather than the page.
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--wp--preset--color--border-soft);
+  border-radius: var(--wp--custom--radius-card);
+  background: var(--wp--preset--color--base);
+
+  // Clips the image's square corners to the card's radius.
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgb(22 24 28 / 4%);
+  transition:
+    transform var(--wp--custom--speed) var(--wp--custom--ease),
+    box-shadow var(--wp--custom--speed) var(--wp--custom--ease),
+    border-color var(--wp--custom--speed) var(--wp--custom--ease);
+
+  &:hover {
+    transform: translateY(-4px);
+    border-color: var(--wp--preset--color--surface-3);
+    box-shadow: 0 22px 40px -22px color-mix(in srgb, var(--wp--preset--color--brand) 45%, transparent);
+  }
+
+  > * {
+    margin-block: 0;
+  }
+
+  // The image is a figure inside a flow group, so it needs no radius of its own
+  // and must not carry the block default — the card's overflow does the work.
+  .wp-block-image img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    border-radius: 0;
+    object-fit: cover;
+  }
+}
+
+.sb-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.375rem;
+
+  > * {
+    margin-block: 0;
+  }
+}
+
+// Category kicker — a short rule then the stack, in mono.
+.sb-card__cat {
+  display: flex;
+  align-items: center;
+  gap: 0.5625rem;
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: 0.7188rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--brand);
+
+  &::before {
+    content: "";
+    display: block;
+    width: 1.125rem;
+    height: 2px;
+    background: currentcolor;
+  }
+}
+
+.sb-card__title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+
+  a {
+    color: var(--wp--preset--color--contrast);
+    text-decoration: none;
+
+    // The card is the hit area; the title link is what makes it one.
+    &::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+    }
+  }
+}
+
+.sb-card:hover .sb-card__title a {
+  color: var(--wp--preset--color--brand);
+}
+
+.sb-card__body p:last-child {
+  font-size: var(--wp--preset--font-size--small);
+  line-height: 1.6;
+  color: var(--wp--preset--color--muted);
+}
