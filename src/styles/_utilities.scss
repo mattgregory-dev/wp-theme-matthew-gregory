@@ -9,31 +9,31 @@
   text-wrap: balance;
 }
 
-// Measure caps -------------------------------------------------------------
+// Line-length caps ---------------------------------------------------------
 
 // Line-length limits, in `ch` so they track the type rather than the layout: a
-// measure stays readable when the font scale is retuned, which a px max-width
+// cap stays readable when the font scale is retuned, which a px max-width
 // would not. The values are tokens so a block and its stylesheet cannot drift.
 // Applied to the text block itself, never to its container — capping the
 // container would also constrain images and buttons beside it.
-.sb-measure {
-  max-width: var(--wp--custom--measure--default);
+.sb-cap {
+  max-width: var(--wp--custom--cap--default);
 }
 
-.sb-measure--title {
-  max-width: var(--wp--custom--measure--title);
+.sb-cap--title {
+  max-width: var(--wp--custom--cap--title);
 }
 
-.sb-measure--section {
-  max-width: var(--wp--custom--measure--section);
+.sb-cap--section {
+  max-width: var(--wp--custom--cap--section);
 }
 
-.sb-measure--body {
-  max-width: var(--wp--custom--measure--body);
+.sb-cap--body {
+  max-width: var(--wp--custom--cap--body);
 }
 
-.sb-measure--cta {
-  max-width: var(--wp--custom--measure--cta);
+.sb-cap--cta {
+  max-width: var(--wp--custom--cap--cta);
 }
 
 // Text roles ---------------------------------------------------------------
@@ -42,6 +42,9 @@
 // body copy. Not a font-size preset because the role also carries color and
 // leading, and because a dark band restyles it as a unit (see _bands.scss).
 .sb-subhead {
+  // Always follows a heading, so it carries the gap that pairs the two rather
+  // than depending on whichever block gap its container happens to set.
+  margin-block-start: 1.375rem;
   font-size: clamp(1.0625rem, 1.4vw, 1.3125rem);
   line-height: 1.5;
   color: var(--wp--preset--color--muted);

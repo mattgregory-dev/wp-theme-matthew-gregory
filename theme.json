@@ -425,7 +425,7 @@
 				"cta": "clamp(4rem, 9.5vw, 6.5rem)",
 				"ctaTight": "clamp(3.125rem, 7vw, 4.75rem)"
 			},
-			"measure": {
+			"cap": {
 				"title": "20ch",
 				"section": "26ch",
 				"body": "62ch",

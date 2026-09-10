@@ -110,9 +110,9 @@ move independently.
 
 Values that are one component's business — a card's internal gap, a fixed media
 dimension — stay in that component's SCSS. The test is whether a second
-component would ever legitimately reference it. Band rhythm, measure caps, radii
+component would ever legitimately reference it. Band rhythm, line-length caps, radii
 and easing did meet that test and live in `settings.custom`
-(`--wp--custom--pad--*`, `--wp--custom--measure--*`).
+(`--wp--custom--pad--*`, `--wp--custom--cap--*`).
 
 See [ARCHITECTURE.md](ARCHITECTURE.md#units-spacing-preset-vs-rem-vs-px) for
 which unit a given value should be expressed in.
