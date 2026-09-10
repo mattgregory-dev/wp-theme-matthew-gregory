@@ -42,6 +42,9 @@
 // Steps — the ordered stages of a build, each under its own rule.
 @use "./styles/steps";
 
+// Feature list — capability groups, each a ruled title over a dashed list.
+@use "./styles/feature-list";
+
 // Spotlight — case copy beside a framed screenshot.
 @use "./styles/spotlight";
 
