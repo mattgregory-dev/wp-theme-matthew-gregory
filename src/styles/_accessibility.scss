@@ -54,6 +54,19 @@
   outline-offset: 2px;
 }
 
+// A link inside running text is marked by an underline, not by color alone.
+// The link and body colors are both near-black and nowhere near the 3:1
+// contrast that color-only differentiation needs, so without this a link in a
+// paragraph is invisible to anyone who cannot pick out the hue shift.
+//
+// Scoped to page content, which leaves the header, footer and nav alone, and
+// exempts the two link roles that already read as clickable on their own: a
+// button, and the arrow link with its own rule beneath it.
+.wp-block-post-content :is(p, li) a:not(.wp-element-button, .sb-link-arrow) {
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
 // Respect prefers-reduced-motion: neutralize animation, transition and
 // smooth-scroll triggered by blocks, patterns or custom JS.
 @media (prefers-reduced-motion: reduce) {
