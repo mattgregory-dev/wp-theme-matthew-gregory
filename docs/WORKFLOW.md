@@ -111,6 +111,10 @@ patterns.
 `npm run lint` should exit clean. There is no inherited baseline to ratchet down
 — everything here is net-new, so keep it at zero.
 
+Page content is the gap: the audit scans templates, parts and patterns, not the
+database. Run the working file through the page checker before pushing it —
+.
+
 The block-grammar audit is the one worth understanding: an unclosed
 `<!-- wp:… -->` produces "This block contains unexpected or invalid content" in
 the editor, which names no file and no line. The audit catches it before the
