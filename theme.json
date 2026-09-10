@@ -107,6 +107,11 @@
 					"color": "#eaf0f6"
 				},
 				{
+					"slug": "accent",
+					"name": "Accent",
+					"color": "#893cd3"
+				},
+				{
 					"slug": "link",
 					"name": "Link",
 					"color": "#123a5f"

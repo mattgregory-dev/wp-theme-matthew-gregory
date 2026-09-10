@@ -28,7 +28,7 @@
     flex: none;
     width: 1.875rem;
     height: 2px;
-    background: currentcolor;
+    background: var(--wp--preset--color--accent);
     transform: translateY(-0.32em);
   }
 }

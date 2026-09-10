@@ -83,6 +83,12 @@
     color: var(--wp--preset--color--brand-pale);
   }
 
+  // The accent is a violet, which all but disappears against this gradient
+  // (1.2:1 at the bright end). The rule takes the label's own color here.
+  .is-style-eyebrow::before {
+    background: currentcolor;
+  }
+
   .sb-subhead,
   .sb-muted,
   .sb-mono-label {
