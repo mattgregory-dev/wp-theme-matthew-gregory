@@ -116,9 +116,14 @@ html:has(.admin-bar) {
 
 // A ring on the anchor would outline the title text, not the lockup that is
 // actually clickable.
+// Used by the footer lockup too, which carries the same class.
 .brand:has(a:focus-visible) {
   outline: 2px solid var(--sb-focus-ring, var(--wp--preset--color--link));
   outline-offset: 4px;
+
+  // The link radius from _accessibility.scss cannot reach this ring: it is on
+  // the lockup, while the element taking focus is the anchor inside it.
+  border-radius: 3px;
 }
 
 .brand__name a:focus-visible {

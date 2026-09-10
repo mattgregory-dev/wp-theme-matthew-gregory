@@ -62,6 +62,13 @@ a.skip-link.screen-reader-text:focus {
   outline-offset: 2px;
 }
 
+// An outline follows the element's own radius, which is why a button's ring is
+// already rounded and a link's is a hard rectangle. Nothing but the ring
+// changes: a link has no background for the radius to show on.
+:where(a:not(.wp-element-button)):focus-visible {
+  border-radius: 3px;
+}
+
 // A link inside running text is marked by an underline, not by color alone.
 // The link and body colors are both near-black and nowhere near the 3:1
 // contrast that color-only differentiation needs, so without this a link in a
