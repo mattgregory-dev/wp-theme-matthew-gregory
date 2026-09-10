@@ -1,0 +1,158 @@
+// ---------------------------------------------------------------------------
+// Contact — the details list beside the form card, and the resume callout.
+// The form itself is rendered by Forminator, so its markup is the plugin's;
+// see the selector note on .sb-form.
+// ---------------------------------------------------------------------------
+
+.sb-contact-split {
+  --sb-grid-min: 320px;
+
+  gap: 4rem;
+  align-items: start;
+}
+
+// The form card ------------------------------------------------------------
+
+// Forminator emits its own class names inside this wrapper, so every rule below
+// is written against the plugin's markup rather than ours. Two consequences:
+// the selectors are pinned to `.sb-form` both to scope them and to outrank the
+// plugin's own single-class rules, and the form's design must stay set to
+// "None" in Forminator, which is what leaves the fields unstyled enough for
+// these to land.
+.sb-form {
+  padding: 2rem;
+  border: 1px solid var(--wp--preset--color--border-soft);
+  border-radius: var(--wp--custom--radius-card);
+  background: var(--wp--preset--color--base);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--wp--preset--color--contrast) 5%, transparent);
+
+  .forminator-row + .forminator-row {
+    margin-block-start: 1.25rem;
+  }
+
+  .forminator-field {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  .forminator-label {
+    font-family: var(--wp--preset--font-family--mono);
+    font-size: 0.7188rem;
+    font-weight: 600;
+    line-height: 1;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--wp--preset--color--warm-gray);
+  }
+
+  .forminator-required {
+    color: var(--wp--preset--color--error);
+  }
+
+  .forminator-input,
+  .forminator-textarea {
+    width: 100%;
+    padding: 0.8125rem 0.875rem;
+    border: 1px solid var(--wp--preset--color--surface-3);
+    border-radius: var(--wp--custom--radius);
+    background: var(--wp--preset--color--base);
+    color: var(--wp--preset--color--contrast);
+    font-family: inherit;
+
+    // 1rem is the floor: iOS zooms the viewport when a focused input's text is
+    // smaller than that, and the page never zooms back out.
+    font-size: var(--wp--preset--font-size--small);
+    line-height: 1.4;
+
+    &:focus {
+      border-color: var(--wp--preset--color--brand);
+      outline: 2px solid var(--sb-focus-ring, var(--wp--preset--color--brand));
+      outline-offset: 2px;
+    }
+  }
+
+  .forminator-textarea {
+    min-height: 150px;
+    line-height: 1.5;
+    resize: vertical;
+  }
+
+  // The character counter, which the plugin prints above the textarea.
+  .forminator-description {
+    font-size: var(--wp--preset--font-size--x-small);
+    color: var(--wp--preset--color--muted);
+  }
+
+  .forminator-error-message,
+  .forminator-response-message.forminator-error {
+    font-size: var(--wp--preset--font-size--x-small);
+    color: var(--wp--preset--color--error);
+  }
+
+  .forminator-has_error .forminator-input,
+  .forminator-has_error .forminator-textarea {
+    border-color: var(--wp--preset--color--error);
+  }
+
+  // The plugin's spam trap ("honeypot"). It is hidden by Forminator's own stylesheet, 
+  // which a form set to design "None" may not load, so it is hidden here too — left
+  // visible it reads as a real field and gets filled in.
+  .forminator-hidden {
+    display: none;
+  }
+
+  .forminator-row-last {
+    margin-block-start: 1.75rem;
+  }
+
+  // The submit button is a plain <button>, so it gets the same treatment
+  // theme.json gives the button element.
+  .forminator-button-submit {
+    padding: 0.8em 1.35em;
+    border: 1px solid var(--wp--preset--color--brand);
+    border-radius: var(--wp--custom--radius);
+    background: var(--wp--preset--color--brand);
+    color: var(--wp--preset--color--base);
+    font-family: inherit;
+    font-size: var(--wp--preset--font-size--small);
+    font-weight: 600;
+    line-height: 1.4;
+    cursor: pointer;
+    transition:
+      background-color var(--wp--custom--speed) var(--wp--custom--ease),
+      border-color var(--wp--custom--speed) var(--wp--custom--ease),
+      box-shadow var(--wp--custom--speed) var(--wp--custom--ease),
+      transform var(--wp--custom--speed) var(--wp--custom--ease);
+
+    &:hover {
+      border-color: var(--wp--preset--color--brand-deep);
+      background: var(--wp--preset--color--brand-deep);
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.sb-form__intro {
+  margin-block-end: 1.25rem;
+  color: var(--wp--preset--color--muted);
+}
+
+// The resume callout -------------------------------------------------------
+
+// The row itself is a flex-layout group, so the arrangement is block markup and
+// only the box is styled here.
+.sb-callout {
+  padding: 2rem 2.25rem;
+  border: 1px solid var(--wp--preset--color--brand-light);
+  border-radius: var(--wp--custom--radius-card);
+  background: var(--wp--preset--color--brand-wash);
+
+  > p {
+    font-size: var(--wp--preset--font-size--large);
+    line-height: 1.6;
+  }
+
+  .sb-link-arrow {
+    white-space: nowrap;
+  }
+}

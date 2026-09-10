@@ -39,6 +39,19 @@
   grid-template-columns: 8.125rem minmax(0, 1fr);
 }
 
+// Specs that open a section rather than support one: a heavier rule above them
+// and more room per row.
+.sb-specs--lead {
+  border-top: 2px solid var(--wp--preset--color--brand);
+
+  li {
+    grid-template-columns: 6.75rem minmax(0, 1fr);
+    gap: 1rem;
+    padding-block: 1rem;
+    color: var(--wp--preset--color--contrast-2);
+  }
+}
+
 // The one row worth reading first — the outcome.
 .sb-specs__strong {
   font-weight: 600;
