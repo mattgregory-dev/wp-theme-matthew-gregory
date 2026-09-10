@@ -4,10 +4,55 @@
 // src/scripts/nav-toggle.js (toggles .is-open on .site-header).
 // ---------------------------------------------------------------------------
 
-.site-header {
+// The sticky element is the template part's own <header>, not .site-header
+// inside it. A sticky box travels only within its PARENT's box, and
+// .site-header's parent hugs it exactly, leaving zero distance to travel — so
+// `position: sticky` on it declares the intent and produces a bar that scrolls
+// away like any other. The wrapper is a child of .wp-site-blocks and as tall as
+// the document, which is the range the bar needs.
+.wp-block-template-part:has(> .site-header) {
   position: sticky;
   top: 0;
   z-index: 50;
+}
+
+// An in-page anchor otherwise lands under the bar, which covers the heading it
+// was aimed at. Clears the tallest state of the bar plus a little air.
+html {
+  scroll-padding-top: 6rem;
+}
+
+// A logged-in visitor gets WordPress's admin bar, which is fixed over the top
+// of the page and would cover the sticky bar. Its height is read from the
+// variable WordPress itself defines, because that height is not one number:
+// 32px on a wide screen and 46px below 783px.
+.admin-bar .wp-block-template-part:has(> .site-header) {
+  top: var(--wp-admin--admin-bar--height, 0);
+}
+
+html:has(.admin-bar) {
+  // The fallback keeps its unit here: a bare 0 inside calc() is not a length,
+  // and the whole declaration would be dropped if the variable went missing.
+  // stylelint-disable-next-line length-zero-no-unit
+  scroll-padding-top: calc(6rem + var(--wp-admin--admin-bar--height, 0px));
+}
+
+// At 600px the admin bar stops being fixed and scrolls away with the page, so
+// the offset has to come back off. WordPress zeroes its own sticky offset at
+// exactly this width for the same reason.
+@media (max-width: 600px) {
+  .admin-bar .wp-block-template-part:has(> .site-header) {
+    top: 0;
+  }
+
+  html:has(.admin-bar) {
+    scroll-padding-top: 6rem;
+  }
+}
+
+.site-header {
+  // Anchors the mobile drawer, which hangs off the bar's bottom edge.
+  position: relative;
   border-top: 3px solid var(--wp--preset--color--brand);
   border-bottom: 1px solid var(--wp--preset--color--border);
 
