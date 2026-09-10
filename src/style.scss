@@ -87,6 +87,9 @@
 // Back-to-top button (fixed-position chrome). See src/styles/_scroll-top.scss.
 @use "./styles/scroll-top";
 
+// Scroll reveal — the hidden start state, gated on inc/reveal.php's class.
+@use "./styles/reveal";
+
 // Small utility classes applied via block className. See _utilities.scss.
 @use "./styles/utilities";
 

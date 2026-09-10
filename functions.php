@@ -20,6 +20,7 @@ require_once $theme_inc . '/enqueue.php';
 require_once $theme_inc . '/images.php';
 require_once $theme_inc . '/attachments.php';
 require_once $theme_inc . '/scroll-top.php';
+require_once $theme_inc . '/reveal.php';
 require_once $theme_inc . '/branding.php';
 require_once $theme_inc . '/cpt.php';
 require_once $theme_inc . '/heartbeat.php';

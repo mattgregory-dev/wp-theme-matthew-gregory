@@ -19,3 +19,6 @@ import "./scripts/nav-toggle.js";
 
 // Back-to-top button (fixed-position chrome; markup in inc/scroll-top.php).
 import "./scripts/scroll-top.js";
+
+// Scroll reveal (opt-in via .sb-reveal / .sb-reveal-group on page content).
+import "./scripts/reveal.js";

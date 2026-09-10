@@ -1,0 +1,78 @@
+// ---------------------------------------------------------------------------
+// Scroll reveal — opt in by putting `sb-reveal` on a block, or `sb-reveal-group`
+// on a container to run its direct children in sequence. One-shot on enter.
+// Behavior: src/scripts/reveal.js. Gate class: inc/reveal.php.
+//
+// The hidden start state applies ONLY under `.sb-reveal-on`, which
+// inc/reveal.php adds in the head. Without JS, or with prefers-reduced-motion,
+// it never lands and everything renders normally — nothing here can leave
+// content invisible on a page whose JS did not run.
+//
+// A group's children are selected HERE rather than classed by the script,
+// because anything the script adds arrives after the first paint and flashes.
+// `:where()` is what makes that safe: it adds no specificity, so the child
+// selector ties with a bare class and a variant on a child still beats the
+// default. As a plain descendant selector it would outrank every variant.
+//
+// A variant only works on a direct child. Deeper down, no `is-in` ever reaches
+// it and its start state sticks — an eyebrow's rule stays at scaleX(0).
+// ---------------------------------------------------------------------------
+
+$duration: 0.7s;
+
+.sb-reveal-on {
+  .sb-reveal,
+  :where(.sb-reveal-group) > * {
+    opacity: 0;
+    transform: translateY(1rem);
+    transition:
+      opacity $duration var(--wp--custom--ease),
+      transform $duration var(--wp--custom--ease);
+
+    // Set per child by the script, which is what turns a group into a sequence.
+    transition-delay: var(--sb-reveal-delay, 0ms);
+  }
+
+  // More travel, for a row that should read as escalating rather than arriving.
+  .sb-reveal--rise {
+    transform: translateY(1.625rem);
+  }
+
+  .sb-reveal--left {
+    transform: translateX(1.25rem);
+  }
+
+  // Opacity only, for anything whose position is doing work already.
+  .sb-reveal--fade {
+    transform: none;
+  }
+
+  // The eyebrow fades up, then draws its rule out from the left. The nudge is
+  // _eyebrow.scss's, sitting the rule on the optical center of the capitals; it
+  // has to be repeated in both states or the rule drops to the baseline as it
+  // animates.
+  .sb-reveal--eyebrow {
+    transform: translateY(0.5rem);
+    transition:
+      opacity 0.55s var(--wp--custom--ease),
+      transform 0.55s var(--wp--custom--ease);
+    transition-delay: var(--sb-reveal-delay, 0ms);
+
+    &::before {
+      transform: translateY(-0.32em) scaleX(0);
+      transform-origin: left center;
+      transition: transform 0.6s var(--wp--custom--ease) 0.12s;
+    }
+
+    &.is-in::before {
+      transform: translateY(-0.32em) scaleX(1);
+    }
+  }
+
+  // Last, so it settles every variant above it as well.
+  .sb-reveal.is-in,
+  :where(.sb-reveal-group) > .is-in {
+    opacity: 1;
+    transform: none;
+  }
+}
