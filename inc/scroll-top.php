@@ -14,14 +14,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 /**
- * Print the button. The SVG is an inline chevron (no icon font / CDN) and is
+ * Print the button. The SVG is an inline arrow (no icon font / CDN) and is
  * aria-hidden because the button itself carries an accessible label.
  */
 function sb_back_to_top_button() {
 	?>
 	<button type="button" class="back-to-top" aria-label="<?php esc_attr_e( 'Back to top', 'mg-blocks' ); ?>">
-		<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-			<path d="M18 15l-6-6-6 6" />
+		<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+			<path d="M12 19V5M5 12l7-7 7 7" />
 		</svg>
 	</button>
 	<?php
