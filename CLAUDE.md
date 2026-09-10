@@ -35,9 +35,9 @@ color does, not what it is. A clone changes the *values*, never the *slugs*.
 `surface-dark`, `border`, `muted`, `link`, `link-hover`, `error`.
 
 - **Append-only**, same as the identifiers above.
-- **Surfaces are luminance-ordered, lightest first** (`surface-1` lightest of the
-  light set → `surface-3` darkest of it; `surface-dark` is the dark surface).
-  New surfaces slot into that order.
+- **Surfaces are ordered by distance from the page ground** — lightest first in
+  the light scheme, darkest first in dark, since the theme ships both. See
+  [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md#color-schemes).
 - **Markup references tokens only.** All pattern/block markup uses preset slugs
   and `var(--wp--preset--*)` values — no literal hex, no raw px. This holds even
   in throwaway prototype markup, because prototype markup becomes production

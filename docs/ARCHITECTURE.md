@@ -65,9 +65,11 @@ Two rules keep this stable across projects and are treated as permanent:
 
 - **Append-only.** Never rename or repurpose an existing slug; only add new
   ones. A rename silently breaks every downstream reference in patterns and SCSS.
-- **Surfaces are luminance-ordered, lightest first** (`surface-1` is the
-  lightest neutral, `surface-3` the darkest of the light set; `surface-dark` is
-  the dark surface). New surfaces slot into that order.
+- **Surfaces are ordered by distance from the page ground**, not by absolute
+  luminance. In the light scheme that runs lightest first (`surface-1` is the
+  ground, `surface-3` the darkest of the light set); in dark it runs darkest
+  first, because the ground is dark. `surface-dark` is the fixed dark surface in
+  both. New surfaces slot into that order, which means checking both schemes.
 
 The block namespace (`starter-blocks/*`), the generated class prefix
 (`wp-block-starter-blocks-*`), the PHP prefix (`sb_*`), and the text domain
@@ -93,6 +95,38 @@ percentage is the token's opacity and the remainder is `transparent`. This keeps
 the palette append-only (no `surface-3-15`-style opacity variants) and the token
 the single source of truth. Lives in `src/style.scss` partials only — it's real
 CSS logic, not a `theme.json` `styles.css` candidate.
+
+## Color schemes
+
+The theme ships light and dark. Dark is the palette **re-hued, not inverted**:
+warm charcoal neutrals echo the cream family, and the brand ramp lightens so it
+still reads.
+
+Three files: `src/styles/_dark.scss` (the values), `inc/theme.php` (the gate
+class), `src/scripts/theme-toggle.js` (the button). Four things about it are
+not obvious:
+
+- **`_dark.scss` redefines the `--wp--preset--color--*` variables** rather than
+  restyling components, which is what lets one file re-skin the site — every
+  rule here already references a token. It is `@use`'d **last** in
+  `src/style.scss` so its redefinitions outrank the partials above it.
+  `theme.json` cannot express this: a palette entry is a single value.
+- **The gate is printed in the head, not bundled.** `[data-theme]` has to be on
+  `<html>` before the first paint or the light scheme paints and visibly flips.
+  A stored choice wins; with none, the system preference decides.
+- **Five tokens are absent from the dark block on purpose** — `surface-dark`,
+  `surface-dark-2`, `dark-text`, `dark-muted`, `dark-line`. They only ever sit
+  on the ink band or the footer, which stay dark in both schemes.
+- **A token's meaning can be stable while its contrast side flips.** This is the
+  trap. `base` means "the lightest surface", so rules were written using it as
+  *white* — a focus ring, a link on a dark band, an underline. In dark it is
+  near-black, and each of those disappeared against the very background they
+  were meant to show on. When adding a rule that pins a color for contrast, ask
+  which side of the pairing the token lands on in the other scheme.
+
+New colors are checked against both schemes before they land, including the
+graphical minimums: 3:1 for a control boundary like an input border, and enough
+separation for a divider to be visible at all.
 
 ## Units: spacing preset vs. rem vs. px
 
@@ -242,7 +276,7 @@ Three rules the vocabulary depends on:
   in `_grids.scss`,** or it gains a trailing empty column.
 - **A group declared `flow` in markup but styled as a grid or flex in CSS needs
   its children's margins zeroed** — core still applies the flow block gap. See
-  [GOTCHAS.md](GOTCHAS.md), #8.
+  [GOTCHAS.md](GOTCHAS.md), #9.
 - **Whatever leads the STACKED layout is written first in the markup.** `order`
   moves the box and leaves the tab sequence where it was, so a screenshot
   reordered into the lead on mobile still hands focus to the copy first. Source

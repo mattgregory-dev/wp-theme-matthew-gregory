@@ -55,6 +55,11 @@ and the file to add to the moment something is discovered rather than done.
   page should sit hidden for two seconds, then render. It is the only thing
   between a build that did not ship and a blank site, so it is worth seeing
   work once.
+- **Dark on every page but Home.** The scheme is token-driven so most of it
+  follows, but the corrections that do not — the ink bands, the form, the case
+  cards, the mats — have only been checked on one page.
+- **The toggle on a real phone**, where it sits beside the menu button rather
+  than in the drawer.
 - **A contact form submission end to end.** The form renders and is styled, but
   nothing has been sent through it, so delivery, the stored entry, and the
   success state are all unverified.
@@ -69,7 +74,12 @@ and the file to add to the moment something is discovered rather than done.
 2. **Real screenshots for the two long-run cases.** Hoel's and Iboga Quest use
    the horizontal placeholder (attachments 34, 35), as does the third home page
    work card (30).
-3. **A motion pass on the remaining templates.** `index`, `archive`, `single`
+3. **The logo in dark.** The header shows the dark artwork on the dark bar. Both
+   logos are `core/image` blocks with fixed attachment IDs, so markup cannot
+   swap them per scheme — it has to be CSS, or two images with one hidden.
+4. **The header at narrow widths.** The toggle added a third control to the bar;
+   the compression down to the drawer breakpoint has not been re-checked since.
+5. **A motion pass on the remaining templates.** `index`, `archive`, `single`
    and `search` have no reveal classes, so a blog would arrive without the
    motion the rest of the site has.
 
@@ -89,7 +99,7 @@ All promoted already — kept here as an index of where each one landed:
 
 - Token and class naming, and what a good design handoff looks like →
   [DESIGN-HANDOFF.md](DESIGN-HANDOFF.md)
-- Six ways core's layout CSS overrules ours → [GOTCHAS.md](GOTCHAS.md), #8
+- Six ways core's layout CSS overrules ours → [GOTCHAS.md](GOTCHAS.md), #9
 - Comment and commit policy → [WORKFLOW.md](WORKFLOW.md)
 - Page content through sb-pull/sb-push → [WORKFLOW.md](WORKFLOW.md)
 
@@ -103,6 +113,10 @@ All promoted already — kept here as an index of where each one landed:
   offsets every child but the first.
 - **`columnCount` grids never reflow.** Unlike `minimumColumnWidth`, they emit a
   fixed `repeat(n, …)`, so the mobile stack has to be written by hand.
+- **A color pinned for contrast has to be checked in both schemes.** `base` is
+  the lightest surface, so it was used to mean white — and in dark it is
+  near-black, which silently erased a focus ring, a link and an underline. See
+  [ARCHITECTURE.md](ARCHITECTURE.md#color-schemes).
 - **Class names in page content are not checked by anything.** A typo in a
   `className` is a selector that matches nothing, silent in every tool. See the
   audit in section 7.
@@ -131,7 +145,11 @@ All promoted already — kept here as an index of where each one landed:
   privacy page.
 - **Templates:** `page`, `404` (designed), plus `index`, `home`, `archive`,
   `single`, `search` on the band system.
-- **Parts:** header (with mobile drawer), footer.
+- **Parts:** header (mobile drawer, light/dark toggle), footer.
+- **Color schemes:** light and dark, on `[data-theme]`. See
+  [ARCHITECTURE.md](ARCHITECTURE.md#color-schemes).
+- **Motion:** scroll reveal on page content. See
+  [ARCHITECTURE.md](ARCHITECTURE.md#scroll-reveal).
 - **Custom blocks:** none, by design. Sections are core blocks.
 - **Plugins:** Forminator, for the contact form only. Its markup is styled from
   `_contact.scss`, which depends on that form's design staying set to "None".
@@ -144,6 +162,9 @@ All promoted already — kept here as an index of where each one landed:
 Newest first. Not a changelog — only decisions whose *resolution* is worth
 stating.
 
+- **Dark is a re-hue, not an inversion**, driven by a toggle that defaults to
+  the system preference. The mechanism and its one real trap are in
+  [ARCHITECTURE.md](ARCHITECTURE.md#color-schemes).
 - **Motion is on what you scan, off what you read.** Cards, panels and numbered
   rows reveal; long prose and reference lists render immediately. The About
   passage, the Stack capability grid and the privacy policy lost their reveals

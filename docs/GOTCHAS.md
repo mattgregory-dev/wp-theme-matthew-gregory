@@ -112,7 +112,34 @@ theme.json and its layout (sizing/`display`) in the SCSS layer.
 
 ---
 
-## 4. "This block contains unexpected or invalid content"
+## 4. Core's own skip-link CSS outranks the theme's
+
+**Symptom:** the skip link is styled, but not the way the stylesheet says. Some
+properties apply and others do not — the color lands, the padding and font size
+do not, and it sits a few pixels from the corner whatever the rule asks for.
+
+**Root cause:** WordPress prints its own skip-link rule for block themes, inline
+and in the **footer**:
+
+```css
+.skip-link.screen-reader-text:focus {
+  background-color: #eee; color: #444; font-size: 1em;
+  left: 5px; top: 5px; padding: 15px 23px 14px;
+}
+```
+
+Two classes plus a pseudo-class beats a single class, so `.skip-link:focus`
+loses outright. Matching its two classes only *ties* — and because core's copy
+is inline in the footer it comes last, so the tie goes to core as well. Only the
+properties core does not set were ever coming from the theme, which is why the
+result looks half-applied rather than ignored.
+
+**Fix:** out-specify it with an element selector —
+`a.skip-link.screen-reader-text:focus`. See `src/styles/_accessibility.scss`.
+
+---
+
+## 5. "This block contains unexpected or invalid content"
 
 **Symptom:** a block in a template or pattern shows the error bar in the editor
 and offers "Attempt Recovery". The markup looks correct and renders fine on the
@@ -138,7 +165,7 @@ changed the rendered element. That is the whole diff that matters.
 
 ---
 
-## 5. Do not trim core block CSS in an FSE theme
+## 6. Do not trim core block CSS in an FSE theme
 
 **Symptom:** center-aligned markup renders left. The class is on the element,
 the editor shows it centered, and the served page contains no `text-align:center`
@@ -161,7 +188,7 @@ CSS efficiently. The saving is around 30KB and not worth the risk.
 
 ---
 
-## 6. `wpautop` turns block tags inside an anchor into empty cells
+## 7. `wpautop` turns block tags inside an anchor into empty cells
 
 **Symptom:** a grid renders extra empty cells between its real items. Nothing in
 the source produced them.
@@ -177,7 +204,7 @@ headings. Style the spans as blocks in CSS if block layout is needed.
 
 ---
 
-## 7. Verifying from the command line
+## 8. Verifying from the command line
 
 `curl` against the running site separates SERVER state (what WordPress
 generated: markup classes, `global-styles-inline-css`, preset variables) from
@@ -195,7 +222,7 @@ front end" disagreement. Two things distort it:
 
 ---
 
-## 8. Layout classes silently overrule your CSS
+## 9. Layout classes silently overrule your CSS
 
 **Symptom:** a rule that is plainly correct does nothing. The class is on the
 element, the declaration is in the compiled stylesheet, devtools shows it
