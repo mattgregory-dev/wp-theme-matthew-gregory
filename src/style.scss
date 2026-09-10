@@ -90,6 +90,9 @@
 // Scroll reveal — the hidden start state, gated on inc/reveal.php's class.
 @use "./styles/reveal";
 
+// Theme toggle button (header chrome). See _theme-toggle.scss.
+@use "./styles/theme-toggle";
+
 // Small utility classes applied via block className. See _utilities.scss.
 @use "./styles/utilities";
 
@@ -97,4 +100,3 @@
 // Dark scheme — token overrides under [data-theme="dark"]. Must load LAST so
 // its redefinitions outrank the partials above. See _dark.scss.
 @use "./styles/dark";
-

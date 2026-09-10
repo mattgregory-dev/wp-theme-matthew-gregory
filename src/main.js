@@ -22,3 +22,6 @@ import "./scripts/scroll-top.js";
 
 // Scroll reveal (opt-in via .sb-reveal / .sb-reveal-group on page content).
 import "./scripts/reveal.js";
+
+// Color scheme toggle (button in parts/header.html; gate in inc/theme.php).
+import "./scripts/theme-toggle.js";

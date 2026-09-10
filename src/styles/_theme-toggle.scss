@@ -1,0 +1,85 @@
+// ---------------------------------------------------------------------------
+// Theme toggle — the sun/moon button in the header bar. Markup:
+// parts/header.html. Behavior: src/scripts/theme-toggle.js.
+//
+// Icon only: a label would change width between states and shove the nav
+// sideways on every press. The button carries an aria-label instead, so it
+// still announces itself.
+// ---------------------------------------------------------------------------
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  padding: 0;
+  border: 1px solid var(--wp--preset--color--surface-3);
+  border-radius: 999px;
+  background: var(--wp--preset--color--base);
+  color: var(--wp--preset--color--muted);
+  cursor: pointer;
+  transition:
+    border-color var(--wp--custom--speed) var(--wp--custom--ease),
+    color var(--wp--custom--speed) var(--wp--custom--ease);
+
+  &:hover {
+    border-color: var(--wp--preset--color--brand);
+    color: var(--wp--preset--color--brand);
+  }
+
+}
+
+// Sized on the class, not on `svg`: an element+class selector would outrank the
+// single class that hides the icon for the other scheme, and both would show.
+.theme-toggle__icon {
+  display: block;
+  width: 1rem;
+  height: 1rem;
+}
+
+// One icon shows the scheme you would switch TO, so the moon leads in light.
+.theme-toggle__icon--sun {
+  display: none;
+}
+
+:root[data-theme="dark"] {
+  .theme-toggle__icon--moon {
+    display: none;
+  }
+
+  .theme-toggle__icon--sun {
+    display: block;
+  }
+}
+
+// Placement. The button ships twice, because one element cannot be in both
+// places: the drawer is `display: none` below 760px, which removes its contents
+// from the page entirely, so a toggle that sits beside the resume button on
+// desktop would be unreachable on a phone without opening the menu first.
+// Each copy is hidden at the other width, so only ever one is in the document.
+.theme-toggle--bar {
+  margin-right: 0.25rem;
+}
+
+.theme-toggle--compact {
+  display: none;
+}
+
+@media (max-width: 760px) {
+  .theme-toggle--bar {
+    display: none;
+  }
+
+  .theme-toggle--compact {
+    display: inline-flex;
+    order: 4;
+    margin-left: auto;
+  }
+
+  .site-header__inner > .nav-toggle {
+    order: 5;
+    margin-left: 0.625rem;
+  }
+}
