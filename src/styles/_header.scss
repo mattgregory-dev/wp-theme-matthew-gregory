@@ -131,7 +131,7 @@ html:has(.admin-bar) {
 }
 
 // A core/image block, so the logo is swappable from the editor. The footer
-// carries its own white version for its dark band — see _footer.scss.
+// carries the white version for its dark band — see _footer.scss.
 .brand__logo {
   flex: none;
   width: 1.8125rem;
@@ -141,6 +141,24 @@ html:has(.admin-bar) {
     display: block;
     width: 100%;
     height: auto;
+  }
+}
+
+// Both artworks ship and one is hidden, because the mark is not a shape that
+// can be recolored: the letters and the star are different colors, so a mask or
+// a filter would flatten it to one. The scheme class is set before the first
+// paint, so the right one is there from the start.
+.brand__logo--dark {
+  display: none;
+}
+
+:root[data-theme="dark"] {
+  .brand__logo--light {
+    display: none;
+  }
+
+  .brand__logo--dark {
+    display: block;
   }
 }
 
