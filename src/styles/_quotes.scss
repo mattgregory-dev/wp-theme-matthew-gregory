@@ -91,3 +91,44 @@
   line-height: 1.4;
   color: var(--wp--preset--color--muted);
 }
+
+// Pullquote — a short attributed quote inside a case, marked with a brand rule
+// rather than the panel treatment above. Markup: core/pullquote.
+.sb-pullquote {
+  margin-block-start: 0.5rem;
+  padding: 1.375rem 1.625rem;
+
+  // core/pullquote is built as a full-width divider: 4px rules top and bottom,
+  // 4em of vertical padding, centered text. This is an aside inside a case, so
+  // those are cleared rather than layered over — declaring the left border
+  // alone leaves core's other three edges in place.
+  border-block: 0;
+  border-left: 3px solid var(--wp--preset--color--brand);
+  border-radius: 0 var(--wp--custom--radius) var(--wp--custom--radius) 0;
+  background: var(--wp--preset--color--base);
+  text-align: left;
+
+  blockquote {
+    margin: 0;
+    padding: 0;
+    border: 0;
+  }
+
+  p {
+    margin-block: 0;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  // Core uppercases the citation. This one is a person's name, which reads as
+  // shouting in caps and loses the capital that marks it as a name at all.
+  cite,
+  figcaption {
+    display: block;
+    margin-block-start: 0.75rem;
+    font-size: var(--wp--preset--font-size--x-small);
+    font-style: normal;
+    text-transform: none;
+    color: var(--wp--preset--color--muted);
+  }
+}

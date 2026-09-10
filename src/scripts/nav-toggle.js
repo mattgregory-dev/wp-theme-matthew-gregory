@@ -25,7 +25,7 @@ function initNavToggle() {
     }
   });
 
-  // The drawer is a mobile-only affordance, so leaving that width with it open
+  // The drawer only exists below 760px, so leaving that width with it open
   // would strand .is-open on a layout that no longer hides anything.
   const wide = window.matchMedia('(min-width: 761px)');
   wide.addEventListener('change', (event) => {

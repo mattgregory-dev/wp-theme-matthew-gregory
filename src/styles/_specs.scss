@@ -1,0 +1,46 @@
+// ---------------------------------------------------------------------------
+// Specs — the key/value rows under a case study: stack, approach, result,
+// links. Markup: a core/list whose items hold a mono key and a value.
+// ---------------------------------------------------------------------------
+
+.sb-specs {
+  // Sized against the list rather than the viewport, so the key column narrows
+  // when the list sits in a half-width column and not when the window happens
+  // to be small.
+  container-type: inline-size;
+  margin-block-start: 1.75rem;
+  padding: 0;
+  border-top: 1px solid var(--wp--preset--color--contrast);
+  list-style: none;
+
+  li {
+    display: grid;
+    grid-template-columns: clamp(3.3125rem, 17cqi, 6.875rem) minmax(0, 1fr);
+    gap: 1.125rem;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--wp--preset--color--border);
+    font-size: var(--wp--preset--font-size--small);
+    color: var(--wp--preset--color--muted);
+  }
+}
+
+// The quieter variant, for specs that support a case rather than open it.
+.sb-specs--soft {
+  margin-block-start: 0;
+  border-top-color: var(--wp--preset--color--border);
+
+  li {
+    grid-template-columns: 6.875rem minmax(0, 1fr);
+  }
+}
+
+// The one row worth reading first — the outcome.
+.sb-specs__strong {
+  font-weight: 600;
+  color: var(--wp--preset--color--contrast);
+}
+
+// A tint band darkens the hairline, which otherwise disappears into it.
+.has-surface-2-background-color .sb-specs li {
+  border-bottom-color: var(--wp--preset--color--border-tint);
+}

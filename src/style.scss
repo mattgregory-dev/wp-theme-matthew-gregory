@@ -36,6 +36,15 @@
 // Claim grid — numbered panels with an accent cap.
 @use "./styles/claim";
 
+// Spotlight — case copy beside a framed screenshot.
+@use "./styles/spotlight";
+
+// Specs — the key/value rows under a case study.
+@use "./styles/specs";
+
+// Long-run cases — the subgrid pair, and the stat figures inside them.
+@use "./styles/case";
+
 // Work cards — image over body, in a responsive grid.
 @use "./styles/cards";
 

@@ -50,6 +50,13 @@
   color: var(--wp--preset--color--muted);
 }
 
+// Body copy set a step above the default, for passages meant to be read rather
+// than scanned — a case study's explanation, a long section paragraph.
+.sb-prose {
+  font-size: var(--wp--preset--font-size--large);
+  line-height: 1.65;
+}
+
 // Secondary prose — framing copy, captions under a stat, anything deliberately
 // quieter than the paragraph it follows.
 .sb-muted {

@@ -6,8 +6,11 @@
 // auto-fill KEEPS empty tracks, so three cards in a wide band lay out as four
 // columns with a hole on the end; auto-fit collapses them. The minimum is read
 // from --sb-grid-min so each grid still declares its own breakpoint width.
+// Every grid group that sets --sb-grid-min belongs in this list. A grid added
+// without being added here silently gains a trailing empty column.
 .sb-claim-grid,
 .sb-cards,
-.sb-quotes {
+.sb-quotes,
+.sb-spotlight {
   grid-template-columns: repeat(auto-fit, minmax(min(var(--sb-grid-min), 100%), 1fr));
 }

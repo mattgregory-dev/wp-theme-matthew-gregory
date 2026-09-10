@@ -1,0 +1,83 @@
+// ---------------------------------------------------------------------------
+// Long-run cases — the pair of engagements where the numbers are the story.
+// Markup: a grid-layout group of two flow groups.
+// ---------------------------------------------------------------------------
+
+.sb-case-grid {
+  // A grid group with columnCount emits a fixed `repeat(2, …)` that never
+  // reflows. The count is deliberate — the two cases are a comparison — so the
+  // stack is taken over here.
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  padding-block-start: 0.5rem;
+  border-top: 2px solid var(--wp--preset--color--brand);
+}
+
+.sb-case {
+  display: grid;
+  gap: 1.25rem;
+  padding-block-start: 2rem;
+
+  > * {
+    margin-block: 0;
+  }
+}
+
+// Side by side, the two cases share row tracks through subgrid, so the
+// screenshots, stats and specs line up across the pair even when one case runs
+// longer than the other. Without it each column sets its own rhythm and the
+// comparison stops being readable.
+@media (min-width: 767px) {
+  .sb-case-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: repeat(7, auto);
+    column-gap: 3rem;
+  }
+
+  .sb-case {
+    grid-row: 1 / -1;
+    grid-template-rows: subgrid;
+    row-gap: 1.25rem;
+  }
+}
+
+// Stats ---------------------------------------------------------------------
+
+.sb-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: 1.5rem 4.5rem;
+  padding-block: 1.25rem 0.25rem;
+  border-top: 1px solid var(--wp--preset--color--border);
+}
+
+// The row is a flow-layout group styled as a grid, so core still gives each
+// stat a block-gap top margin — which offsets every stat but the first and
+// breaks the baseline they are meant to share.
+.sb-stats > *,
+.sb-stat > * {
+  margin-block: 0;
+}
+
+.sb-stat__num {
+  font-size: clamp(2.125rem, 3.4vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.035em;
+  color: var(--wp--preset--color--brand);
+
+  // A figure like "$5K→$100K+" is one token; wrapping it mid-arrow turns the
+  // headline number into two half-numbers.
+  white-space: nowrap;
+}
+
+.sb-stat__label {
+  margin-block-start: 0.5rem;
+  font-family: var(--wp--preset--font-family--mono);
+  font-size: 0.7188rem;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--wp--preset--color--muted);
+}

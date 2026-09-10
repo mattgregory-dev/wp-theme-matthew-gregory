@@ -1,0 +1,73 @@
+// ---------------------------------------------------------------------------
+// Spotlight — a case study as copy beside a framed screenshot. Markup: a
+// grid-layout group holding a flow group of copy and a mat.
+// ---------------------------------------------------------------------------
+
+.sb-spotlight {
+  --sb-grid-min: 320px;
+
+  gap: 3.5rem;
+  align-items: start;
+}
+
+.sb-spotlight__copy > * {
+  margin-block: 0;
+}
+
+.sb-spotlight__copy .wp-block-heading {
+  margin-block-start: 1rem;
+}
+
+.sb-spotlight__copy .sb-prose {
+  margin-block-start: 1.25rem;
+}
+
+.sb-spotlight__copy .sb-actions {
+  margin-block-start: 2rem;
+}
+
+// Stacked, the screenshot leads: it identifies the project faster than the
+// first paragraph does.
+@media (max-width: 774px) {
+  .sb-spotlight--media-right .sb-mat {
+    order: -1;
+  }
+}
+
+// Mat — the inset frame a screenshot sits in, as a print would ---------------
+
+.sb-mat {
+  padding: 0.5625rem;
+  border: 1px solid var(--wp--preset--color--border);
+  border-radius: var(--wp--custom--radius);
+  background: var(--wp--preset--color--base);
+  transition:
+    border-color var(--wp--custom--speed) var(--wp--custom--ease),
+    box-shadow var(--wp--custom--speed) var(--wp--custom--ease);
+
+  // A framed screenshot gives no sign it is clickable, so the frame answers
+  // the pointer and the keyboard. Without it the link goes unnoticed.
+  &:has(a:hover),
+  &:has(a:focus-visible) {
+    border-color: var(--wp--preset--color--brand);
+    box-shadow: 0 14px 30px -18px color-mix(in srgb, var(--wp--preset--color--brand) 45%, transparent);
+  }
+
+  // The link is an inline box, so it generates a line box and leaves descender
+  // space under the image — white inside the frame that reads as a stray
+  // margin. Blocking the anchor removes the line box.
+  a {
+    display: block;
+  }
+
+  img {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 0;
+  }
+
+  figure {
+    margin: 0;
+  }
+}
