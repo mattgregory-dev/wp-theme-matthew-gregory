@@ -1,0 +1,152 @@
+// ---------------------------------------------------------------------------
+// Dark theme — the palette re-hued, not inverted. Warm charcoal neutrals echo
+// the cream family, and the brand ramp lightens so it still reads.
+//
+// It redefines the `--wp--preset--color--*` variables theme.json emits, because
+// theme.json cannot express a second scheme — a palette entry is one value.
+//
+// Applied by [data-theme="dark"] on <html>, set by inc/theme.php before the
+// first paint and flipped by src/scripts/theme-toggle.js.
+//
+// FIVE TOKENS ARE DELIBERATELY ABSENT: surface-dark, surface-dark-2, dark-text,
+// dark-muted and dark-line. They only ever sit on the ink band or the footer,
+// which stay dark in both schemes.
+// ---------------------------------------------------------------------------
+
+:root[data-theme="dark"] {
+  // Tells the browser to render form controls and scrollbars dark too.
+  color-scheme: dark;
+
+  // Neutrals, ordered by distance from the page ground — the inverse of the
+  // light scheme, where they run lightest first.
+  --wp--preset--color--surface-1: #14131a; // page ground
+  --wp--preset--color--base: #1c1a23; // lifted: cards, mats, the header bar
+  --wp--preset--color--surface-2: #201e28; // the tint band
+  --wp--preset--color--surface-3: #6a6478; // strong hairline, and input borders
+  --wp--preset--color--contrast: #ece9f0;
+  --wp--preset--color--contrast-2: #c9c4d2;
+  --wp--preset--color--muted: #9d97a8;
+  --wp--preset--color--warm-gray: #a09789;
+  --wp--preset--color--border: #403c4d;
+  --wp--preset--color--border-soft: #36323f;
+  --wp--preset--color--border-tint: #474254;
+
+  // "deep" keeps its role rather than its direction: one step further from the
+  // background, which on a dark ground means lighter.
+  --wp--preset--color--brand: #7fb0e3;
+  --wp--preset--color--brand-deep: #a3c8f0;
+  --wp--preset--color--brand-bright: #8fb8e6;
+  --wp--preset--color--brand-light: #c2d6ec;
+  --wp--preset--color--brand-wash: #1b2330;
+  --wp--preset--color--accent: #b47ee8;
+  --wp--preset--color--link: #7fb0e3;
+  --wp--preset--color--link-hover: #a3c8f0;
+  --wp--preset--color--error: #f0857c;
+
+  // Built from the brand ramp, which has just lightened — left alone, the
+  // site's darkest band becomes its lightest. Rebuilt from the fixed surfaces.
+  --wp--preset--gradient--ink: radial-gradient(
+    120% 140% at 15% 0%,
+    #223143 0%,
+    var(--wp--preset--color--surface-dark-2) 45%,
+    var(--wp--preset--color--surface-dark) 100%
+  );
+}
+
+// Component corrections ------------------------------------------------------
+// Everything below is a rule the tokens alone cannot carry, because it pins a
+// color for a reason that only holds in one scheme.
+
+:root[data-theme="dark"] {
+  // The violet reads as a clash against the lightened brand ramp here, so both
+  // places it is used — the eyebrow's rule and the ramp-up arrows — go warm
+  // gray instead.
+  .is-style-eyebrow::before {
+    background: var(--wp--preset--color--warm-gray);
+  }
+
+  // Except on the ink bands, which keep their own treatment — the rule follows
+  // the label there, as it does in the light scheme.
+  .sb-band--ink .is-style-eyebrow::before {
+    background: currentcolor;
+  }
+
+  .sb-pattern__item:not(:last-child)::after {
+    color: var(--wp--preset--color--warm-gray);
+  }
+
+  // A dark ground has nothing to darken, so lift is a glow rather than a
+  // shadow: the card reads as catching light instead of casting.
+  .sb-claim:hover,
+  .sb-card:hover,
+  .sb-quote:hover {
+    box-shadow: 0 12px 36px -12px color-mix(in srgb, var(--wp--preset--color--brand-light) 32%, transparent);
+  }
+
+  // Both set the ring to `base` so it would show against a dark background —
+  // which `base` now is, so the ring vanished where it matters most.
+  .sb-band--ink,
+  .site-footer {
+    --sb-focus-ring: var(--wp--preset--color--dark-text);
+  }
+
+  // These sit on bands that are dark in both schemes, so they cannot follow the
+  // tokens that just flipped. Each was written against `base` back when that
+  // token could only mean white.
+  .sb-band--ink a:not(.wp-element-button),
+  .footer-brand .brand__name a {
+    color: var(--wp--preset--color--dark-text);
+  }
+
+  // The rule is a lighter tint than its text in the light scheme; on dark both
+  // land near-white, so it follows the text and steps lighter on hover.
+  .sb-link-arrow {
+    border-bottom-color: var(--wp--preset--color--brand);
+
+    &:hover,
+    &:focus-visible {
+      border-bottom-color: var(--wp--preset--color--brand-deep);
+    }
+  }
+
+  // Same reason: at 40% of a near-black token the underline vanished.
+  .sb-band--ink .sb-link-arrow {
+    border-bottom-color: color-mix(in srgb, var(--wp--preset--color--dark-text) 45%, transparent);
+
+    &:hover,
+    &:focus-visible {
+      border-bottom-color: var(--wp--preset--color--dark-text);
+    }
+  }
+
+  .footer-col a:hover {
+    color: var(--wp--preset--color--contrast);
+  }
+
+  // Hover inverts the button to `base`, which on a dark page reads as the fill
+  // dropping out. It steps to the lighter blue instead.
+  .back-to-top {
+    &:hover,
+    &:focus-visible {
+      border-color: var(--wp--preset--color--brand-deep);
+      background-color: var(--wp--preset--color--brand-deep);
+      color: var(--wp--preset--color--base);
+    }
+  }
+
+  // The light button exists to stand out ON a dark band, so it has to stay
+  // light while `base` is dark.
+  .wp-block-button.is-style-light .wp-block-button__link {
+    border-color: var(--wp--preset--color--dark-text);
+    background-color: var(--wp--preset--color--dark-text);
+    color: var(--wp--preset--color--surface-dark);
+
+    &:hover,
+    &:focus,
+    &:active {
+      border-color: #fff;
+      background-color: #fff;
+      color: var(--wp--preset--color--surface-dark);
+    }
+  }
+}
