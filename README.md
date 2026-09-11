@@ -58,3 +58,12 @@ to `wp-config.php` and run `npm run dev` (Vite on `:5175`).
   undecided, untested, deferred, and settled.
 - [CLAUDE.md](CLAUDE.md) — the conventions index (namespaces, prefixes, token
   rules, commit discipline) read at the start of any work in this repo.
+
+## License
+
+The theme is GPLv2 or later — see [LICENSE](LICENSE).
+
+The bundled fonts carry their own license. Instrument Sans and IBM Plex Mono are
+both under the SIL Open Font License 1.1, whose terms require the license to
+ship alongside the font files; it is in
+[assets/fonts/OFL.txt](assets/fonts/OFL.txt).
