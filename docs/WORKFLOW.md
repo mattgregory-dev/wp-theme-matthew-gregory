@@ -21,13 +21,14 @@ Every way this breaks, and there are several that look like environment
 problems rather than quoting problems, is cataloged in
 [WSL-TOOLING.md](WSL-TOOLING.md).
 
-Site: http://localhost:8080. phpMyAdmin: http://localhost:8081. Admin
+Site: http://localhost:8090. phpMyAdmin: http://localhost:8091. Admin
 credentials are in the project-root `AGENTS.md`, outside this repo. WP-CLI needs
 none of them — it bootstraps without a login, and `sb-push.php` resolves its
 administrator **by role**, not by name.
 
-The stack shares ports with the other local WordPress projects, so only one runs
-at a time.
+Every local WordPress project owns a block of ten host ports — `+0` for the
+site, `+1` for phpMyAdmin, the rest reserved — so any number of them run side by
+side. This one is the 8090 block.
 
 ## Commands
 
@@ -113,7 +114,7 @@ patterns.
 
 Page content is the gap: the audit scans templates, parts and patterns, not the
 database. Run the working file through the page checker before pushing it —
-.
+`node scripts/check-page-blocks.js ../../../.work/<slug>.html`.
 
 The block-grammar audit is the one worth understanding: an unclosed
 `<!-- wp:… -->` produces "This block contains unexpected or invalid content" in
@@ -240,6 +241,17 @@ from:
 ```
 git config --show-origin --get-all user.email
 ```
+
+**Read the origin, not just the value.** `--get-all` lists every level, and the
+last one wins: a `.git/config` entry overrides `~/.gitconfig` silently, in one
+repo only. A correct global identity is not evidence that the next commit will
+use it, and the repo that has an override is the one nobody thinks to check.
+Run this per repo.
+
+**Rewriting history does not fix the config.** A mailmap pass corrects the
+commits that exist and nothing else, so a repo cleaned that way will re-author
+the very next commit under the old address unless `.git/config` is fixed too.
+Scrub and reconfigure in the same sitting.
 
 **Both gits have to be set.** This tree is reachable from WSL and from Windows,
 each with its own `~/.gitconfig`, and whichever one runs `git commit` supplies

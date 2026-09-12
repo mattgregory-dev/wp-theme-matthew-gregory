@@ -41,7 +41,7 @@ tar -czf uploads.tar.gz -C wp/wp-content uploads
 
 # on the target
 wp db import mg.sql
-wp search-replace 'http://localhost:8080' 'https://example.com' --all-tables
+wp search-replace 'http://localhost:8090' 'https://example.com' --all-tables
 ```
 
 `search-replace` and not a find/replace in the SQL file: serialized values carry
