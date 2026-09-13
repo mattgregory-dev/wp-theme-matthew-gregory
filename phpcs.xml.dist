@@ -63,6 +63,15 @@
     <exclude-pattern>*/scripts/*</exclude-pattern>
   </rule>
 
+  <!--
+    The prefix sniff is excluded here for a different reason: these scripts are
+    shared tooling with their own `sb_` namespace, identical across every theme.
+    A theme's prefix convention describes the theme's own globals.
+  -->
+  <rule ref="WordPress.NamingConventions.PrefixAllGlobals">
+    <exclude-pattern>*/scripts/*</exclude-pattern>
+  </rule>
+
   <!-- Tell the i18n sniff which text-domain is valid for this theme. -->
   <rule ref="WordPress.WP.I18n">
     <properties>
